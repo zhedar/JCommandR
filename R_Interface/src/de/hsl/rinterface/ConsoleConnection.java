@@ -14,54 +14,42 @@ import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
 
-public class RConnection implements Connection
+public class ConsoleConnection implements Connection
 {
 	private Process proc;
 	private final BufferedReader errRd, outRd;
-	private final BufferedWriter inWr;
+//	private final BufferedWriter inWr;
+	private final PrintWriter pWr;
 
-	public RConnection(String path, List<String> args) throws IOException
+	public ConsoleConnection(String path, List<String> args) throws IOException
 	{
-		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe"
+		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe" - Testpfad für Windows
+		//Pfad und Argumente zusammenstecken
 		List<String> pathAndArgs = new ArrayList<>();
 			pathAndArgs.add(path);
 			pathAndArgs.addAll(args);
-		
+		//Prozess starten
 		proc = new ProcessBuilder(pathAndArgs).start();
 		
 		errRd = new BufferedReader(new InputStreamReader(
 				proc.getErrorStream()));
 		outRd = new BufferedReader(new InputStreamReader(
 				proc.getInputStream()));
-		inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
+		BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
 					proc.getOutputStream())));
+		pWr = new PrintWriter(inWr);
+		
 		//Blocke bis zum Eintreffen der Willkommensnachricht
 		outRd.readLine();
-		while(outRd.ready())
-		{	//Verwerfen
-			outRd.readLine();
-		}	
+		while(outRd.ready())	
+			outRd.readLine(); //Verwerfen des Texts
+		//Initialisierung fertig, block lösen
 	}
 	
-	public void max(List<? extends Number> list) throws RException
-	{
-		sendCmd("max(" + resolveList(list) + ")");
-	}
-	
-	public String resolveList(List<? extends Number> list)
-	{
-		int count = 0;
-		String listCmd = "c(";
-		for(Number n : list)
-		{
-			if(++count != list.size())
-				listCmd += n.toString() + ", ";
-			else
-				listCmd += n.toString() + ")";
-		}
-	
-		return listCmd;
-	}
+//	public void max(List<? extends Number> list) throws RException
+//	{
+//		sendCmd("max(" + resolveList(list) + ")");
+//	}
 	
 
 	/**
@@ -78,20 +66,22 @@ public class RConnection implements Connection
 		sendCmd("q()");
 		//Warten bis Prozess terminiert hat
 		proc.waitFor();
-		System.out.println(proc.exitValue());
+		System.out.println("Beendet. Exitvalue: " + proc.exitValue());
 				
 		try
 		{
 			errRd.close();
 			outRd.close();
-			inWr.close();
+			pWr.close();
 		} 
 		catch (IOException e)
 		{
-			throw new RException(e);
+			//kann nicht sinnvoll behandelt werden, ignorieren
+//			throw new RException(e);
 		}
-		//kill, falls noch nicht erfolgt
-		proc.destroy();
+		
+//		//kill, falls noch nicht erfolgt
+//		proc.destroy();
 	}
 
 	@Override
@@ -101,37 +91,28 @@ public class RConnection implements Connection
 		return outRd != null;
 	}
 
-	@Override
 	/**
 	 * Sendet den übergebenen Befehl sofort an die Konsole. Fügt einen Zeilenumbruch an. 
 	 * @param cmd der auszuführende Befehl
 	 * @throws IOException falls bei der Übermittlung zum Prozess ein Fehler auftritt
 	 */
-		
+	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{
 		try
 		{
-			PrintWriter pw = new PrintWriter(inWr);
-			pw.println(cmd);
-			pw.flush();
-//			inWr.write(cmd);
-//			inWr.newLine();
-//			inWr.flush();
+			pWr.println(cmd);
+			pWr.flush();
 			//Eingabe drin, auf Ausgabe horchen
-			System.out.println("gesendet");
 			while(outRd.ready())
 			{
-				System.out.println("lese");
 				String readLine = outRd.readLine();
 				System.out.println(readLine);
-				
 			}	
 		}
 		catch (IOException e) 
-		{e.printStackTrace();
+		{
 			throw new RException(e);
-			
 		}
 		
 		return null;
