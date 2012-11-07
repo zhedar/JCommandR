@@ -1,4 +1,4 @@
-package experimental;
+package de.hsl.rinterface;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hsl.rinterface.Connection;
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;

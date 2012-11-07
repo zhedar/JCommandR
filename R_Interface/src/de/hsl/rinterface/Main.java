@@ -6,7 +6,6 @@ import java.util.List;
 
 import de.hsl.rinterface.exception.RException;
 
-import experimental.RConnection;
 
 public class Main 
 {
