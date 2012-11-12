@@ -5,13 +5,14 @@ package de.hsl.rinterface.commands;
  * Purpose: Defines the Class StatCommands
  ***********************************************************************/
 
-import java.util.*;
+import java.util.List;
 
+import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.objects.RObject;
 
 /** @pdOid 5b80ea91-2314-43e3-b4a0-b01f5b8388ff */
 public class StatCommands implements RCommand {
-   /** @pdRoleInfo migr=no name=RObject assc=association2 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
+   /** @pdRolelnfo migr=no name=RObject assc=association2 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
    public java.util.Collection<RObject> rObject;
    
    /** @param values

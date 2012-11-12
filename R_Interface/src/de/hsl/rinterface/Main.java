@@ -32,7 +32,7 @@ public class Main
 		
 		List<String> list = new ArrayList<>();
 		list.add("--save");
-		Connection con = new ConsoleConnection("/Library/Frameworks/R.framework/Versions/2.15/Resources/bin/R64", list);
+		Connection con = new ConsoleConnection("c:\\r\\R-2.15.0\\bin\\x64\\r.exe", list);
 		//anfänglicher Sleep nicht mehr benötigt, da der Konstruktoraufruf blockt, bis alles initialisiert ist
 		con.sendCmd("pnorm(1.70)");
 		Thread.sleep(1000); 
