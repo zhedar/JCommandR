@@ -3,12 +3,14 @@ package de.hsl.rinterface;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
@@ -44,6 +46,11 @@ public class ConsoleConnection implements Connection
 		while(outRd.ready())	
 			outRd.readLine(); //Verwerfen des Texts
 		//Initialisierung fertig, block lösen
+	}
+	
+	public ConsoleConnection(List<String> args) throws IOException
+	{
+		this(loadPathFromProp(), args);
 	}
 	
 //	public void max(List<? extends Number> list) throws RException
@@ -138,5 +145,13 @@ public class ConsoleConnection implements Connection
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	static private String loadPathFromProp() throws IOException
+	{
+		Properties prop = new Properties();
+		
+		prop.load(new FileInputStream("path.properties"));
+		
+		return prop.getProperty("path");
+	}
 }
