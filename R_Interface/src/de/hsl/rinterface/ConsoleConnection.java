@@ -22,6 +22,7 @@ public class ConsoleConnection implements Connection
 	private final BufferedReader errRd, outRd;
 //	private final BufferedWriter inWr;
 	private final PrintWriter pWr;
+	private boolean isRunning;
 
 	public ConsoleConnection(String path, List<String> args) throws IOException
 	{
@@ -32,6 +33,26 @@ public class ConsoleConnection implements Connection
 			pathAndArgs.addAll(args);
 		//Prozess starten
 		proc = new ProcessBuilder(pathAndArgs).start();
+		isRunning = true;
+		
+		Thread procEndWatcherThread = new Thread(new Runnable() {
+			
+			@Override
+			public void run()
+			{
+				try
+				{	//blockt bis der Prozess beendet wurde
+					proc.waitFor();
+					isRunning = false;
+				}
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		procEndWatcherThread.start();
 		
 		errRd = new BufferedReader(new InputStreamReader(
 				proc.getErrorStream()));
@@ -94,8 +115,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public boolean isAlive()
 	{
-		// TODO Auto-generated method stub
-		return outRd != null;
+		return isRunning;
 	}
 
 	/**
@@ -127,13 +147,6 @@ public class ConsoleConnection implements Connection
 
 	@Override
 	public RObject sendCmd(RCommand cmd)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getStatus()
 	{
 		// TODO Auto-generated method stub
 		return null;
