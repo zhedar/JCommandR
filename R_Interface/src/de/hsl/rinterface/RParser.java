@@ -5,8 +5,6 @@ package de.hsl.rinterface;
  * Purpose: Defines the Class RParser
  ***********************************************************************/
 
-import java.util.*;
-
 import de.hsl.rinterface.objects.RObject;
 
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
