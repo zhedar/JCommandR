@@ -1,4 +1,4 @@
-package experimental;
+package de.hsl.rinterface.experimental;
 
 import java.io.BufferedReader;
 import java.io.IOException;

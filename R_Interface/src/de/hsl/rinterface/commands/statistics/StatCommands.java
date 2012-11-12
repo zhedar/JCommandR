@@ -1,4 +1,4 @@
-package de.hsl.rinterface.commands;
+package de.hsl.rinterface.commands.statistics;
 /***********************************************************************
  * Module:  StatCommands.java
  * Author:  tobo1987
@@ -10,6 +10,7 @@ import java.util.List;
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.objects.RObject;
 
+//TODO in verschiedene Klassen verpacken, jeder Befehl eine eigene Klasse
 /** @pdOid 5b80ea91-2314-43e3-b4a0-b01f5b8388ff */
 public class StatCommands implements RCommand {
    /** @pdRolelnfo migr=no name=RObject assc=association2 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
@@ -101,9 +102,10 @@ public class StatCommands implements RCommand {
    }
 
 @Override
-public void prepareStatement() {
+public String prepareForSending()
+{
 	// TODO Auto-generated method stub
-	
+	return null;
 }
 
 }

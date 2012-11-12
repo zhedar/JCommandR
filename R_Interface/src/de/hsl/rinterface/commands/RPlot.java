@@ -41,8 +41,8 @@ public class RPlot implements RCommand {
 
 
 	@Override
-	public void prepareStatement() {
+	public String prepareForSending() {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 }

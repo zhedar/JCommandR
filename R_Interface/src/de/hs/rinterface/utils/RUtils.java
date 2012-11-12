@@ -1,4 +1,4 @@
-package utils;
+package de.hs.rinterface.utils;
 
 import java.util.List;
 

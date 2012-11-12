@@ -1,4 +1,4 @@
-package experimental;
+package de.hsl.rinterface.experimental;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -6,9 +6,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class ProcessBuilderStreamTest
+public class RSocketTest
 {
 	public static void main(String[] args) throws IOException
 	{
@@ -17,7 +20,7 @@ public class ProcessBuilderStreamTest
 		 * wenn diese nicht unter Program Files... installiert wurde
 		 */
 		ProcessBuilder builder = new ProcessBuilder(
-				"/Library/Frameworks/R.framework/Versions/2.15/Resources/bin/R64", "--save");
+				"c:\\r\\R-2.15.0\\bin\\x64\\r.exe", "--save");
 		final Process rProc = builder.start();
 		final BufferedReader err = new BufferedReader(new InputStreamReader(
 				rProc.getErrorStream()));
@@ -28,6 +31,47 @@ public class ProcessBuilderStreamTest
 				rProc.getInputStream());
 		final BufferedReader bufRead = new BufferedReader(ipsRead);
 
+		//Socket starten
+	
+			
+			Thread socketThread = new Thread(new Runnable() {
+				
+				@Override
+				public void run()
+				{
+					ServerSocket javaSocket;
+					try
+					{
+						javaSocket = new ServerSocket(458);
+						Socket client = javaSocket.accept();
+						client.setSoTimeout(10000);
+						javaSocket.setSoTimeout(10000);
+//						client.getOutputStream().write('s');
+						PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+						out.println("bla");
+						BufferedReader in = 
+						    new BufferedReader(new InputStreamReader(client.getInputStream()));
+						System.out.println("b read");
+						System.out.println(client.isConnected() + " " + client.getInetAddress());
+						System.out.println(in.readLine());
+						
+						System.out.println("n read");
+						javaSocket.close();
+					}
+					catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			socketThread.start();
+			
+			
+//			InputStreamReader ipsRead = new InputStreamReader(javaSocket.getInputStream());
+//			System.out.println(new BufferedReader(ipsRead).readLine());
+		
+		
 		Thread errThread = new Thread(new Runnable() {
 
 			@Override
@@ -63,15 +107,26 @@ public class ProcessBuilderStreamTest
 					Thread.sleep(1000);
 					//Schreibe in stdin
 					//Beispielberechnung
+					
 					bufWr.write("pnorm(1.70)-pnorm(-1.35)");
 					bufWr.newLine();
 					bufWr.flush();
+					
+					bufWr.write("socket <- make.socket(host = \"localhost\", port=458, fail = TRUE, server = FALSE)");
+					bufWr.newLine();
+					bufWr.write("on.exit(close.socket(a))");
 					bufWr.newLine();
 					bufWr.flush();
-					ProcessBuilderStreamTest.plotExample(bufWr);
-					ProcessBuilderStreamTest.max(bufWr);
-					Thread.sleep(1000);
-					//Gebe Befehl zum Schlieï¿½en der Anwendung
+//					bufWr.write("write.socket(socket, \"test\")");
+//					bufWr.write("read.socket(socket)");
+//					bufWr.newLine();
+//					bufWr.flush();
+					bufWr.write("write.socket(socket, \"test\")");
+					bufWr.newLine();
+					bufWr.flush();
+					Thread.sleep(500);
+					Thread.sleep(10000);
+					//Gebe Befehl zum Schließen der Anwendung
 					bufWr.write("q()");
 					bufWr.newLine();
 					bufWr.flush();
@@ -112,26 +167,10 @@ public class ProcessBuilderStreamTest
 			}
 		});
 		readThread.start();
+		
+		
 	}
 	
 	
-	static private void plotExample(BufferedWriter bufWr) throws IOException
-	{
-		bufWr.write("x <- c(42)");
-		bufWr.newLine();
-		bufWr.write("jpeg(\"testplot.jpg\")");
-		bufWr.newLine();
-		bufWr.write("plot(x)");
-		bufWr.newLine();
-//		bufWr.write("dev.off()");
-//		bufWr.newLine();
-		bufWr.flush();
-	}
-	
-	static private void max(BufferedWriter bufWr) throws IOException
-	{
-		bufWr.write("max(c(1,4,80,18,42,100,0))");
-		bufWr.newLine();
-		bufWr.flush();
-	}
+
 }
