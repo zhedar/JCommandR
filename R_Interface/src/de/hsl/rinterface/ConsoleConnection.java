@@ -148,7 +148,7 @@ public class ConsoleConnection implements Connection
 	
 	static private String loadPathFromProp() throws IOException
 	{
-		Properties prop = new Properties();
+		Properties prop = new Properties(); 
 		
 		prop.load(new FileInputStream("path.properties"));
 		
