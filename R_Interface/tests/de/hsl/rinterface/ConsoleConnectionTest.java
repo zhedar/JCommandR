@@ -68,6 +68,15 @@ public class ConsoleConnectionTest
 		RObject ret = con.sendCmd("pnorm(1.70)");
 //		ret.toString();
 	}
+	
+	@Test
+	public void showAllVars() throws IOException
+	{
+		con = new ConsoleConnection(argSave);
+		List<String> vars = con.getAllVars();
+		Assert.assertNotNull(vars);
+		//TODO füllen und prüfen
+	}
 
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
