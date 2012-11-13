@@ -29,4 +29,9 @@ public class RMatrix extends ArrayList<ArrayList<Number>> implements RObject {
 		
 	}
 
+	@Override
+	public RTypes getType() {
+		return RTypes.MATRIX;
+	}
+
 }

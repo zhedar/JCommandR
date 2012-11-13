@@ -31,4 +31,9 @@ public class RReference implements RObject
 		return null;
 	}
 
+	@Override
+	public RTypes getType() {
+		return RTypes.REFERENCE;
+	}
+
 }

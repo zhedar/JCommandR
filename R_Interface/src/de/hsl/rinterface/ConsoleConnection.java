@@ -114,6 +114,9 @@ public class ConsoleConnection implements Connection
 		{
 			pWr.println(cmd);
 			pWr.flush();
+			
+			// TODO checkError()
+			
 			//Eingabe drin, auf Ausgabe horchen
 			while(!outRd.ready())
 				try {
@@ -131,7 +134,7 @@ public class ConsoleConnection implements Connection
 		{
 			throw new RException(e);
 		}
-		System.out.println(string);
+		//System.out.println(string);
 		RParser parser = new RParser(this);
 		ro = parser.construct(string);
 		return ro;

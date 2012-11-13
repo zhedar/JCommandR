@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
+import de.hsl.rinterface.objects.RSolution;
 import de.hsl.rinterface.objects.RVector;
 
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
@@ -32,7 +33,7 @@ public class RParser {
    public RObject construct(String string) {
 	   RObject ro = null;
 		// String nach Zeilen seperieren
-		String[] zeilen = string.split(System.getProperty("line.separator"));
+		String[] zeilen = string.split(System.getProperty("line.separator"));// TODO Pattern.quote()
 		ArrayList<String> grobentwurf = new ArrayList<>();
 		// unwichtige Zeilen löschen
 		Pattern pGrob = Pattern.compile(".*\\[.*\\].*");
@@ -96,10 +97,14 @@ public class RParser {
 					rv.add(Double.parseDouble(zeil[j]));
 				}
 			}
-			ro = rv;
-			return ro;
+			if(rv.size()==1){
+				RSolution rs = new RSolution();
+				rs.setValue(rv.get(0));
+				return rs;
+			}
+			return rv;
 		}
-		return ro;
+		return null;
    }
    
    

@@ -5,7 +5,6 @@ package de.hsl.rinterface.objects;
  * Purpose: Defines the Interface RObject
  ***********************************************************************/
 
-import java.util.*;
 
 /** @pdOid cefcaac4-11e4-4207-8026-4f884e70f39b */
 public interface RObject {
@@ -15,5 +14,7 @@ public interface RObject {
    /** @param name
     * @pdOid 2e936f6a-b4e2-4aa3-afa9-8ea335c24f39 */
    RObject load(String name);
+   
+   RTypes getType();
 
 }

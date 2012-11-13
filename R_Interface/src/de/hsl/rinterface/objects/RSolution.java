@@ -24,4 +24,20 @@ public RObject load(String name) {
 	return null;
 }
 
+public Number getValue() {
+	return value;
+}
+
+public void setValue(Number value) {
+	this.value = value;
+}
+
+@Override
+public RTypes getType() {
+	return RTypes.SOLUTION;
+}
+
+
+
+
 }
