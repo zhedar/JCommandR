@@ -28,8 +28,6 @@ public interface Connection {
    /** @param cmd
     * @pdOid 29da57f2-9615-46b9-bd33-8931bbaa23c6 */
    RObject sendCmd(RCommand cmd);
-   /** @pdOid dbae4a7c-9352-40ae-919f-679e1d732e9b */
-   String getStatus();
    /** @pdOid fe0ba04f-ad7a-43b1-be41-6fbfc377bcf7 */
    List<String> getAllVars();
    String sendCmdRaw(String cmd) throws RException;

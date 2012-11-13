@@ -33,16 +33,151 @@ public class RPlot implements RCommand {
    /** @pdOid dd97a996-7d6d-4fb9-9760-18bdc17ef2a5 */
    private int lwd;
    
-   /** @pdOid bccb5916-dfcc-4f14-9756-d9b7ce72dcfc */
-   public int setterNachDoku() {
-      // TODO: implement
-      return 0;
-   }
 
 
 	@Override
-	public void prepareStatement() {
+	public String prepareForSending() {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+
+
+	public String getSavePath()
+	{
+		return savePath;
+	}
+
+
+
+	public void setSavePath(String savePath)
+	{
+		this.savePath = savePath;
+	}
+
+
+
+	public RVector getxCoords()
+	{
+		return xCoords;
+	}
+
+
+
+	public void setxCoords(RVector xCoords)
+	{
+		this.xCoords = xCoords;
+	}
+
+
+
+	public RVector getyCoords()
+	{
+		return yCoords;
+	}
+
+
+
+	public void setyCoords(RVector yCoords)
+	{
+		this.yCoords = yCoords;
+	}
+
+
+
+	public String getSubtitle()
+	{
+		return subtitle;
+	}
+
+
+
+	public void setSubtitle(String subtitle)
+	{
+		this.subtitle = subtitle;
+	}
+
+
+
+	public String getTitle()
+	{
+		return title;
+	}
+
+
+
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+
+
+	public String getxLab()
+	{
+		return xLab;
+	}
+
+
+
+	public void setxLab(String xLab)
+	{
+		this.xLab = xLab;
+	}
+
+
+
+	public String getyLab()
+	{
+		return yLab;
+	}
+
+
+
+	public void setyLab(String yLab)
+	{
+		this.yLab = yLab;
+	}
+
+
+
+	public char getType()
+	{
+		return type;
+	}
+
+
+
+	public void setType(char type)
+	{
+		this.type = type;
+	}
+
+
+
+	public Color getCol()
+	{
+		return col;
+	}
+
+
+
+	public void setCol(Color col)
+	{
+		this.col = col;
+	}
+
+
+
+	public int getLwd()
+	{
+		return lwd;
+	}
+
+
+
+	public void setLwd(int lwd)
+	{
+		this.lwd = lwd;
 	}
 }

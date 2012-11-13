@@ -37,7 +37,10 @@ public class Main
 		
 		List<String> list = new ArrayList<>();
 		list.add("--save");
-		Connection con = new ConsoleConnection("c:\\r\\R-2.15.1\\bin\\x64\\r.exe", list);
+
+		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe"
+		Connection con = new ConsoleConnection(list);
+
 		//anfänglicher Sleep nicht mehr benötigt, da der Konstruktoraufruf blockt, bis alles initialisiert ist
 		RObject ro=con.sendCmd("matrix(1,5,20)");
 		if (ro.getType().equals(RTypes.MATRIX)){

@@ -3,12 +3,14 @@ package de.hsl.rinterface;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
@@ -20,6 +22,7 @@ public class ConsoleConnection implements Connection
 	private final BufferedReader errRd, outRd;
 //	private final BufferedWriter inWr;
 	private final PrintWriter pWr;
+	private boolean isRunning;
 
 	public ConsoleConnection(String path, List<String> args) throws IOException
 	{
@@ -30,6 +33,26 @@ public class ConsoleConnection implements Connection
 			pathAndArgs.addAll(args);
 		//Prozess starten
 		proc = new ProcessBuilder(pathAndArgs).start();
+		isRunning = true;
+		
+		Thread procEndWatcherThread = new Thread(new Runnable() {
+			
+			@Override
+			public void run()
+			{
+				try
+				{	//blockt bis der Prozess beendet wurde
+					proc.waitFor();
+					isRunning = false;
+				}
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		procEndWatcherThread.start();
 		
 		errRd = new BufferedReader(new InputStreamReader(
 				proc.getErrorStream()));
@@ -52,6 +75,11 @@ public class ConsoleConnection implements Connection
 			outRd.readLine();
 		}	
 		//Initialisierung fertig, block lösen
+	}
+	
+	public ConsoleConnection(List<String> args) throws IOException
+	{
+		this(loadPathFromProp(), args);
 	}
 	
 //	public void max(List<? extends Number> list) throws RException
@@ -95,8 +123,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public boolean isAlive()
 	{
-		// TODO Auto-generated method stub
-		return outRd != null;
+		return isRunning;
 	}
 
 	/**
@@ -148,13 +175,6 @@ public class ConsoleConnection implements Connection
 	}
 
 	@Override
-	public String getStatus()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<String> getAllVars()
 	{
 		// TODO Auto-generated method stub
@@ -196,6 +216,16 @@ public class ConsoleConnection implements Connection
 		pWr.println(cmd);
 		pWr.flush();
 		//Eingabe drin
+	}
+
+
+	static private String loadPathFromProp() throws IOException
+	{
+		Properties prop = new Properties(); 
+		
+		prop.load(new FileInputStream("path.properties"));
+		
+		return prop.getProperty("path");
 	}
 
 }
