@@ -40,9 +40,17 @@ public class ConsoleConnection implements Connection
 		pWr = new PrintWriter(inWr);
 		
 		//Blocke bis zum Eintreffen der Willkommensnachricht
-		outRd.readLine();
-		while(outRd.ready())	
-			outRd.readLine(); //Verwerfen des Texts
+		while(!outRd.ready())
+			try {
+				Thread.sleep(50); // Variable machen, wegen CPU last
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		while(outRd.ready())
+		{	//Verwerfen#
+			outRd.readLine();
+		}	
 		//Initialisierung fertig, block lösen
 	}
 	
@@ -63,7 +71,7 @@ public class ConsoleConnection implements Connection
 	public void close() throws InterruptedException, RException
 	{
 		//Gebe Befehl zum Schließen der Anwendung
-		sendCmd("q()");
+		sendCmdVoid("q()");
 		//Warten bis Prozess terminiert hat
 		proc.waitFor();
 		System.out.println("Beendet. Exitvalue: " + proc.exitValue());
@@ -99,23 +107,34 @@ public class ConsoleConnection implements Connection
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{
+		
+		RObject ro;
+		String string = "";
 		try
 		{
 			pWr.println(cmd);
 			pWr.flush();
 			//Eingabe drin, auf Ausgabe horchen
+			while(!outRd.ready())
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			while(outRd.ready())
 			{
-				String readLine = outRd.readLine();
-				System.out.println(readLine);
+				string += (char)outRd.read();
 			}	
 		}
 		catch (IOException e) 
 		{
 			throw new RException(e);
 		}
-		
-		return null;
+		System.out.println(string);
+		RParser parser = new RParser(this);
+		ro = parser.construct(string);
+		return ro;
 	}
 
 	@Override
@@ -137,6 +156,43 @@ public class ConsoleConnection implements Connection
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public String sendCmdRaw(String cmd) throws RException {
+		String string = "";
+		try
+		{
+			pWr.println(cmd);
+			pWr.flush();
+			//Eingabe drin, auf Ausgabe horchen
+			
+			while(!outRd.ready())
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			while(outRd.ready())
+			{
+				string += (char)outRd.read();
+			}	
+		}
+		catch (IOException e) 
+		{e.printStackTrace();
+			throw new RException(e);
+			
+		}
+		return string;
+	}
+
+	@Override
+	public void sendCmdVoid(String cmd) throws RException {
+		pWr.println(cmd);
+		pWr.flush();
+		//Eingabe drin
 	}
 
 }

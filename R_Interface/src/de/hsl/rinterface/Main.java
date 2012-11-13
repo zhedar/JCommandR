@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import de.hsl.rinterface.exception.RException;
+import de.hsl.rinterface.objects.RMatrix;
+import de.hsl.rinterface.objects.RObject;
 
 
 public class Main 
@@ -32,11 +36,19 @@ public class Main
 		
 		List<String> list = new ArrayList<>();
 		list.add("--save");
-		Connection con = new ConsoleConnection("c:\\r\\R-2.15.0\\bin\\x64\\r.exe", list);
+		Connection con = new ConsoleConnection("c:\\r\\R-2.15.1\\bin\\x64\\r.exe", list);
 		//anfänglicher Sleep nicht mehr benötigt, da der Konstruktoraufruf blockt, bis alles initialisiert ist
-		con.sendCmd("pnorm(1.70)");
-		Thread.sleep(1000); 
+		RObject ro=con.sendCmd("matrix(1,5,20)");
+		if (ro instanceof RMatrix) {
+			RMatrix name = (RMatrix) ro;
+			for (ArrayList<Number> arrayList : name) {
+				for (Number number : arrayList) {
+					System.out.print(" " + number);
+				}
+				System.out.print(System.getProperty("line.separator"));
+			}
+		}
 		con.close();
-		
+		 
 	}
 }

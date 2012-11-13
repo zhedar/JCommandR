@@ -32,5 +32,7 @@ public interface Connection {
    String getStatus();
    /** @pdOid fe0ba04f-ad7a-43b1-be41-6fbfc377bcf7 */
    List<String> getAllVars();
+   String sendCmdRaw(String cmd) throws RException;
+   void sendCmdVoid(String cmd) throws RException;
 
 }
