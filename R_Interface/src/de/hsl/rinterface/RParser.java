@@ -6,6 +6,8 @@ package de.hsl.rinterface;
  ***********************************************************************/
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,29 +19,40 @@ import de.hsl.rinterface.objects.RVector;
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
 public class RParser {
    
-	Connection con;
+	private Connection con; //TODO wird das ding später noch benötigt, oder warum wirds nicht benutzt?
 	
 	public RParser(Connection con){
 		this.con=con;
 	}
 	
-	/** @pdRoleInfo migr=no name=RObject assc=association4 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Aggregation */
-   public java.util.Collection<RObject> rObject;
+//	/** @pdRoleInfo migr=no name=RObject assc=association4 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Aggregation */
+//   public java.util.Collection<RObject> rObject;
    
    /** @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a */
    public RObject construct(String string) {
-	   RObject ro = null;
+//	   	RObject ro = null;
 		// String nach Zeilen seperieren
-		String[] zeilen = string.split(System.getProperty("line.separator"));// TODO Pattern.quote()
-		ArrayList<String> grobentwurf = new ArrayList<>();
+//		String[] zeilen = string.split(Pattern.quote(System.getProperty("line.separator")));
+		List<String> grobentwurf = new ArrayList<>();
 		// unwichtige Zeilen löschen
 		Pattern pGrob = Pattern.compile(".*\\[.*\\].*");
 		Matcher m;
-		for (int i = 0; i < zeilen.length; i++) {
-			m = pGrob.matcher(zeilen[i]);
-			if (m.matches())
-				grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt das mit Pattern nicht?
-		}
+		//zeilenweises Verarbeiten, platformunabhängig durch Scanner
+		Scanner scanner = new Scanner(string);
+		   while (scanner.hasNextLine())
+		   {
+		     String line = scanner.nextLine();
+		     m = pGrob.matcher(line);
+		     if (m.matches())
+				grobentwurf.add(line);
+		   }
+		   scanner.close();
+//		for (int i = 0; i < zeilen.length; i++) {
+//			m = pGrob.matcher(zeilen[i]);
+//			System.out.println(zeilen[i] + m.matches());
+//			if (m.matches())
+//				grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt das mit Pattern nicht?
+//		}
 		//System.out.println("\n\n" + grobentwurf.get(0));
 		// Pattern zum Prüfen einer Matrix
 		Pattern pMatrix = Pattern.compile(".*\\[.*,.*\\].*");
@@ -48,7 +61,7 @@ public class RParser {
 			//System.out.println("Matrix");
 			// Parsen der Matrix
 			RMatrix rm = new RMatrix();
-			ArrayList<Double> zeilenListe = new ArrayList<>();
+			List<Double> zeilenListe = new ArrayList<>();
 			// Prüfung für eine Tabellenkopfzeile
 			Pattern pHead = Pattern.compile(".*\\[,\\d.*\\].*");
 			int maxzeile=-1;
@@ -78,8 +91,8 @@ public class RParser {
 				zeile++;
 				
 			}
-			ro=rm;
-			return ro;
+//			ro=rm;
+			return rm;
 		}
 		// Pattern zum Prüfen eines Vektors
 		Pattern pVector = Pattern.compile(".*\\[.*\\].*");
@@ -103,55 +116,4 @@ public class RParser {
 		}
 		return null;
    }
-   
-   
-   /** @pdGenerated default getter */
-   public java.util.Collection<RObject> getRObject() {
-      if (rObject == null)
-         rObject = new java.util.HashSet<RObject>();
-      return rObject;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorRObject() {
-      if (rObject == null)
-         rObject = new java.util.HashSet<RObject>();
-      return rObject.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newRObject */
-   public void setRObject(java.util.Collection<RObject> newRObject) {
-      removeAllRObject();
-      for (java.util.Iterator iter = newRObject.iterator(); iter.hasNext();)
-         addRObject((RObject)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newRObject */
-   public void addRObject(RObject newRObject) {
-      if (newRObject == null)
-         return;
-      if (this.rObject == null)
-         this.rObject = new java.util.HashSet<RObject>();
-      if (!this.rObject.contains(newRObject))
-         this.rObject.add(newRObject);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldRObject */
-   public void removeRObject(RObject oldRObject) {
-      if (oldRObject == null)
-         return;
-      if (this.rObject != null)
-         if (this.rObject.contains(oldRObject))
-            this.rObject.remove(oldRObject);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllRObject() {
-      if (rObject != null)
-         rObject.clear();
-   }
-
 }
