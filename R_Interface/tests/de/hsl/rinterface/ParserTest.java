@@ -1,4 +1,4 @@
-package de.hsl.rinterface.utils;
+package de.hsl.rinterface;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

@@ -5,13 +5,10 @@ package de.hsl.rinterface;
  * Purpose: Defines the Class RParser
  ***********************************************************************/
 
-import java.io.IOException;
-import java.io.PrintWriter; 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RSolution;
@@ -41,7 +38,7 @@ public class RParser {
 		for (int i = 0; i < zeilen.length; i++) {
 			m = pGrob.matcher(zeilen[i]);
 			if (m.matches())
-				grobentwurf.add(zeilen[i]);
+				grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt das mit Pattern nicht?
 		}
 		//System.out.println("\n\n" + grobentwurf.get(0));
 		// Pattern zum Prüfen einer Matrix

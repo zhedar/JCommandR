@@ -20,13 +20,12 @@ public class ConsoleConnection implements Connection
 {
 	private Process proc;
 	private final BufferedReader errRd, outRd;
-//	private final BufferedWriter inWr;
 	private final PrintWriter pWr;
 	private boolean isRunning;
 
 	public ConsoleConnection(String path, List<String> args) throws IOException
 	{
-		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe" - Testpfad fÃ¼r Windows
+		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe" - Testpfad für Windows
 		//Pfad und Argumente zusammenstecken
 		List<String> pathAndArgs = new ArrayList<>();
 			pathAndArgs.add(path);
@@ -47,8 +46,7 @@ public class ConsoleConnection implements Connection
 				}
 				catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//sollte nicht passieren
 				}
 			}
 		});
@@ -64,7 +62,8 @@ public class ConsoleConnection implements Connection
 		
 		//Blocke bis zum Eintreffen der Willkommensnachricht
 		while(!outRd.ready())
-			try {
+			try 
+			{
 				Thread.sleep(50); // Variable machen, wegen CPU last
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -89,8 +88,8 @@ public class ConsoleConnection implements Connection
 	
 
 	/**
-	 * SchlieÃŸt sowohl alle offenen Ressourcen, als auch den ausgefÃ¼hrten R-Prozess.
-	 * Kehrt zurÃ¼ck, wenn der Prozess beendet wurde.
+	 * Schließt sowohl alle offenen Ressourcen, als auch den ausgeführten R-Prozess.
+	 * Kehrt zurück, wenn der Prozess beendet wurde.
 	 * @throws InterruptedException
 	 * @throws RException 
 	 * @throws IOException falls der Prozess bereits beendet sein sollte
@@ -98,7 +97,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void close() throws InterruptedException, RException
 	{
-		//Gebe Befehl zum SchlieÃŸen der Anwendung
+		//Gebe Befehl zum Schließen der Anwendung
 		sendCmdVoid("q()");
 		//Warten bis Prozess terminiert hat
 		proc.waitFor();
@@ -127,44 +126,40 @@ public class ConsoleConnection implements Connection
 	}
 
 	/**
-	 * Sendet den Ã¼bergebenen Befehl sofort an die Konsole. FÃ¼gt einen Zeilenumbruch an. 
-	 * @param cmd der auszufÃ¼hrende Befehl
-	 * @throws IOException falls bei der Ãœbermittlung zum Prozess ein Fehler auftritt
+	 * Sendet den Übergebenen Befehl sofort an die Konsole. Fügt einen Zeilenumbruch an. 
+	 * @param cmd der auszuführende Befehl
+	 * @throws RException falls bei der Übermittlung zum Prozess ein Fehler auftritt
 	 */
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{
-		
-		RObject ro;
-		String string = "";
+		String outputStr = "";
 		try
 		{
 			pWr.println(cmd);
 			pWr.flush();
-			
-			// TODO checkError()
-			
+		
 			//Eingabe drin, auf Ausgabe horchen
-			while(!outRd.ready())
-				try {
+			while(!outRd.ready() && !pWr.checkError()) //TODO überprüfen: checkError richtig angewandt? 
+				try 
+				{
 					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} 
+				catch (InterruptedException e) 
+				{
+					//ignore
 				}
+			
 			while(outRd.ready())
-			{
-				string += (char)outRd.read();
-			}	
+				outputStr += (char)outRd.read();
 		}
 		catch (IOException e) 
 		{
 			throw new RException(e);
 		}
 		//System.out.println(string);
-		RParser parser = new RParser(this);
-		ro = parser.construct(string);
-		return ro;
+		
+		return new RParser(this).construct(outputStr);
 	}
 
 	@Override
@@ -182,10 +177,11 @@ public class ConsoleConnection implements Connection
 	}
 	
 	@Override
-	public String sendCmdRaw(String cmd) throws RException {
-		String string = "";
+	public String sendCmdRaw(String cmd) throws RException 
+	{
 		try
 		{
+			String outputStr = "";
 			pWr.println(cmd);
 			pWr.flush();
 			//Eingabe drin, auf Ausgabe horchen
@@ -200,15 +196,16 @@ public class ConsoleConnection implements Connection
 			
 			while(outRd.ready())
 			{
-				string += (char)outRd.read();
-			}	
+				outputStr += (char) outRd.read();
+			}
+			
+			return outputStr;
 		}
 		catch (IOException e) 
-		{e.printStackTrace();
+		{
+//			e.printStackTrace();
 			throw new RException(e);
-			
 		}
-		return string;
 	}
 
 	@Override
@@ -217,7 +214,6 @@ public class ConsoleConnection implements Connection
 		pWr.flush();
 		//Eingabe drin
 	}
-
 
 	static private String loadPathFromProp() throws IOException
 	{
