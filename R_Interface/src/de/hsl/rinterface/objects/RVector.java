@@ -14,18 +14,6 @@ public class RVector extends ArrayList<Number> implements RObject {
 	private List<Number> values;
 
 	@Override
-	public void save(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public RObject load(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public RTypes getType() {
 		return RTypes.VECTOR;
 	}
@@ -33,7 +21,17 @@ public class RVector extends ArrayList<Number> implements RObject {
 	@Override
 	public String toRString()
 	{
-		return "c<-(1,2,3,4,5,6,7)";
+		int count = 0;
+		String rRepresentation = "c(";
+		for(Number n : this)
+		{
+			if(++count != size())
+				rRepresentation += n.toString() + ", ";
+			else
+				rRepresentation += n.toString() + ")";
+		}
+	
+		return rRepresentation;
 	}
 
 }

@@ -173,7 +173,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public List<String> getAllVars()
 	{
-		// TODO Auto-generated method stub
+		// TODO generischer Parser wäre gut, da ls() einen Vektor von Strings zurückliefert
 		return null;
 	}
 	
@@ -223,5 +223,18 @@ public class ConsoleConnection implements Connection
 		prop.load(new FileInputStream("path.properties"));
 		
 		return prop.getProperty("path");
+	}
+
+	@Override
+	public RObject loadSavedObject(String name) throws RException
+	{
+		return sendCmd(name);
+	}
+
+	@Override
+	public void saveObject(RObject toSave, String name) throws RException
+	{
+		sendCmdVoid(name + "<-" + toSave.toRString());
+		System.out.println(name + "<-" + toSave.toRString());
 	}
 }

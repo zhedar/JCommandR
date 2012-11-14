@@ -29,9 +29,13 @@ public interface Connection {
  * @throws RException 
     * @pdOid 29da57f2-9615-46b9-bd33-8931bbaa23c6 */
    RObject sendCmd(RCommand cmd) throws RException;
-   /** @pdOid fe0ba04f-ad7a-43b1-be41-6fbfc377bcf7 */
-   List<String> getAllVars();
+  
    String sendCmdRaw(String cmd) throws RException;
    void sendCmdVoid(String cmd) throws RException;
-
+   
+   RObject loadSavedObject(String name) throws RException;
+   void saveObject(RObject toSave, String name) throws RException;
+   
+   /** @pdOid fe0ba04f-ad7a-43b1-be41-6fbfc377bcf7 */
+   List<String> getAllVars();
 }

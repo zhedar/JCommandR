@@ -2,5 +2,5 @@ package de.hsl.rinterface.objects;
 
 public enum RTypes {
 
-	VECTOR , MATRIX, SOLUTION, REFERENCE;
+	VECTOR , MATRIX, VALUE, REFERENCE;
 }

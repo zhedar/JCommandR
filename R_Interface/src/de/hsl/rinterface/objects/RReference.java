@@ -18,19 +18,6 @@ public class RReference implements RObject
 	}
 
 	@Override
-	public void save(String name)
-	{	
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public RObject load(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public RTypes getType() {
 		return RTypes.REFERENCE;
 	}

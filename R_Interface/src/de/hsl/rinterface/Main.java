@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hsl.rinterface.commands.RPlot;
 import de.hsl.rinterface.exception.RException;
-import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RTypes;
 import de.hsl.rinterface.objects.RVector;
@@ -53,7 +51,16 @@ public class Main
 //			}
 //		}
 		
-		RPlot plot = new RPlot(new RVector());
+//		RPlot plot = new RPlot(new RVector());
+		
+		con.saveObject(new RVector(), "testvec");
+		RObject loaded = con.loadSavedObject("testvec");
+		if(loaded.getType()== RTypes.VECTOR)
+		{
+			RVector loadedVec = (RVector) loaded;
+			System.out.println(loadedVec.size());
+		}
+			
 		con.close();
 		 
 	}
