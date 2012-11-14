@@ -159,14 +159,15 @@ public class ConsoleConnection implements Connection
 		}
 		//System.out.println(string);
 		
-		return new RParser(this).construct(outputStr);
+		return new RParser().construct(outputStr);
 	}
 
 	@Override
-	public RObject sendCmd(RCommand cmd)
+	public RObject sendCmd(RCommand cmd) throws RException
 	{
-		// TODO Auto-generated method stub
-		return null;
+//		pWr.println("jpeg(\"testplot.jpg\")");
+//		pWr.flush();
+		return sendCmd(cmd.prepareForSending());
 	}
 
 	@Override
@@ -223,5 +224,4 @@ public class ConsoleConnection implements Connection
 		
 		return prop.getProperty("path");
 	}
-
 }

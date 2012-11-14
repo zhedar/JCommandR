@@ -30,4 +30,10 @@ public class RVector extends ArrayList<Number> implements RObject {
 		return RTypes.VECTOR;
 	}
 
+	@Override
+	public String toRString()
+	{
+		return "c<-(1,2,3,4,5,6,7)";
+	}
+
 }

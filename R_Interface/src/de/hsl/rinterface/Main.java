@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsl.rinterface.commands.RPlot;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RTypes;
+import de.hsl.rinterface.objects.RVector;
 
 
 public class Main 
@@ -40,16 +42,18 @@ public class Main
 		Connection con = new ConsoleConnection(list);
 
 		//anfänglicher Sleep nicht mehr benötigt, da der Konstruktoraufruf blockt, bis alles initialisiert ist
-		RObject ro=con.sendCmd("matrix(1,5,20)");
-		if (ro.getType().equals(RTypes.MATRIX)){
-			RMatrix name = (RMatrix) ro;
-			for (ArrayList<Number> arrayList : name) {
-				for (Number number : arrayList) {
-					System.out.print(" " + number);
-				}
-				System.out.print(System.getProperty("line.separator"));
-			}
-		}
+//		RObject ro=con.sendCmd("matrix(1,5,20)");
+//		if (ro.getType().equals(RTypes.MATRIX)){
+//			RMatrix name = (RMatrix) ro;
+//			for (ArrayList<Number> arrayList : name) {
+//				for (Number number : arrayList) {
+//					System.out.print(" " + number);
+//				}
+//				System.out.print(System.getProperty("line.separator"));
+//			}
+//		}
+		
+		RPlot plot = new RPlot(new RVector());
 		con.close();
 		 
 	}

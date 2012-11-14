@@ -13,18 +13,12 @@ import java.util.regex.Pattern;
 
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
-import de.hsl.rinterface.objects.RSolution;
+import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
 
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
 public class RParser {
    
-	private Connection con; //TODO wird das ding später noch benötigt, oder warum wirds nicht benutzt?
-	
-	public RParser(Connection con){
-		this.con=con;
-	}
-	
 //	/** @pdRoleInfo migr=no name=RObject assc=association4 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Aggregation */
 //   public java.util.Collection<RObject> rObject;
    
@@ -108,7 +102,7 @@ public class RParser {
 				}
 			}
 			if(rv.size()==1){
-				RSolution rs = new RSolution();
+				RValue rs = new RValue();
 				rs.setValue(rv.get(0));
 				return rs;
 			}

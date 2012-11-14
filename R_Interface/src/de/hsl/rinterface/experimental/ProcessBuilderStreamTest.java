@@ -17,7 +17,8 @@ public class ProcessBuilderStreamTest
 		 * wenn diese nicht unter Program Files... installiert wurde
 		 */
 		ProcessBuilder builder = new ProcessBuilder(
-				"/Library/Frameworks/R.framework/Versions/2.15/Resources/bin/R64", "--save");
+				//"/Library/Frameworks/R.framework/Versions/2.15/Resources/bin/R64", "--save");
+				"C:\\R\\R-2.15.0\\bin\\x64\\R.exe", "--save");
 		final Process rProc = builder.start();
 		final BufferedReader err = new BufferedReader(new InputStreamReader(
 				rProc.getErrorStream()));

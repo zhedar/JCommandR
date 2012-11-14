@@ -5,7 +5,7 @@ package de.hsl.rinterface.objects;
  * Purpose: Defines the Class RMatrix
  ***********************************************************************/
 
-import java.util.*;
+import java.util.ArrayList;
 
 /** @pdOid 29978f29-da45-474b-9c60-54845abcaa61 */
 public class RMatrix extends ArrayList<ArrayList<Number>> implements RObject {
@@ -32,6 +32,13 @@ public class RMatrix extends ArrayList<ArrayList<Number>> implements RObject {
 	@Override
 	public RTypes getType() {
 		return RTypes.MATRIX;
+	}
+
+	@Override
+	public String toRString()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
