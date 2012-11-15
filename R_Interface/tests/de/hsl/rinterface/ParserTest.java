@@ -34,16 +34,16 @@ public class ParserTest {
 
 		RObject ro = parser(matrix);
 		if (ro instanceof RVector) {
-			RVector name = (RVector) ro;
+			RVector<Double> name = (RVector) ro;
 			for (int i = 0; i < name.size(); i++) {
 				System.out.println("" + name.get(i));
 			}
 		}
 		if (ro instanceof RMatrix) {
-			RMatrix name = (RMatrix) ro;
+			RMatrix<Double> name = (RMatrix) ro;
 			System.out.println(name.size());
-			for (ArrayList<Number> arrayList : name) {
-				for (Number number : arrayList) {
+			for (ArrayList<Double> arrayList : name) {
+				for (Double number : arrayList) {
 					System.out.print(" " + number);
 				}
 				System.out.print(System.getProperty("line.separator"));
@@ -72,7 +72,7 @@ public class ParserTest {
 		if (m.matches()) {
 			System.out.println("Matrix");
 			// Parsen der Matrix
-			RMatrix rm = new RMatrix();
+			RMatrix<Double> rm = new RMatrix();
 			ArrayList<Double> zeilenListe = new ArrayList<>();
 			// Prüfung für eine Tabellenkopfzeile
 			Pattern pHead = Pattern.compile(".*\\[,\\d.*\\].*");
@@ -93,7 +93,7 @@ public class ParserTest {
 				
 				if(zeile >= maxzeile){
 					System.out.println(zeile);
-					rm.add(new ArrayList<Number>(zeilenListe));
+					rm.add(new ArrayList<Double>(zeilenListe));
 				}
 				else{
 					System.out.println(zeile);

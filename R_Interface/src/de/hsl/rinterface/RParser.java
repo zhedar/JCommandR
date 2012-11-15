@@ -54,7 +54,7 @@ public class RParser {
 		if (m.matches()) {
 			//System.out.println("Matrix");
 			// Parsen der Matrix
-			RMatrix rm = new RMatrix();
+			RMatrix<Double> rm = new RMatrix();
 			List<Double> zeilenListe = new ArrayList<>();
 			// Prüfung für eine Tabellenkopfzeile
 			Pattern pHead = Pattern.compile(".*\\[,\\d.*\\].*");
@@ -75,7 +75,7 @@ public class RParser {
 				
 				if(zeile >= maxzeile){
 					//System.out.println(zeile);
-					rm.add(new ArrayList<Number>(zeilenListe));
+					rm.add(new ArrayList<Double>(zeilenListe));
 				}
 				else{
 					//System.out.println(zeile);

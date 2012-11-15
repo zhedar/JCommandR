@@ -7,16 +7,16 @@ package de.hsl.rinterface.objects;
 
 
 /** @pdOid 00a6c982-6c07-4b58-8392-21cf5ea4998b */
-public class RValue implements RObject {
+public class RValue<T> implements RObject {
    /** @pdOid 003a2e7e-3469-4f32-9301-05b8c3faa09d */
-   private Number value;
+   private T value;
 
-public Number getValue() {
+public T getValue() {
 	return value;
 }
 
-public void setValue(Number value) {
-	this.value = value;
+public void setValue(T t) {
+	this.value = t;
 }
 
 @Override
@@ -27,8 +27,7 @@ public RTypes getType() {
 @Override
 public String toRString()
 {
-	// TODO Auto-generated method stub
-	return null;
+	return value.toString();
 }
 
 

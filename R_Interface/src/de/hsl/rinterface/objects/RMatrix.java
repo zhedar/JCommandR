@@ -8,9 +8,9 @@ package de.hsl.rinterface.objects;
 import java.util.ArrayList;
 
 /** @pdOid 29978f29-da45-474b-9c60-54845abcaa61 */
-public class RMatrix extends ArrayList<ArrayList<Number>> implements RObject {
+public class RMatrix<T> extends ArrayList<ArrayList<T>> implements RObject {
    /** @pdOid a1d46f5d-b3f9-4b07-9894-50df3d61ac51 */
-    private ArrayList<ArrayList<Number>> matrix;
+    private ArrayList<ArrayList<T>> matrix;
 
 	public void add(int zeile, ArrayList<Double> zeilenListe) {
 		// TODO Auto-generated method stub
@@ -25,8 +25,18 @@ public class RMatrix extends ArrayList<ArrayList<Number>> implements RObject {
 	@Override
 	public String toRString()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		String mat = "matrix(";
+		for (int i = 0; i < matrix.size(); i++) {
+			for (int j = 0; j < matrix.get(0).size(); j++) {
+				
+				if(i != matrix.size() && j != matrix.get(0).size())
+					mat += matrix.get(j).get(i).toString()+",";
+				else
+					mat += matrix.get(j).get(i).toString();
+			}
+		}
+		mat += "), nrow="+matrix.size()+",ncol="+matrix.get(0).size()+")";
+		return mat;
 	}
 
 }
