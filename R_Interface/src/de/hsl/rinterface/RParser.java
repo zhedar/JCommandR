@@ -24,6 +24,7 @@ public class RParser {
    
    /** @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a */
    public RObject construct(String string) {
+//	   System.out.println(string);
 //	   	RObject ro = null;
 		// String nach Zeilen seperieren
 //		String[] zeilen = string.split(Pattern.quote(System.getProperty("line.separator")));
@@ -41,6 +42,7 @@ public class RParser {
 				grobentwurf.add(line);
 		   }
 		   scanner.close();
+//		System.out.println(grobentwurf.get(0));
 //		for (int i = 0; i < zeilen.length; i++) {
 //			m = pGrob.matcher(zeilen[i]);
 //			System.out.println(zeilen[i] + m.matches());
@@ -50,6 +52,8 @@ public class RParser {
 		//System.out.println("\n\n" + grobentwurf.get(0));
 		// Pattern zum Prüfen einer Matrix
 		Pattern pMatrix = Pattern.compile(".*\\[.*,.*\\].*");
+		if(grobentwurf.size()==0)
+			throw new IllegalArgumentException("Rückgabetyp ist die Länge == 0");
 		m = pMatrix.matcher(grobentwurf.get(0));
 		if (m.matches()) {
 			//System.out.println("Matrix");
