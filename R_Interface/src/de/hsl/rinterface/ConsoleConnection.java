@@ -15,6 +15,7 @@ import java.util.Properties;
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
+import de.hsl.rinterface.objects.RReference;
 
 public class ConsoleConnection implements Connection
 {
@@ -25,7 +26,7 @@ public class ConsoleConnection implements Connection
 
 	public ConsoleConnection(String path, List<String> args) throws IOException
 	{
-		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe" - Testpfad für Windows
+		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe" - Testpfad fï¿½r Windows
 		//Pfad und Argumente zusammenstecken
 		List<String> pathAndArgs = new ArrayList<>();
 			pathAndArgs.add(path);
@@ -73,7 +74,7 @@ public class ConsoleConnection implements Connection
 		{	//Verwerfen#
 			outRd.readLine();
 		}	
-		//Initialisierung fertig, block lÃ¶sen
+		//Initialisierung fertig, block lï¿½ï¿½sen
 	}
 	
 	public ConsoleConnection(List<String> args) throws IOException
@@ -88,8 +89,8 @@ public class ConsoleConnection implements Connection
 	
 
 	/**
-	 * Schließt sowohl alle offenen Ressourcen, als auch den ausgeführten R-Prozess.
-	 * Kehrt zurück, wenn der Prozess beendet wurde.
+	 * Schlieï¿½t sowohl alle offenen Ressourcen, als auch den ausgefï¿½hrten R-Prozess.
+	 * Kehrt zurï¿½ck, wenn der Prozess beendet wurde.
 	 * @throws InterruptedException
 	 * @throws RException 
 	 * @throws IOException falls der Prozess bereits beendet sein sollte
@@ -97,7 +98,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void close() throws InterruptedException, RException
 	{
-		//Gebe Befehl zum Schließen der Anwendung
+		//Gebe Befehl zum Schlieï¿½en der Anwendung
 		sendCmdVoid("q()");
 		//Warten bis Prozess terminiert hat
 		proc.waitFor();
@@ -126,9 +127,9 @@ public class ConsoleConnection implements Connection
 	}
 
 	/**
-	 * Sendet den Übergebenen Befehl sofort an die Konsole. Fügt einen Zeilenumbruch an. 
-	 * @param cmd der auszuführende Befehl
-	 * @throws RException falls bei der Übermittlung zum Prozess ein Fehler auftritt
+	 * Sendet den ï¿½bergebenen Befehl sofort an die Konsole. Fï¿½gt einen Zeilenumbruch an. 
+	 * @param cmd der auszufï¿½hrende Befehl
+	 * @throws RException falls bei der ï¿½bermittlung zum Prozess ein Fehler auftritt
 	 */
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
@@ -140,7 +141,7 @@ public class ConsoleConnection implements Connection
 			pWr.flush();
 		
 			//Eingabe drin, auf Ausgabe horchen
-			while(!outRd.ready() && !pWr.checkError()) //TODO überprüfen: checkError richtig angewandt? 
+			while(!outRd.ready() && !pWr.checkError()) //TODO ï¿½berprï¿½fen: checkError richtig angewandt? 
 				try 
 				{
 					Thread.sleep(50);
@@ -173,7 +174,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public List<String> getAllVars()
 	{
-		// TODO generischer Parser wäre gut, da ls() einen Vektor von Strings zurückliefert
+		// TODO generischer Parser wï¿½re gut, da ls() einen Vektor von Strings zurï¿½ckliefert
 		return null;
 	}
 	
@@ -235,6 +236,18 @@ public class ConsoleConnection implements Connection
 	public void saveObject(RObject toSave, String name) throws RException
 	{
 		sendCmdVoid(name + "<-" + toSave.toRString());
-		System.out.println(name + "<-" + toSave.toRString());
+	}
+
+	@Override
+	public RReference sendCmd(String cmd, String name) throws RException
+	{
+		return null; //name + "<-" + cmd;
+	}
+
+	@Override
+	public RReference sendCmd(RCommand cmd, String name) {
+		// TODO Auto-generated method stub
+		String sendcmd = name + "<-" +cmd.prepareForSending();
+		return null;
 	}
 }
