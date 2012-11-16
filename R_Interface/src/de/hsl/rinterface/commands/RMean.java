@@ -39,3 +39,4 @@ public class RMean implements RCommand {
 				(trim !=0d ? ", trim = " + trim : "") +")";
 	}
 }
+//Duoble geändert

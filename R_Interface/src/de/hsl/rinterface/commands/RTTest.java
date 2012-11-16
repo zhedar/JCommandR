@@ -28,10 +28,10 @@ public class RTTest implements RCommand{
 	private RObject x;
 	private RObject y;
 	private String alternative;
-	private Boolean mu;
+	private boolean mu;
 	private String paired;
 	private String var_equal;
-	private Double conf_level;
+	private double conf_level;
 	
 	public RTTest(RObject x) {
 		this.x = x;
@@ -68,12 +68,12 @@ public class RTTest implements RCommand{
 	}
 
 
-	public Boolean getMu() {
+	public boolean getMu() {
 		return mu;
 	}
 
 
-	public void setMu(Boolean mu) {
+	public void setMu(boolean mu) {
 		this.mu = mu;
 	}
 	
@@ -97,12 +97,12 @@ public class RTTest implements RCommand{
 	}
 
 
-	public Double getConf_level() {
+	public double getConf_level() {
 		return conf_level;
 	}
 
 
-	public void setConf_level(Double conf_level) {
+	public void setConf_level(double conf_level) {
 		this.conf_level = conf_level;
 	}
 
