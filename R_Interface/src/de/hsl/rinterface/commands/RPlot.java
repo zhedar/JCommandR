@@ -44,8 +44,8 @@ public class RPlot implements RCommand
 	public String prepareForSending()
 	{
 		return "plot(" + xCoords.toRString() + 
-				(type!=' ' ? "type = " + type : "") + 
-				(yLab!=null ? "ylab = " + yLab : "")
+				(type!=' ' ? ", type = \"" + type + "\"" : "") + 
+				(yLab!=null ? ", ylab = \"" + yLab + "\"" : "")
 				
 				+")";
 	}
