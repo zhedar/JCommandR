@@ -112,10 +112,10 @@ public class RTTest implements RCommand{
 		return "t.test(" + x.toRString() + 
 				(y !=null ? ", y = " + y.toRString() : "")+
 				(alternative!=null ? ", alternative = \"" + alternative+ "\"" : "")+
-				(mu !=null ? ", na.rm = " + mu : "")+
+				(mu !=false ? ", na.rm = " + mu : "")+
 				(paired !=null ? ", paired = \"" + paired+ "\"" : "")+
 				(var_equal !=null ? ", var.equal = \"" + var_equal+ "\"" : "")+
-				(conf_level !=null ? ", conf.level = \"" + conf_level+ "\"" : "")
+				(conf_level !=0d ? ", conf.level = \"" + conf_level+ "\"" : "")
 				 +")";
 	}
 

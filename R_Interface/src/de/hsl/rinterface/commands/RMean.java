@@ -36,6 +36,6 @@ public class RMean implements RCommand {
 	@Override
 	public String prepareForSending() {
 		return "mean(" + meaninput.toRString() + 
-				(trim !=' ' ? ", trim = " + trim : "") +")";
+				(trim !=0d ? ", trim = " + trim : "") +")";
 	}
 }
