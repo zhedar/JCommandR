@@ -15,8 +15,8 @@ public class RVector<T> extends ArrayList<T> implements RObject {
 	private List<T> values;
 
 	@Override
-	public RTypes getType() {
-		return RTypes.VECTOR;
+	public RObjectTypes getType() {
+		return RObjectTypes.VECTOR;
 	}
 
 	@Override

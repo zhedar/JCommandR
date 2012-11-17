@@ -13,7 +13,7 @@ import org.junit.Test;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
-import de.hsl.rinterface.objects.RTypes;
+import de.hsl.rinterface.objects.RObjectTypes;
 
 public class ParseMatrixTest
 {
@@ -32,7 +32,7 @@ public class ParseMatrixTest
 	public void parse5_5Matrix() throws RException
 	{
 		RObject ro=con.sendCmd("matrix(1,5,5)");
-		if (ro.getType().equals(RTypes.MATRIX))
+		if (ro.getType().equals(RObjectTypes.MATRIX))
 		{
 			RMatrix name = (RMatrix) ro;
 			Assert.assertNotNull(name);

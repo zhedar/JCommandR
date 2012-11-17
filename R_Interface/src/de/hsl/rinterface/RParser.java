@@ -53,7 +53,7 @@ public class RParser {
 		// Pattern zum Prüfen einer Matrix
 		Pattern pMatrix = Pattern.compile(".*\\[.*,.*\\].*");
 		if(grobentwurf.size()==0)
-			throw new IllegalArgumentException("Rückgabetyp ist die Länge == 0");
+			throw new IllegalArgumentException("Rückgabetyp besitzt die Länge == 0");
 		m = pMatrix.matcher(grobentwurf.get(0));
 		if (m.matches()) {
 			//System.out.println("Matrix");

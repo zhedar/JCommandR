@@ -4,6 +4,8 @@ package de.hsl.rinterface.commands;
  * Module: RRead.java Author: tobo1987 Purpose: Defines the Class RRead
  ***********************************************************************/
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import de.hsl.rinterface.objects.RObject;
@@ -12,7 +14,8 @@ import de.hsl.rinterface.objects.RObject;
 public class RRead implements RCommand
 {
 
-	private String path;
+	private RReadTypes type;
+	private File path;
 	private boolean header;
 	private String sep;
 	private String quote;
@@ -22,23 +25,159 @@ public class RRead implements RCommand
 	private String naStrings;
 	private String commentChar;
 	
-	public RRead(String path){
-		this.path=path;
-		this.header=false;
-		this.sep="\"\"";
-		this.quote="\"\\\"\'";
-		this.dec="\".\"";
-		this.rowName="";
-		this.colName="";
-		this.naStrings="\"NA\"";
-		this.commentChar="\"#\"";
+	public RRead(File path) throws FileNotFoundException{
+		this.type= RReadTypes.TABLE;
+		if(path.exists())
+			this.path = path;
+		else
+			throw new FileNotFoundException("Die Datei wurde nicht gefunden");
 	}
 	
+	public RRead(String path) throws FileNotFoundException{
+		this.type= RReadTypes.TABLE;
+		File file = new File(path);
+		if(file.exists())
+			this.path = file;
+		else
+			throw new FileNotFoundException("Die Datei wurde nicht gefunden");
+	}
+
+	public RReadTypes getType() {
+		return type;
+	}
+
+
+
+	public void setType(RReadTypes type) {
+		this.type = type;
+	}
+
+
+
+	public File getPath() {
+		return path.getAbsoluteFile();
+	}
+
+
+
+	public void setPath(File path) throws FileNotFoundException {
+		if(path.exists())
+			this.path = path;
+		else
+			throw new FileNotFoundException("Die Datei wurde nicht gefunden");
+	}
+
+
+
+	public boolean isHeader() {
+		return header;
+	}
+
+
+
+	public void setHeader(boolean header) {
+		this.header = header;
+	}
+
+
+
+	public String getSep() {
+		return sep;
+	}
+
+
+
+	public void setSep(String sep) {
+		this.sep = sep;
+	}
+
+
+
+	public String getQuote() {
+		return quote;
+	}
+
+
+
+	public void setQuote(String quote) {
+		this.quote = quote;
+	}
+
+
+
+	public String getDec() {
+		return dec;
+	}
+
+
+
+	public void setDec(String dec) {
+		this.dec = dec;
+	}
+
+
+
+	public String getRowName() {
+		return rowName;
+	}
+
+
+
+	public void setRowName(String rowName) {
+		this.rowName = rowName;
+	}
+
+
+
+	public String getColName() {
+		return colName;
+	}
+
+
+
+	public void setColName(String colName) {
+		this.colName = colName;
+	}
+
+
+
+	public String getNaStrings() {
+		return naStrings;
+	}
+
+
+
+	public void setNaStrings(String naStrings) {
+		this.naStrings = naStrings;
+	}
+
+
+
+	public String getCommentChar() {
+		return commentChar;
+	}
+
+
+
+	public void setCommentChar(String commentChar) {
+		this.commentChar = commentChar;
+	}
+
+
 
 	@Override
 	public String prepareForSending() {
-		// TODO Auto-generated method stub
-		return null;
+		String cmd = "read."+type+"("+path.getAbsolutePath()+")";
+		cmd += (header !=false ? ", header=\""+header+"\"" : "");
+		cmd += (sep != null ? ", sep=\""+sep+"\"" : "");
+		cmd += (quote != null ? ", quote=\""+quote+"\"" : "");
+		cmd += (dec != null ? ", dec=\""+dec+"\"" : "");
+		cmd += (rowName!=null ? "row.name=\""+rowName+"\"" :"");
+		cmd += (colName !=null ? "col.name=\""+colName+"\"" : "");
+		cmd += (naStrings != null ? "na.strings=\""+naStrings+"\"" : "");
+		cmd += (commentChar != null ? "comment.char=\""+commentChar+"\"" : "");
+		cmd += ")";
+		return cmd;
 	}
 
 

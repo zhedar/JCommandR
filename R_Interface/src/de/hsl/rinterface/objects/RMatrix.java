@@ -18,8 +18,8 @@ public class RMatrix<T> extends ArrayList<ArrayList<T>> implements RObject {
 	}
 
 	@Override
-	public RTypes getType() {
-		return RTypes.MATRIX;
+	public RObjectTypes getType() {
+		return RObjectTypes.MATRIX;
 	}
 
 	@Override

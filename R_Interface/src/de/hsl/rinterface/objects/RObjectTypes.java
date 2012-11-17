@@ -1,6 +1,6 @@
 package de.hsl.rinterface.objects;
 
-public enum RTypes {
+public enum RObjectTypes {
 
 	VECTOR , MATRIX, VALUE, REFERENCE;
 }

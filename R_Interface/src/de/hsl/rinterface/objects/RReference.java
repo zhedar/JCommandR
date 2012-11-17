@@ -20,8 +20,8 @@ public class RReference implements RObject {
 	}
 
 	@Override
-	public RTypes getType() {
-		return RTypes.REFERENCE;
+	public RObjectTypes getType() {
+		return RObjectTypes.REFERENCE;
 	}
 
 	@Override

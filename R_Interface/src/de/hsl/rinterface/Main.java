@@ -1,12 +1,14 @@
 package de.hsl.rinterface;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsl.rinterface.commands.RRead;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
-import de.hsl.rinterface.objects.RTypes;
+import de.hsl.rinterface.objects.RObjectTypes;
 import de.hsl.rinterface.objects.RVector;
 
 
@@ -53,13 +55,24 @@ public class Main
 		
 //		RPlot plot = new RPlot(new RVector());
 		
-		con.saveObject(new RVector(), "testvec");
-		RObject loaded = con.loadSavedObject("testvec");
-		if(loaded.getType()== RTypes.VECTOR)
-		{
-			RVector loadedVec = (RVector) loaded;
-			System.out.println(loadedVec.size());
+//		RVector<Double> rv = new RVector<>();
+//		
+//			con.saveObject(rv, "a");
+//		RObject loaded = con.loadSavedObject("a");
+//		if(loaded.getType()== RObjectTypes.VECTOR)
+//		{
+//			RVector loadedVec = (RVector) loaded;
+//			System.out.println(loadedVec.size());
+//		}
+		
+		try {
+			RRead read = new RRead("test.csv");
+			read.prepareForSending();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 			
 		con.close();
 		 

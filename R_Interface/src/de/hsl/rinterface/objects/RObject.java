@@ -15,6 +15,6 @@ public interface RObject {
 //    * @pdOid 2e936f6a-b4e2-4aa3-afa9-8ea335c24f39 */
 //   RObject load(String name);
    String toRString();
-   RTypes getType();
+   RObjectTypes getType();
 
 }

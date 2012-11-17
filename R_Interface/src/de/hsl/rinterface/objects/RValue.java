@@ -20,8 +20,8 @@ public void setValue(T t) {
 }
 
 @Override
-public RTypes getType() {
-	return RTypes.VALUE;
+public RObjectTypes getType() {
+	return RObjectTypes.VALUE;
 }
 
 @Override
