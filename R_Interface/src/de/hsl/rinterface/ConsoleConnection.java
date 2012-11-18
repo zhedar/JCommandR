@@ -141,7 +141,7 @@ public class ConsoleConnection implements Connection
 			pWr.flush();
 		
 			//Eingabe drin, auf Ausgabe horchen
-			while(!outRd.ready() && !pWr.checkError()) //TODO �berpr�fen: checkError richtig angewandt? 
+			while(!outRd.ready() && !pWr.checkError())
 				try 
 				{
 					Thread.sleep(50);
@@ -166,8 +166,6 @@ public class ConsoleConnection implements Connection
 	@Override
 	public RObject sendCmd(RCommand cmd) throws RException
 	{
-//		pWr.println("jpeg(\"testplot.jpg\")");
-//		pWr.flush();
 		return sendCmd(cmd.prepareForSending());
 	}
 
@@ -241,13 +239,18 @@ public class ConsoleConnection implements Connection
 	@Override
 	public RReference sendCmd(String cmd, String name) throws RException
 	{
-		return null; //name + "<-" + cmd;
+		sendCmdVoid(name + "<-" +cmd);
+		
+		return new RReference(name);
 	}
 
 	@Override
-	public RReference sendCmd(RCommand cmd, String name) {
-		// TODO Auto-generated method stub
-		String sendcmd = name + "<-" +cmd.prepareForSending();
-		return null;
+	public RReference sendCmd(RCommand cmd, String name) throws RException {
+		return sendCmd(cmd.prepareForSending(), name);
+	}
+
+	@Override
+	public void sendCmdVoid(RCommand cmd) throws RException {
+		sendCmdVoid(cmd.prepareForSending());
 	}
 }

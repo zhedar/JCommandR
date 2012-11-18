@@ -6,7 +6,6 @@ package de.hsl.rinterface;
  * Purpose: Defines the Interface Connection
  ***********************************************************************/
 
-import java.nio.ReadOnlyBufferException;
 import java.util.List;
 
 import de.hsl.rinterface.commands.RCommand;
@@ -15,9 +14,10 @@ import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RReference;
 
 /**
- * @pdOid e6210a27-8e1e-4a76-bcad-337c166cb6c3 Schnittstelle, die Verbindungen
- *        erfüllen müssen, um eine Verbindung zu einer R-Laufzeitumgebung
- *        herzustellen.
+ * @pdOid e6210a27-8e1e-4a76-bcad-337c166cb6c3 
+ * 		Schnittstelle, die Verbindungen
+ *      erfüllen müssen, um eine Verbindung zu einer R-Laufzeitumgebung
+ *      herzustellen.
  */
 public interface Connection 
 {
@@ -40,34 +40,76 @@ public interface Connection
 	boolean isAlive();
 
 	/**
-	 * @param cmd
+	 * Sendet einen Befehl an den R-Prozess und blockt
+	 * bis eine Antwort eintrifft.<br> Befehle sollten einzelne
+	 * Anweisungen sein, da es sonst Probleme bei der Auswertung
+	 * geben kann.
+	 * @param cmd der zu sendende Befehl
 	 * @throws RException
 	 * @pdOid 22f909e0-bb81-4af9-8822-9463eee5e9fd
 	 */
 	RObject sendCmd(String cmd) throws RException;
 
 	/**
+	 * * Sendet einen vorgefertigten Befehl({@link RCommand}) an den R-Prozess und blockt
+	 * bis eine Antwort eintrifft.
 	 * @param cmd
 	 * @throws RException
 	 * @pdOid 29da57f2-9615-46b9-bd33-8931bbaa23c6
 	 */
 	RObject sendCmd(RCommand cmd) throws RException;
-
+	
+	/**
+	
+	 * Sendet einen Befehl an den R-Prozess und blockt
+	 * bis eine Antwort eintrifft. Verarbeitet das Ergebnis
+	 * nicht, sondern gibt es nur zurück.
+	 * @param cmd der zu sendende Befehl
+	 * @return Ergebnisausgabe des R-Prozesses, z.B. "[1] 0.0034"
+	 * @throws RException
+	 */
 	String sendCmdRaw(String cmd) throws RException;
-
+	/**
+	 * Sendet einen Befehl an den R-Prozess, ohne zu blocken oder
+	 * eine Antwort zurückzugeben.<br> Sollte nur verwendet werden, wenn
+	 * keine Antwort erwartet wird, da diese sonst fälschlicherweise
+	 * der nächste Anfrage zugeteilt werden kann.
+	 * @param cmd der zu sendende Befehl
+	 * @throws RException
+	 */
 	void sendCmdVoid(String cmd) throws RException;
-
+	/**
+	 * Sendet einen vorgefertigten Befehl({@link RCommand}) an den R-Prozess, 
+	 * ohne zu blocken oder eine Antwort zurückzugeben.<br>
+	 * Sollte nur verwendet werden, wenn
+	 * keine Antwort erwartet wird, da diese sonst fälschlicherweise
+	 * der nächste Anfrage zugeteilt werden kann.
+	 * @param cmd der zu sendende Befehl
+	 * @throws RException
+	 */
+	void sendCmdVoid(RCommand cmd) throws RException;
+	
+	/**
+	 * Sendet einen Befehl an den R-Prozess,
+	 * speichert ihn im aktuellen Workspace und liefert eine {@link RReference}
+	 * auf ihn zurück. Blockt nicht, bis die Variable gespeichert wurde.
+	 * @param cmd der zu sendende Befehl
+	 * @param name der Name der Varibalen, in der das Ergebnis gespeichert werden soll
+	 * @return {@link RReference} auf name
+	 * @throws RException
+	 */
 	RReference sendCmd(String cmd, String name) throws RException;
 	/**
-	 * 
-	 * @param cmd
-	 * @param name
-	 * @return
+	 * Sendet einen vorgefertigten Befehl({@link RCommand}) an den R-Prozess,
+	 * speichert ihn im aktuellen Workspace und liefert eine {@link RReference}
+	 * auf ihn zurück. Blockt nicht, bis die Variable gespeichert wurde.
+	 * @param cmd der zu sendende Befehl
+	 * @param name der Name der Varibalen, in der das Ergebnis gespeichert werden soll
+	 * @return {@link RReference} auf name
 	 * @throws RException
 	 */
 	RReference sendCmd(RCommand cmd, String name) throws RException;
 
-	
 	
 	/**
 	 * Lädt ein gespeichertes Objekt aus dem aktuellen Workspace.
