@@ -1,15 +1,11 @@
 package de.hsl.rinterface;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hsl.rinterface.commands.RRead;
 import de.hsl.rinterface.exception.RException;
-import de.hsl.rinterface.objects.RObject;
-import de.hsl.rinterface.objects.RObjectTypes;
-import de.hsl.rinterface.objects.RVector;
 
 
 public class Main 
@@ -64,16 +60,18 @@ public class Main
 //			RVector loadedVec = (RVector) loaded;
 //			System.out.println(loadedVec.size());
 //		}
+//
+//		try {
+//			RRead read = new RRead("test.csv");
+//			read.prepareForSending();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
-		try {
-			RRead read = new RRead("test.csv");
-			read.prepareForSending();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println(con.sendCmdRaw(new RRead("C:\\test.csv").prepareForSending()));
+		System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 		
-			
 		con.close();
 		 
 	}

@@ -1,11 +1,22 @@
 package de.hsl.rinterface.commands;
 
 /***********************************************************************
- * Module: RRead.java Author: tobo1987 Purpose: Defines the Class RRead
+ * Module: RRead.java 
+ * Author: Tobias Steinmetzer
+ * Purpose: Defines the Class RRead
  ***********************************************************************/
+
+/**
+ * Classe zum erstellen eines Read-Befehls f�r R.
+ * Beschreibung:
+ * Reads a file in table format and creates a data frame from it, 
+ * with cases corresponding to lines and variables to fields in the file. 
+ */
 
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import de.hsl.rinterface.RParser;
 
 /** @pdOid 2fd80f5b-c8a9-4d29-aa6f-077440217b27 */
 public class RRead implements RCommand {
@@ -13,7 +24,7 @@ public class RRead implements RCommand {
 	
 	// TODO eventuell kann er noch nicht mit dem Pfad umgehen. Dies muss getestet werden. 
 	private RReadTypes type;
-	private File path;
+	private File file;
 	private boolean header;
 	private String sep;
 	private String quote;
@@ -23,10 +34,15 @@ public class RRead implements RCommand {
 	private String naStrings;
 	private String commentChar;
 
-	public RRead(File path) throws FileNotFoundException {
+	/**
+	 * 
+	 * @param path
+	 * @throws FileNotFoundException
+	 */
+	public RRead(File file) throws FileNotFoundException {
 		this.type = RReadTypes.TABLE;
-		if (path.exists())
-			this.path = path;
+		if (file.exists())
+			this.file = file;
 		else
 			throw new FileNotFoundException("Die Datei wurde nicht gefunden");
 	}
@@ -35,7 +51,7 @@ public class RRead implements RCommand {
 		this.type = RReadTypes.TABLE;
 		File file = new File(path);
 		if (file.exists())
-			this.path = file;
+			this.file = file;
 		else
 			throw new FileNotFoundException("Die Datei wurde nicht gefunden");
 	}
@@ -49,12 +65,12 @@ public class RRead implements RCommand {
 	}
 
 	public File getPath() {
-		return path.getAbsoluteFile();
+		return file.getAbsoluteFile();
 	}
 
 	public void setPath(File path) throws FileNotFoundException {
 		if (path.exists())
-			this.path = path;
+			this.file = path;
 		else
 			throw new FileNotFoundException("Die Datei wurde nicht gefunden");
 	}
@@ -125,7 +141,9 @@ public class RRead implements RCommand {
 
 	@Override
 	public String prepareForSending() {
-		String cmd = "read." + type + "(" + path.getAbsolutePath() + ")";
+		
+		String path = new RParser().getRPath(file.getAbsolutePath());
+		String cmd = "read." + type + "(" + path + ")";
 		cmd += (header != false ? ", header=\"" + header + "\"" : "");
 		cmd += (sep != null ? ", sep=\"" + sep + "\"" : "");
 		cmd += (quote != null ? ", quote=\"" + quote + "\"" : "");
@@ -138,5 +156,4 @@ public class RRead implements RCommand {
 		cmd += ")";
 		return cmd;
 	}
-
 }
