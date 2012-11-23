@@ -73,8 +73,8 @@ public class Main
 //			e.printStackTrace();
 //		}
 		
-		System.out.println(con.sendCmdRaw(new RRead("C:\\test.csv").prepareForSending()));
-		System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+		con.sendCmdVoid(new RRead("C:\\test.csv").prepareForSending());
+		//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 		
 		con.close();
 		 

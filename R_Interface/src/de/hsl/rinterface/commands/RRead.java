@@ -145,7 +145,8 @@ public class RRead implements RCommand {
 	public String prepareForSending() {
 		
 		String path = new RParser().getRPath(file.getAbsolutePath());
-		String cmd = "read." + type + "(" + path + ")";
+		
+		String cmd = "read." + type + "(\"" + path + "\"";
 		cmd += (header != false ? ", header=\"" + header + "\"" : "");
 		cmd += (sep != null ? ", sep=\"" + sep + "\"" : "");
 		cmd += (quote != null ? ", quote=\"" + quote + "\"" : "");
@@ -156,6 +157,7 @@ public class RRead implements RCommand {
 		cmd += (commentChar != null ? "comment.char=\"" + commentChar + "\""
 				: "");
 		cmd += ")";
+		System.out.println(cmd);
 		return cmd;
 	}
 }
