@@ -257,4 +257,9 @@ public class ConsoleConnection implements Connection
 	public void sendCmdVoid(RCommand cmd) throws RException {
 		sendCmdVoid(cmd.prepareForSending());
 	}
+
+	@Override
+	public String sendCmdRaw(RCommand cmd) throws RException {
+		return sendCmdRaw(cmd.prepareForSending());
+	}
 }

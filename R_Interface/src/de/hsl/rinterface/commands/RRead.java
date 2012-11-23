@@ -11,6 +11,42 @@ package de.hsl.rinterface.commands;
  * Beschreibung:
  * Reads a file in table format and creates a data frame from it, 
  * with cases corresponding to lines and variables to fields in the file. 
+ * 
+ * Benutzung:
+ * read.table(file, header = FALSE, sep = "", quote = "\"'",
+ *          dec = ".", row.names, col.names,
+ *          as.is = !stringsAsFactors,
+ *          na.strings = "NA", colClasses = NA, nrows = -1,
+ *          skip = 0, check.names = TRUE, fill = !blank.lines.skip,
+ *          strip.white = FALSE, blank.lines.skip = TRUE,
+ *          comment.char = "#",
+ *          allowEscapes = FALSE, flush = FALSE,
+ *          stringsAsFactors = default.stringsAsFactors(),
+ *          fileEncoding = "", encoding = "unknown", text)
+ *
+ * read.csv(file, header = TRUE, sep = ",", quote="\"", dec=".",
+ *         fill = TRUE, comment.char="", ...)
+ *
+ * read.csv2(file, header = TRUE, sep = ";", quote="\"", dec=",",
+ *         fill = TRUE, comment.char="", ...)
+ *
+ * read.delim(file, header = TRUE, sep = "\t", quote="\"", dec=".",
+ *          fill = TRUE, comment.char="", ...)
+ *
+ * read.delim2(file, header = TRUE, sep = "\t", quote="\"", dec=",",
+ *          fill = TRUE, comment.char="", ...)
+ *          
+ * Parameter:
+ * header - 		a logical value indicating whether the file contains the names of the variables as its first line. If missing, the value is determined from the file format: header is set to TRUE if and only if the first row contains one fewer field than the number of columns.
+ * sep - 			the field separator character. Values on each line of the file are separated by this character. If sep = "" (the default for read.table) the separator is �white space�, that is one or more spaces, tabs, newlines or carriage returns.
+ * quote - 			the set of quoting characters. To disable quoting altogether, use quote = "". See scan for the behaviour on quotes embedded in quotes. Quoting is only considered for columns read as character, which is all of them unless colClasses is specified.
+ * dec - 			the character used in the file for decimal points.
+ * row.names - 		a vector of row names. This can be a vector giving the actual row names, or a single number giving the column of the table which contains the row names, or character string giving the name of the table column containing the row names.
+ * 					If there is a header and the first row contains one fewer field than the number of columns, the first column in the input is used for the row names. Otherwise if row.names is missing, the rows are numbered.
+ * 					Using row.names = NULL forces row numbering. Missing or NULL row.names generate row names that are considered to be �automatic� (and not preserved by as.matrix).
+ * col.names - 		a vector of optional names for the variables. The default is to use "V" followed by the column number.
+ * na.strings -		a character vector of strings which are to be interpreted as NA values. Blank fields are also considered to be missing values in logical, integer, numeric and complex fields.
+ * comment.char -	character: a character vector of length one containing a single character or an empty string. Use "" to turn off the interpretation of comments altogether.
  */
 
 import java.io.File;
@@ -18,11 +54,10 @@ import java.io.FileNotFoundException;
 
 import de.hsl.rinterface.RParser;
 
+
 /** @pdOid 2fd80f5b-c8a9-4d29-aa6f-077440217b27 */
 public class RRead implements RCommand {
 
-	
-	// TODO eventuell kann er noch nicht mit dem Pfad umgehen. Dies muss getestet werden. 
 	private RReadTypes type;
 	private File file;
 	private boolean header;
@@ -139,11 +174,14 @@ public class RRead implements RCommand {
 		this.commentChar = commentChar;
 	}
 
+	/**
+	 * Bereitet den Read-Befehl als R-Kommando vor.
+	 */
 	@Override
 	public String prepareForSending() {
+		String path = new RParser().getRPath(file.getAbsolutePath());	
+		String cmd = "read." + type + "(\"" + path + "\"";
 		
-		String path = new RParser().getRPath(file.getAbsolutePath());
-		String cmd = "read." + type + "(" + '\"' + path + '\"';
 		cmd += (header != false ? ", header=\"" + header + "\"" : "");
 		cmd += (sep != null ? ", sep=\"" + sep + "\"" : "");
 		cmd += (quote != null ? ", quote=\"" + quote + "\"" : "");
@@ -154,6 +192,7 @@ public class RRead implements RCommand {
 		cmd += (commentChar != null ? "comment.char=\"" + commentChar + "\""
 				: "");
 		cmd += ")";
+		//System.out.println(cmd);
 		return cmd;
 	}
 }

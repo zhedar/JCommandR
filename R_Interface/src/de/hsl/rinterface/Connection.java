@@ -60,7 +60,6 @@ public interface Connection
 	RObject sendCmd(RCommand cmd) throws RException;
 	
 	/**
-	
 	 * Sendet einen Befehl an den R-Prozess und blockt
 	 * bis eine Antwort eintrifft. Verarbeitet das Ergebnis
 	 * nicht, sondern gibt es nur zurück.
@@ -69,6 +68,16 @@ public interface Connection
 	 * @throws RException
 	 */
 	String sendCmdRaw(String cmd) throws RException;
+	
+	/**
+	 * Sendet vorgefertigten Befehl({@link RCommand}) an den 
+	 * R-Prozess und blockt bis eine Antwort eintrifft.
+	 * Verarbeitet das Ergebnis nicht, sondern gibt es nur zurück.
+	 * @param cmd der zu sendende Befehl
+	 * @return Ergebnisausgabe des R-Prozesses, z.B. "[1] 0.0034"
+	 * @throws RException
+	 */
+	String sendCmdRaw(RCommand cmd) throws RException;
 	/**
 	 * Sendet einen Befehl an den R-Prozess, ohne zu blocken oder
 	 * eine Antwort zurückzugeben.<br> Sollte nur verwendet werden, wenn
