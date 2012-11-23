@@ -1,5 +1,6 @@
 package de.hsl.rinterface;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,9 @@ public class Main
 //			e.printStackTrace();
 //		}
 		
-		System.out.println(con.sendCmdRaw(new RRead("C:\\test.csv").prepareForSending()));
+		RRead reader = new RRead(new File("test.csv"));
+		System.out.println(reader.prepareForSending());
+		System.out.println(con.sendCmdRaw(new RRead("test.csv").prepareForSending()));
 		System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 		
 		con.close();

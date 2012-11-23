@@ -194,9 +194,13 @@ public class ConsoleConnection implements Connection
 					e.printStackTrace();
 				}
 			
+			if(errRd.ready())
+				System.err.println(errRd.readLine());
 			while(outRd.ready())
 			{
 				outputStr += (char) outRd.read();
+				if(errRd.ready())
+					System.err.println(errRd.readLine());
 			}
 			
 			return outputStr;
