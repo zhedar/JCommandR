@@ -2,7 +2,7 @@ package de.hsl.rinterface.commands;
 
 public enum RReadTypes {
 
-	TABLE ("table"), CVS ("cvs"), CVS2 ("cvs2"), DELIM ("delim"), DELIM2 ("delim2");
+	TABLE ("table"), CSV ("csv"), CSV2 ("csv2"), DELIM ("delim"), DELIM2 ("delim2");
 	
 	
 	private final String type; 
@@ -16,7 +16,4 @@ public enum RReadTypes {
 		return type;		
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(RReadTypes.CVS2);
-	}
 }

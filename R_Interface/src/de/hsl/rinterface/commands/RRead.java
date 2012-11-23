@@ -6,9 +6,6 @@ package de.hsl.rinterface.commands;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
-
-import de.hsl.rinterface.objects.RObject;
 
 /** @pdOid 2fd80f5b-c8a9-4d29-aa6f-077440217b27 */
 public class RRead implements RCommand {

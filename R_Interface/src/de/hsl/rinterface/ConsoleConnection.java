@@ -141,7 +141,7 @@ public class ConsoleConnection implements Connection
 			pWr.flush();
 		
 			//Eingabe drin, auf Ausgabe horchen
-			while(!outRd.ready() && !pWr.checkError())
+			while(!outRd.ready() && !pWr.checkError()) //TODO errRd.ready() hinzufügen
 				try 
 				{
 					Thread.sleep(50);

@@ -29,10 +29,10 @@ public class RParser {
 		// String nach Zeilen seperieren
 //		String[] zeilen = string.split(Pattern.quote(System.getProperty("line.separator")));
 		List<String> grobentwurf = new ArrayList<>();
-		// unwichtige Zeilen löschen
+		// unwichtige Zeilen lï¿½schen
 		Pattern pGrob = Pattern.compile(".*\\[.*\\].*");
 		Matcher m;
-		//zeilenweises Verarbeiten, platformunabhängig durch Scanner
+		//zeilenweises Verarbeiten, platformunabhï¿½ngig durch Scanner
 		Scanner scanner = new Scanner(string);
 		   while (scanner.hasNextLine())
 		   {
@@ -50,17 +50,17 @@ public class RParser {
 //				grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt das mit Pattern nicht?
 //		}
 		//System.out.println("\n\n" + grobentwurf.get(0));
-		// Pattern zum Prüfen einer Matrix
+		// Pattern zum Prï¿½fen einer Matrix
 		Pattern pMatrix = Pattern.compile(".*\\[.*,.*\\].*");
 		if(grobentwurf.size()==0)
-			throw new IllegalArgumentException("Rückgabetyp besitzt die Länge == 0");
+			throw new IllegalArgumentException("Rï¿½ckgabetyp besitzt die Lï¿½nge == 0");
 		m = pMatrix.matcher(grobentwurf.get(0));
 		if (m.matches()) {
 			//System.out.println("Matrix");
 			// Parsen der Matrix
-			RMatrix<Double> rm = new RMatrix();
+			RMatrix<Double> rm = new RMatrix<>();
 			List<Double> zeilenListe = new ArrayList<>();
-			// Prüfung für eine Tabellenkopfzeile
+			// Prï¿½fung fï¿½r eine Tabellenkopfzeile
 			Pattern pHead = Pattern.compile(".*\\[,\\d.*\\].*");
 			int maxzeile=-1;
 			int zeile=0;
@@ -92,13 +92,13 @@ public class RParser {
 //			ro=rm;
 			return rm;
 		}
-		// Pattern zum Prüfen eines Vektors
+		// Pattern zum Prï¿½fen eines Vektors
 		Pattern pVector = Pattern.compile(".*\\[.*\\].*");
 		m = pVector.matcher(grobentwurf.get(0));
 		if (m.matches()) {
 			System.out.println("Vektor");
 			// Parsen des Vektors
-			RVector rv = new RVector();
+			RVector<Double> rv = new RVector<>();
 			for (int i = 0; i < grobentwurf.size(); i++) {
 				String[] zeil = grobentwurf.get(i).split("\\s");
 				for (int j = 1; j < zeil.length; j++) {
@@ -106,7 +106,7 @@ public class RParser {
 				}
 			}
 			if(rv.size()==1){
-				RValue rs = new RValue();
+				RValue<Double> rs = new RValue<>();
 				rs.setValue(rv.get(0));
 				return rs;
 			}
