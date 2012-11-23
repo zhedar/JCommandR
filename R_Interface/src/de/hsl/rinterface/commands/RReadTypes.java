@@ -1,3 +1,13 @@
+/***********************************************************************
+ * Module:  RReadTypes.java
+ * Author:  Tobias Steinmetzer
+ * Purpose: Defines the Class RReadTypes
+ ***********************************************************************/
+
+/**
+ * Eine Enumeration für verschiedene Modi zum auslesen von Daten aus Dateien.
+ */
+
 package de.hsl.rinterface.commands;
 
 public enum RReadTypes {

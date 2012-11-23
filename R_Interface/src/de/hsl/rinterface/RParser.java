@@ -1,10 +1,12 @@
 package de.hsl.rinterface;
+
 /***********************************************************************
  * Module:  RParser.java
  * Author:  tobo1987
  * Purpose: Defines the Class RParser
  ***********************************************************************/
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,78 +20,81 @@ import de.hsl.rinterface.objects.RVector;
 
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
 public class RParser {
-   
-//	/** @pdRoleInfo migr=no name=RObject assc=association4 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Aggregation */
-//   public java.util.Collection<RObject> rObject;
-   
-   /** @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a */
-   public RObject construct(String string) {
-//	   System.out.println(string);
-//	   	RObject ro = null;
+
+	// /** @pdRoleInfo migr=no name=RObject assc=association4
+	// coll=java.util.Collection impl=java.util.HashSet mult=0..*
+	// type=Aggregation */
+	// public java.util.Collection<RObject> rObject;
+
+	/** @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a */
+	public RObject construct(String string) {
+		// System.out.println(string);
+		// RObject ro = null;
 		// String nach Zeilen seperieren
-//		String[] zeilen = string.split(Pattern.quote(System.getProperty("line.separator")));
+		// String[] zeilen =
+		// string.split(Pattern.quote(System.getProperty("line.separator")));
 		List<String> grobentwurf = new ArrayList<>();
 		// unwichtige Zeilen löschen
 		Pattern pGrob = Pattern.compile(".*\\[.*\\].*");
 		Matcher m;
-		//zeilenweises Verarbeiten, platformunabhängig durch Scanner
+		// zeilenweises Verarbeiten, platformunabhängig durch Scanner
 		Scanner scanner = new Scanner(string);
-		   while (scanner.hasNextLine())
-		   {
-		     String line = scanner.nextLine();
-		     m = pGrob.matcher(line);
-		     if (m.matches())
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			m = pGrob.matcher(line);
+			if (m.matches())
 				grobentwurf.add(line);
-		   }
-		   scanner.close();
-//		System.out.println(grobentwurf.get(0));
-//		for (int i = 0; i < zeilen.length; i++) {
-//			m = pGrob.matcher(zeilen[i]);
-//			System.out.println(zeilen[i] + m.matches());
-//			if (m.matches())
-//				grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt das mit Pattern nicht?
-//		}
-		//System.out.println("\n\n" + grobentwurf.get(0));
+		}
+		scanner.close();
+		// System.out.println(grobentwurf.get(0));
+		// for (int i = 0; i < zeilen.length; i++) {
+		// m = pGrob.matcher(zeilen[i]);
+		// System.out.println(zeilen[i] + m.matches());
+		// if (m.matches())
+		// grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt
+		// das mit Pattern nicht?
+		// }
+		// System.out.println("\n\n" + grobentwurf.get(0));
 		// Pattern zum Prüfen einer Matrix
 		Pattern pMatrix = Pattern.compile(".*\\[.*,.*\\].*");
-		if(grobentwurf.size()==0)
-			throw new IllegalArgumentException("Rückgabetyp besitzt die Länge == 0");
+		if (grobentwurf.size() == 0)
+			throw new IllegalArgumentException(
+					"Rückgabetyp besitzt die Länge == 0");
 		m = pMatrix.matcher(grobentwurf.get(0));
 		if (m.matches()) {
-			//System.out.println("Matrix");
+			// System.out.println("Matrix");
 			// Parsen der Matrix
 			RMatrix<Double> rm = new RMatrix();
 			List<Double> zeilenListe = new ArrayList<>();
 			// Prüfung für eine Tabellenkopfzeile
 			Pattern pHead = Pattern.compile(".*\\[,\\d.*\\].*");
-			int maxzeile=-1;
-			int zeile=0;
+			int maxzeile = -1;
+			int zeile = 0;
 			for (int i = 0; i < grobentwurf.size(); i++) {
 				m = pHead.matcher(grobentwurf.get(i));
-				if(m.matches()){
+				if (m.matches()) {
 					maxzeile = zeile;
 					zeile = 0;
 					continue;
 				}
-				String[] zeil=grobentwurf.get(i).split("\\s+");
+				String[] zeil = grobentwurf.get(i).split("\\s+");
 				for (int j = 1; j < zeil.length; j++) {
-					//System.out.println(Double.parseDouble(zeil[j]));
+					// System.out.println(Double.parseDouble(zeil[j]));
 					zeilenListe.add(Double.parseDouble(zeil[j]));
 				}
-				
-				if(zeile >= maxzeile){
-					//System.out.println(zeile);
+
+				if (zeile >= maxzeile) {
+					// System.out.println(zeile);
 					rm.add(new ArrayList<Double>(zeilenListe));
-				}
-				else{
-					//System.out.println(zeile);
+				} else {
+					// System.out.println(zeile);
 					rm.get(zeile).addAll(zeilenListe);
 				}
 				zeilenListe.clear();
 				zeile++;
-				
+
 			}
-//			ro=rm;
+			// ro=rm;
 			return rm;
 		}
 		// Pattern zum Prüfen eines Vektors
@@ -105,7 +110,7 @@ public class RParser {
 					rv.add(Double.parseDouble(zeil[j]));
 				}
 			}
-			if(rv.size()==1){
+			if (rv.size() == 1) {
 				RValue rs = new RValue();
 				rs.setValue(rv.get(0));
 				return rs;
@@ -113,5 +118,14 @@ public class RParser {
 			return rv;
 		}
 		return null;
-   }
+	}
+
+	/**
+	 * Diese Methode ersetzt alle "\" durch "/", da R den Pfad mit Slash trennt.
+	 * @param absolutePath - Ist der Absolute Pfad der Datei
+	 * @return Gibt einen Pfad zurück mit dem R umgehen kann
+	 */
+	public String getRPath(String absolutePath) {
+		return absolutePath.replace("\\", "/");
+	}
 }
