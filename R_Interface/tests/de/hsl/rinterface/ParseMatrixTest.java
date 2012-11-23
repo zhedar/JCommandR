@@ -21,7 +21,7 @@ public class ParseMatrixTest
 	private List<String> argSave = new ArrayList<>();
 
 	@Before
-	public void init() throws IOException
+	public void init() throws IOException, RException
 	{
 		if (argSave.isEmpty())
 			argSave.add("-save");
@@ -36,8 +36,7 @@ public class ParseMatrixTest
 		{
 			RMatrix name = (RMatrix) ro;
 			Assert.assertNotNull(name);
-			Assert.assertTrue(name.size() == 5);
-			
+			Assert.assertTrue(name.size() == 5);			
 		}
 	}
 	
@@ -46,7 +45,6 @@ public class ParseMatrixTest
 	{
 
 	}
-	
 	
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException

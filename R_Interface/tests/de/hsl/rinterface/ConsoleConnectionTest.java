@@ -25,7 +25,7 @@ public class ConsoleConnectionTest
 	}
 
 	@Test
-	public void oneParamConstructor() throws IOException
+	public void oneParamConstructor() throws IOException, RException
 	{
 		con = new ConsoleConnection(argSave);
 		Assert.assertTrue("Verbindung besteht nicht mehr.", con.isAlive());
@@ -48,7 +48,8 @@ public class ConsoleConnectionTest
 		{
 			con.close();
 			Assert.assertFalse(
-					"Connection ist evtl. noch nicht zu. Prüfung zu schnell.",
+					"Connection ist evtl. noch nicht zu. PrÃ¼fung zu schnell, oder" +
+					"Trennung hat nicht funktioniert.",
 					con.isAlive());
 		}
 		catch (Exception e)
@@ -69,12 +70,12 @@ public class ConsoleConnectionTest
 	}
 	
 	@Test
-	public void showAllVars() throws IOException
+	public void showAllVars() throws IOException, RException
 	{
 		con = new ConsoleConnection(argSave);
 		List<String> vars = con.getAllVars();
 		Assert.assertNotNull(vars);
-		//TODO füllen und prüfen
+		//TODO fï¿½llen und prï¿½fen
 	}
 
 	@After

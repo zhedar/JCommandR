@@ -6,6 +6,7 @@ package de.hsl.rinterface;
  * Purpose: Defines the Interface Connection
  ***********************************************************************/
 
+import java.io.Closeable;
 import java.util.List;
 
 import de.hsl.rinterface.commands.RCommand;
@@ -19,26 +20,8 @@ import de.hsl.rinterface.objects.RReference;
  *      erfüllen müssen, um eine Verbindung zu einer R-Laufzeitumgebung
  *      herzustellen.
  */
-public interface Connection 
+public interface Connection extends Closeable, AutoCloseable
 {
-	/**
-	 * Schließt die Verbindung zum R-Prozess und aller Streams zu ihm. Versucht
-	 * den R-Prozess zu beenden und blockt bis zur Terminierung.
-	 * 
-	 * @throws InterruptedException
-	 *             falls der aktuelle Thread von einem anderen Thread
-	 *             unterbrochen wird, während er auf das Terminieren des
-	 *             R-Prozesses wartet. Das Warten wurde dann abgebrochen.
-	 * @throws RException falls Probleme beim Schließen auftraten
-	 * @pdOid a61f12ea-6797-4ed4-9806-8ae82df2ed87
-	 */
-	void close() throws InterruptedException, RException;
-
-	/** @pdOid e52857a7-cc5b-4beb-8ca8-10a178dd8d7e 
-	 * Testet, ob der R-Prozess hinter dieser Verbindung noch läuft.
-	 * @return true, wenn er noch nicht beendet wurde*/
-	boolean isAlive();
-
 	/**
 	 * Sendet einen Befehl an den R-Prozess und blockt
 	 * bis eine Antwort eintrifft.<br> Befehle sollten einzelne
@@ -140,4 +123,22 @@ public interface Connection
 	 * Liefert eine Liste von allen Variablen zurück, die im momentanen Workspace gespeichert sind.
 	 * @return {@link List} aller Namen*/
 	List<String> getAllVars();
+
+	/** @pdOid e52857a7-cc5b-4beb-8ca8-10a178dd8d7e 
+	 * Testet, ob der R-Prozess hinter dieser Verbindung noch läuft.
+	 * @return true, wenn er noch nicht beendet wurde*/
+	boolean isAlive();
+
+//	/**
+//	 * Schließt die Verbindung zum R-Prozess und aller Streams zu ihm. Versucht
+//	 * den R-Prozess zu beenden und blockt bis zur Terminierung.
+//	 * 
+//	 * @throws InterruptedException
+//	 *             falls der aktuelle Thread von einem anderen Thread
+//	 *             unterbrochen wird, während er auf das Terminieren des
+//	 *             R-Prozesses wartet. Das Warten wurde dann abgebrochen.
+//	 * @throws RException falls Probleme beim Schließen auftraten
+//	 * @pdOid a61f12ea-6797-4ed4-9806-8ae82df2ed87
+//	 */
+//	void close() throws InterruptedException, RException;
 }

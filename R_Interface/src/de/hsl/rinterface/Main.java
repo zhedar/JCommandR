@@ -2,8 +2,6 @@ package de.hsl.rinterface;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hsl.rinterface.commands.RRead;
 import de.hsl.rinterface.exception.RException;
@@ -11,7 +9,8 @@ import de.hsl.rinterface.exception.RException;
 
 public class Main 
 {
-	public static void main(String[] args) throws IOException, RException, InterruptedException
+	public static void main(String[] args) throws IOException, 
+			RException, InterruptedException
 	{
 //		int count = 0;
 //		List<Integer> list = new ArrayList<>();
@@ -32,11 +31,7 @@ public class Main
 //	
 //		System.out.println(listCmd);
 		
-		List<String> list = new ArrayList<>();
-		list.add("--save");
-
 		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe"
-		Connection con = new ConsoleConnection(list);
 
 		//anfänglicher Sleep nicht mehr benötigt, da der Konstruktoraufruf blockt, bis alles initialisiert ist
 //		RObject ro=con.sendCmd("matrix(1,5,20)");
@@ -61,21 +56,17 @@ public class Main
 //			RVector loadedVec = (RVector) loaded;
 //			System.out.println(loadedVec.size());
 //		}
-//
-//		try {
-//			RRead read = new RRead("test.csv");
-//			read.prepareForSending();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		RRead reader = new RRead(new File("test.csv"));
-		System.out.println(reader.prepareForSending());
-		System.out.println(con.sendCmdRaw(new RRead("test.csv").prepareForSending()));
-		System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-		
-		con.close();
-		 
+
+//		List<String> list = new ArrayList<>();
+//			list.add("--save");
+			
+		try(Connection con = new ConsoleConnection())
+		{
+			RRead reader = new RRead(new File("test.csv"));
+			System.out.println(reader.prepareForSending());
+			System.out.println(con.sendCmdRaw(new RRead("test.csv").prepareForSending()));
+			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+			System.out.println(con.sendCmdRaw("qwertz"));
+		}
 	}
 }
