@@ -7,31 +7,46 @@ import de.hsl.rinterface.objects.RObject;
  * Author:  Peggy Kübe
  * Purpose: Defines the Class RMedian
  ***********************************************************************/
-//median(c(100,700,1))
+/** 
+ * Median: median(x, na.rm = FALSE)
+ * x - an object for which a method has been defined, or a numeric vector containing the values whose median is to be computed.
+ * na.rm - a logical value indicating whether NA values should be stripped before the computation proceeds.
+ * 
+ * Beispiel:
+ * median(c(100,700,1))
+ */
 
 public class RMedian implements RCommand {
 
-	private RObject medianinput;
+	private RObject x;
+	private String na_rm;
 	
-	public RMedian(RObject input) {
-		this.medianinput = input;
+	public RMedian(RObject x) {
+		this.x = x;
 	}
 	
-	public RObject getInput() {
-		return medianinput;
+	public RObject getX() {
+		return x;
 	}
 
-	public void setInput(RObject input) {
-		this.medianinput = input;
+	public void setX(RObject x) {
+		this.x = x;
 	}
 
+	public String getNa_rm() {
+		return na_rm;
+	}
+
+	public void setNa_rm(String na_rm) {
+		this.na_rm = na_rm;
+	}
 
 	@Override
 	public String prepareForSending() {
 		
-		String medianoutput = "median("+medianinput.toRString()+")";
+		return"median("+x.toRString() + 
+				(na_rm !=null ? ", na.rm = " + na_rm : "") +")";
 		
-		return medianoutput;
 	}
 	
 }

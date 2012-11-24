@@ -7,13 +7,15 @@ import de.hsl.rinterface.objects.RObject;
  * Author:  Peggy Kübe
  * Purpose: Defines the Class RVar
  ***********************************************************************/
-/* Varianz: var(x, y = NULL, na.rm = FALSE, use)
- * x - a numeric vector, matrix or data frame.
- * y - NULL (default) or a vector, matrix or data frame with compatible dimensions to x. The default is equivalent to y = x (but more efficient).
+/** Varianz: var(x, y = NULL, na.rm = FALSE, use)
+ * x - a numeric Vector, matrix or data frame.
+ * y - NULL (default) or a vector, matrix or data frame with compatible dimensions to x.
+ * The default is equivalent to y = x (but more efficient).
  * na.rm - logical. Should missing values be removed?
  * use - an optional character string giving a method for computing covariances in the presence of missing values.
  * This must be (an abbreviation of) one of the strings "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs".
  * 
+ * Beispiel:
  * var(1:10)# 9.166667
  * var(1:5,1:5)# 2.5
  */

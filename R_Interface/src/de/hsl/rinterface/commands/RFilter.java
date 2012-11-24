@@ -7,7 +7,7 @@ import de.hsl.rinterface.objects.RObject;
  * Author:  Peggy Kübe
  * Purpose: Defines the Class RFilter
  ***********************************************************************/
-/*
+/**
  * filter(x, filter, method = c("convolution", "recursive"),
        sides = 2, circular = FALSE, init)
  * x - a univariate or multivariate time series.
@@ -17,16 +17,15 @@ import de.hsl.rinterface.objects.RObject;
  * if sides=2 they are centred around lag 0. In this case the length of the filter should be odd, but if it is even, more of the filter is forward in time than backward.
  * circular - for convolution filters only. If TRUE, wrap the filter around the ends of the series, otherwise assume external values are missing (NA).
  * init - for recursive filters only. Specifies the initial values of the time series just prior to the start value, in reverse time order. The default is a set of zeros.  
- */
-/*
- *	x <- 1:100
-	filter(x, rep(1, 3))
-	filter(x, rep(1, 3), sides = 1)
-	filter(x, rep(1, 3), sides = 1, circular = TRUE)
-	filter(presidents, rep(1,3))
-	
-	x<-c(1,2,3)
-	filter(x,2)
+ *
+ *Beispiel:
+ * x <- 1:100
+ * filter(x, rep(1, 3))
+ * filter(x, rep(1, 3), sides = 1)
+ * filter(x, rep(1, 3), sides = 1, circular = TRUE)
+ * filter(presidents, rep(1,3))
+ * y<-c(1,2,3)
+ * filter(y,2)
  */
 public class RFilter implements RCommand{
 
@@ -42,79 +41,53 @@ public class RFilter implements RCommand{
 		this.filter = filter;
 	}
 
-	
-	
 	public RObject getX() {
 		return x;
 	}
-
-
 
 	public void setX(RObject x) {
 		this.x = x;
 	}
 
-
-
 	public RObject getFilter() {
 		return filter;
 	}
-
-
 
 	public void setFilter(RObject filter) {
 		this.filter = filter;
 	}
 
-
-
 	public String getMethod() {
 		return method;
 	}
-
-
 
 	public void setMethod(String method) {
 		this.method = method;
 	}
 
-
-
 	public int getSides() {
 		return sides;
 	}
-
-
 
 	public void setSides(int sides) {
 		this.sides = sides;
 	}
 
-
-
 	public String getCircular() {
 		return circular;
 	}
-
-
 
 	public void setCircular(String circular) {
 		this.circular = circular;
 	}
 
-
-
 	public String getInit() {
 		return init;
 	}
 
-
-
 	public void setInit(String init) {
 		this.init = init;
 	}
-
-
 
 	@Override
 	public String prepareForSending() {
@@ -125,5 +98,4 @@ public class RFilter implements RCommand{
 				(init!=null ?  init : "")
 				 +")";
 	}
-
 }

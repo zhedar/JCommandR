@@ -7,12 +7,13 @@ import de.hsl.rinterface.objects.RObject;
  * Author:  Peggy Kübe
  * Purpose: Defines the Class RSD
  ***********************************************************************/
-/* Standardabweichung
+/** Standardabweichung
  * sd(x, na.rm = FALSE)
  * x - a numeric vector or an R object which is coercible to one by as.vector
  * Earlier versions of R allowed matrices or data frames for x, see below.
  * na.rm - logical. Should missing values be removed?
  * 
+ * Beispiel:
  * sd(1:2), sd(k)
  */
 

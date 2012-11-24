@@ -7,7 +7,7 @@ import de.hsl.rinterface.objects.RObject;
  * Author:  Peggy Kübe
  * Purpose: Defines the Class RTTest
  ***********************************************************************/
-/* t.test(x, y = NULL,
+/** t.test(x, y = NULL,
        alternative = c("two.sided", "less", "greater"),
        mu = 0, paired = FALSE, var.equal = FALSE,
        conf.level = 0.95, ...)
@@ -20,8 +20,10 @@ import de.hsl.rinterface.objects.RObject;
  * var.equal - a logical variable indicating whether to treat the two variances as being equal.
  * If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
  * conf.level - confidence level of the interval.
+ * 
+ * Beispiel:
+ * t.test(test)
  */
-//t.test(test)
 public class RTTest implements RCommand{
 
 	private RObject x;

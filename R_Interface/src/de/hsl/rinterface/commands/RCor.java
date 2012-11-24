@@ -7,7 +7,7 @@ import de.hsl.rinterface.objects.RObject;
  * Author:  Peggy Kübe
  * Purpose: Defines the Class RCor
  ***********************************************************************/
-/* Correlation: cor(x, y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))
+/** Correlation: cor(x, y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))
  * x - a numeric vector, matrix or data frame.
  * y - NULL (default) or a vector, matrix or data frame with compatible dimensions to x. The default is equivalent to y = x (but more efficient).
  * use - an optional character string giving a method for computing covariances in the presence of missing values.
@@ -15,6 +15,7 @@ import de.hsl.rinterface.objects.RObject;
  * method - a character string indicating which correlation coefficient (or covariance) is to be computed.
  * One of "pearson" (default), "kendall", or "spearman", can be abbreviated.
  * 
+ * Beispiel:
  * cor(1:10,2:11)# == 1
  */
 public class RCor implements RCommand{
@@ -29,21 +30,17 @@ public class RCor implements RCommand{
 		this.y = y;
 	}
 
-	
 	public RObject getX() {
 		return x;
 	}
-
 
 	public void setX(RObject x) {
 		this.x = x;
 	}
 
-
 	public RObject getY() {
 		return y;
 	}
-
 
 	public void setY(RObject y) {
 		this.y = y;
@@ -53,16 +50,13 @@ public class RCor implements RCommand{
 		return use;
 	}
 
-
 	public void setUse(String use) {
 		this.use = use;
 	}
 
-
 	public String getMethod() {
 		return method;
 	}
-
 
 	public void setMethod(String method) {
 		this.method = method;
@@ -74,5 +68,4 @@ public class RCor implements RCommand{
 				(use !=null ? ", use = \"" + use + "\"" : "") +
 				(method !=null ? ", method = \"" + method + "\"" : "") +")";
 	}
-
 }
