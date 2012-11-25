@@ -70,9 +70,10 @@ public class Main
 		catch(RException ex)
 		{
 			ex.printStackTrace();
-			Thread.sleep(1000);
 			System.out.println(con.isAlive());
 			System.out.println(con.sendCmdRaw("mean(c(3,2,6,4))"));
+			System.out.println(con.isAlive());
+			System.out.println(con.sendCmdRaw("max(c(1,2,3))"));
 			
 		}
 //		try(Connection con = new ConsoleConnection())

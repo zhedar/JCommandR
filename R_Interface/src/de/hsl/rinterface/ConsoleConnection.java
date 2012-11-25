@@ -62,13 +62,9 @@ public class ConsoleConnection implements Connection
 		{	//TODO logging
 			char c = (char) errRd.read();
 			errStr += c;
-//			System.out.println(c);
-//			System.err.println(errRd.readLine());
 		}
 		if(!errStr.isEmpty())
 			System.err.println(errStr);
-		
-		//Initialisierung fertig, block loesen
 	}
 	
 	public ConsoleConnection(List<String> args) throws IOException, RException
@@ -288,6 +284,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void rebuildConnection() throws IOException, RException
 	{
+		close();
 		procEndWatcherThread.interrupt();
 		if(pathAndArgs == null)
 			pathAndArgs =provideStandardArgs();
@@ -300,6 +297,9 @@ public class ConsoleConnection implements Connection
 					proc.getOutputStream())));
 		pWr = new PrintWriter(inWr);
 		
+		procEndWatcherThread = new ProcEndWatcherThread();
+		procEndWatcherThread.start();
+		
 		//Blocke bis zum Eintreffen der Willkommensnachricht
 		blockTillNextAnswer();
 		
@@ -311,8 +311,9 @@ public class ConsoleConnection implements Connection
 		String errStr = "";
 		while(errRd.ready())
 		{	//TODO logging
-			char c = (char) errRd.read();
-			errStr += c;
+//			char c = (char) errRd.read();
+//			errStr += c;
+			errStr += errRd.readLine();
 //			System.out.println(c);
 //			System.err.println(errRd.readLine());
 		}
