@@ -129,7 +129,7 @@ public class ConsoleConnection implements Connection
 			
 			blockTillNextAnswer();
 			
-			processErrors("Eingabe fehlerhaft.");
+			processErrors("Eingabe fehlerhaft: " + cmd);
 			while(outRd.ready())
 			{
 				outputStr += (char) outRd.read();
@@ -247,10 +247,11 @@ public class ConsoleConnection implements Connection
 		{
 			errStr += (char) errRd.read();
 		}
-		if(!errStr.isEmpty())
+		if(!errStr.isEmpty() && !errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]"))
 		{
+//			System.out.println(errStr);
 //			rebuildConnection(); TODO nochmal überdenken
-			throw new RException(errStr);
+//			throw new RException(errStr);
 		}
 			
 	}

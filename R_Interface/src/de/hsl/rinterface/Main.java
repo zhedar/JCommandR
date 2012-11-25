@@ -62,11 +62,9 @@ public class Main
 			
 		try(Connection con = new ConsoleConnection())
 		{
-			RRead reader = new RRead(new File("test.csv"));
-			System.out.println(reader.prepareForSending());
-			System.out.println(con.sendCmdRaw(new RRead("test.csv").prepareForSending()));
+//			System.out.println(con.sendCmdRaw(new RRead("test.csv")));
 			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			System.out.println(con.sendCmdRaw("qwertz"));
+//			System.out.println(con.sendCmdRaw("qwertz"));
 		}
 	}
 }
