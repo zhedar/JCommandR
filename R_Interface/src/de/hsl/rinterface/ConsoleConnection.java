@@ -245,13 +245,17 @@ public class ConsoleConnection implements Connection
 		String errStr = msg + " ";
 		while(errRd.ready())
 		{
-			errStr += (char) errRd.read();
+			char c = (char) errRd.read();
+			errStr += c;
+//			System.out.println("c:" + c);
 		}
-		if(!errStr.isEmpty() && !errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]"))
+		if(		!errStr.isEmpty() && 
+				!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
+				&& (errStr.length() != msg.length() +1))
 		{
 //			System.out.println(errStr);
 //			rebuildConnection(); TODO nochmal überdenken
-//			throw new RException(errStr);
+			throw new RException(errStr);
 		}
 			
 	}
