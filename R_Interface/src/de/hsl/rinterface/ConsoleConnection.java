@@ -137,7 +137,7 @@ public class ConsoleConnection implements Connection
 			}
 			processErrors();
 			
-			return "Erg: " + outputStr;
+			return outputStr;
 		}
 		catch (IOException e) 
 		{
@@ -249,12 +249,12 @@ public class ConsoleConnection implements Connection
 			errStr += c;
 //			System.out.println("c:" + c);
 		}
-		if(		!errStr.isEmpty() && 
-				!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
-				&& (errStr.length() != msg.length() +1))
-		{
+		if(	!errStr.isEmpty() && 
+			!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
+			&& (errStr.length() != msg.length() +1))
+		{	//TODO keine endgültige lösung
 //			System.out.println(errStr);
-//			rebuildConnection(); TODO nochmal überdenken
+			rebuildConnection(); // TODO nochmal überdenken
 			throw new RException(errStr);
 		}
 			

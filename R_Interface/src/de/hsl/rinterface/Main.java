@@ -59,12 +59,27 @@ public class Main
 
 //		List<String> list = new ArrayList<>();
 //			list.add("--save");
-			
-		try(Connection con = new ConsoleConnection())
+		Connection con = null;
+		try
 		{
-//			System.out.println(con.sendCmdRaw(new RRead("test.csv")));
+			con = new ConsoleConnection();
+			System.out.println(con.sendCmdRaw(new RRead("test.csv")));
 			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-//			System.out.println(con.sendCmdRaw("qwertz"));
+			System.out.println(con.sendCmdRaw("qwertz"));
 		}
+		catch(RException ex)
+		{
+			ex.printStackTrace();
+			Thread.sleep(1000);
+			System.out.println(con.isAlive());
+			System.out.println(con.sendCmdRaw("mean(c(3,2,6,4))"));
+			
+		}
+//		try(Connection con = new ConsoleConnection())
+//		{
+//			System.out.println(con.sendCmdRaw(new RRead("test.csv")));
+//			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw("qwertz"));
+//		}
 	}
 }
