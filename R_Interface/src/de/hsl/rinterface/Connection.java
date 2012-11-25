@@ -7,6 +7,7 @@ package de.hsl.rinterface;
  ***********************************************************************/
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 
 import de.hsl.rinterface.commands.RCommand;
@@ -128,6 +129,7 @@ public interface Connection extends Closeable, AutoCloseable
 	 * Testet, ob der R-Prozess hinter dieser Verbindung noch läuft.
 	 * @return true, wenn er noch nicht beendet wurde*/
 	boolean isAlive();
+	void rebuildConnection() throws IOException, RException;
 
 //	/**
 //	 * Schließt die Verbindung zum R-Prozess und aller Streams zu ihm. Versucht
