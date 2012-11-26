@@ -1,6 +1,5 @@
 package de.hsl.rinterface;
 
-import java.io.File;
 import java.io.IOException;
 
 import de.hsl.rinterface.commands.RRead;
@@ -74,6 +73,9 @@ public class Main
 			System.out.println(con.sendCmdRaw("mean(c(3,2,6,4))"));
 			System.out.println(con.isAlive());
 			System.out.println(con.sendCmdRaw("max(c(1,2,3))"));
+			System.out.println(con.isAlive());
+			System.out.println(con.sendCmdRaw("ls()"));
+			con.close();
 			
 		}
 //		try(Connection con = new ConsoleConnection())

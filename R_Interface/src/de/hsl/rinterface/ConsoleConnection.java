@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
@@ -23,10 +26,22 @@ public class ConsoleConnection implements Connection
 	private BufferedReader errRd, outRd;
 	private PrintWriter pWr;
 	private boolean isRunning;
+	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
 	private ProcEndWatcherThread procEndWatcherThread;
+	
+	static
+	{
+		try {
+			log.addHandler(new FileHandler("rinterface%u.log", 50000, 1, true));
+			log.setLevel(Level.WARNING);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	
 	public ConsoleConnection(String path, List<String> args) throws IOException, RException
 	{
@@ -35,36 +50,7 @@ public class ConsoleConnection implements Connection
 			pathAndArgs.add(path);
 			pathAndArgs.addAll(args);
 		this.pathAndArgs = pathAndArgs;
-		//Prozess starten
-		proc = new ProcessBuilder(pathAndArgs).start();
-		
-		procEndWatcherThread = new ProcEndWatcherThread();
-		procEndWatcherThread.start();
-		
-		errRd = new BufferedReader(new InputStreamReader(
-				proc.getErrorStream()));
-		outRd = new BufferedReader(new InputStreamReader(
-				proc.getInputStream()));
-		BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
-					proc.getOutputStream())));
-		pWr = new PrintWriter(inWr);
-		
-		//Blocke bis zum Eintreffen der Willkommensnachricht
-		blockTillNextAnswer();
-		
-		while(outRd.ready())
-		{	//Verwerfen
-			outRd.readLine();
-		}
-		//Moegliche Fehler, sowie Meldung abfangen, dass Workspace geladen wurde
-		String errStr = "";
-		while(errRd.ready())
-		{	//TODO logging
-			char c = (char) errRd.read();
-			errStr += c;
-		}
-		if(!errStr.isEmpty())
-			System.err.println(errStr);
+		initCon();
 	}
 	
 	public ConsoleConnection(List<String> args) throws IOException, RException
@@ -118,6 +104,7 @@ public class ConsoleConnection implements Connection
 	{
 		try
 		{
+			log.info("Sende Kommando: " + cmd);
 			String outputStr = "";
 			pWr.println(cmd);
 			pWr.flush();
@@ -148,6 +135,7 @@ public class ConsoleConnection implements Connection
 
 	@Override
 	public void sendCmdVoid(String cmd) throws RException {
+		log.info("Sende Kommando ohne Rückgabe(void): " + cmd);
 		pWr.println(cmd);
 		pWr.flush();
 		//Eingabe drin
@@ -189,7 +177,7 @@ public class ConsoleConnection implements Connection
 		 * @throws IOException falls der Prozess bereits beendet sein sollte
 		 */
 	@Override
-	public void close() { //TODO in anderen Thread verschieben= nonblocking machen?
+	public void close() {
 		// Gebe Befehl zum Schlie�en der Anwendung
 		try {
 			sendCmdVoid("q()");
@@ -203,16 +191,12 @@ public class ConsoleConnection implements Connection
 			pWr.close();
 			// //kill, falls noch nicht erfolgt
 			// proc.destroy();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (RException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// kann nicht sinnvoll behandelt werden, ignorieren
-			// throw new RException(e);
 		}
+		catch (Exception e)
+		{
+			log.warning("Exception in close: " + e.getMessage() );
+		}
+		
 	}
 
 	//Hilfsmethoden
@@ -233,26 +217,34 @@ public class ConsoleConnection implements Connection
 		}
 	}
 	
-	private void processErrors(String msg) throws IOException, RException
+	private void processErrors(String msg) throws RException
 	{
 		if(pWr.checkError())
 			throw new RException("Fehler beim Senden der Anforderung.");
-		
-		String errStr = msg + " ";
-		while(errRd.ready())
+		try
 		{
-			char c = (char) errRd.read();
-			errStr += c;
-//			System.out.println("c:" + c);
+			String errStr = msg + " ";
+			while(errRd.ready())
+			{
+				char c = (char) errRd.read();
+				errStr += c;
+//				System.out.println("c:" + c);
+			}
+			if(	!errStr.isEmpty() && 
+				!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
+				&& (errStr.length() != msg.length() +1))
+			{
+				rebuildConnection(); // TODO nochmal überdenken
+				log.warning("Fehler ausgelesen: " + errStr);
+				throw new RException(errStr);
+			}
 		}
-		if(	!errStr.isEmpty() && 
-			!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
-			&& (errStr.length() != msg.length() +1))
-		{	//TODO keine endgültige lösung
-//			System.out.println(errStr);
-			rebuildConnection(); // TODO nochmal überdenken
-			throw new RException(errStr);
+		catch (IOException e)
+		{
+			log.throwing("ConsoleConnection", "processErrors", e);
+			throw new RException("Fehler beim Fehlerauslesen. Ausführung ist möglichweise nicht mehr sicher.", e);
 		}
+		
 			
 	}
 	
@@ -274,11 +266,16 @@ public class ConsoleConnection implements Connection
 	
 	static private String loadPathFromProp() throws IOException
 	{
-		Properties prop = new Properties(); 
-		
-		prop.load(new FileInputStream("path.properties"));
-		
-		return prop.getProperty("path");
+		try {
+			Properties prop = new Properties(); 
+			
+			prop.load(new FileInputStream("path.properties"));
+			
+			return prop.getProperty("path");
+		} catch (Exception e) {
+			log.throwing("ConsoleConnection", "loadPathFromProp()", e);
+			throw e;
+		}
 	}
 
 	@Override
@@ -288,39 +285,44 @@ public class ConsoleConnection implements Connection
 		procEndWatcherThread.interrupt();
 		if(pathAndArgs == null)
 			pathAndArgs =provideStandardArgs();
-		proc = new ProcessBuilder(pathAndArgs).start();
-		errRd = new BufferedReader(new InputStreamReader(
-				proc.getErrorStream()));
-		outRd = new BufferedReader(new InputStreamReader(
-				proc.getInputStream()));
-		BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
-					proc.getOutputStream())));
-		pWr = new PrintWriter(inWr);
 		
-		procEndWatcherThread = new ProcEndWatcherThread();
-		procEndWatcherThread.start();
-		
-		//Blocke bis zum Eintreffen der Willkommensnachricht
-		blockTillNextAnswer();
-		
-		while(outRd.ready())
-		{	//Verwerfen
-			outRd.readLine();
-		}
-		//Moegliche Fehler, sowie Meldung abfangen, dass Workspace geladen wurde
-		String errStr = "";
-		while(errRd.ready())
-		{	//TODO logging
-//			char c = (char) errRd.read();
-//			errStr += c;
-			errStr += errRd.readLine();
-//			System.out.println(c);
-//			System.err.println(errRd.readLine());
-		}
-		if(!errStr.isEmpty())
-			System.err.println(errStr);
-		
-		//Initialisierung fertig, block loesen
+		initCon();
+	}
+	
+	private void initCon() throws RException, IOException
+	{
+		//Prozess starten
+				proc = new ProcessBuilder(pathAndArgs).start();
+				
+				procEndWatcherThread = new ProcEndWatcherThread();
+				procEndWatcherThread.start();
+				
+				errRd = new BufferedReader(new InputStreamReader(
+						proc.getErrorStream()));
+				outRd = new BufferedReader(new InputStreamReader(
+						proc.getInputStream()));
+				BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
+							proc.getOutputStream())));
+				pWr = new PrintWriter(inWr);
+				
+				//Blocke bis zum Eintreffen der Willkommensnachricht
+				blockTillNextAnswer();
+				
+				while(outRd.ready())
+				{	//Verwerfen
+					outRd.readLine();
+				}
+				//Moegliche Fehler, sowie Meldung abfangen, dass Workspace geladen wurde
+				String errStr = "";
+				while(errRd.ready())
+				{	
+					char c = (char) errRd.read();
+					errStr += c;
+				}
+				if(!errStr.isEmpty())
+					log.warning(errStr);
+					
+				log.info("Connection aufgebaut.");
 	}
 	
 	private class ProcEndWatcherThread extends Thread
@@ -333,12 +335,11 @@ public class ConsoleConnection implements Connection
 				isRunning = true;
 				proc.waitFor();
 				isRunning = false;
-				//TODO event zur Benachrichtigung einbauen
 			}
 			catch (InterruptedException e)
 			{
 				interrupt();
-				//TODO hier fehlt nochwas
+				//TODO hier fehlt noch was
 			}
 		}
 	}
