@@ -20,46 +20,50 @@ import de.hsl.rinterface.objects.RVector;
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
 public class RParser {
 
-	// /** @pdRoleInfo migr=no name=RObject assc=association4
-	// coll=java.util.Collection impl=java.util.HashSet mult=0..*
-	// type=Aggregation */
-	// public java.util.Collection<RObject> rObject;
-
 	/** @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a */
 	public RObject construct(String string) {
-		// System.out.println(string);
-		// RObject ro = null;
-		// String nach Zeilen seperieren
-		// String[] zeilen =
-		// string.split(Pattern.quote(System.getProperty("line.separator")));
+		String type = "";
+		Scanner scanner = new Scanner(string);
+		Matcher m;
+		String line ="";
+		if(scanner.hasNextLine()){
+			line = scanner.nextLine();
+			if (line.contains("read.")){
+				System.out.println("Read Befehl erkannt");
+				return parsRead(string);
+			}		
+		}
+			
+		return parsSolution(string);
+		
+		
+		
+	}
+
+	private RObject parsSolution(String string) {
 		List<String> grobentwurf = new ArrayList<>();
 		// unwichtige Zeilen l�schen
 		Pattern pGrob = Pattern.compile(".*\\[.*\\].*");
-		Matcher m;
+		
 		// zeilenweises Verarbeiten, platformunabh�ngig durch Scanner
-		Scanner scanner = new Scanner(string);
+		
+		Matcher m;
+		Scanner scanner = null;
+		String line = "";
 		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
+			line = scanner.nextLine();
 			m = pGrob.matcher(line);
 			if (m.matches())
 				grobentwurf.add(line);
-		   }
-		   scanner.close();
-//		System.out.println(grobentwurf.get(0));
-//		for (int i = 0; i < zeilen.length; i++) {
-//			m = pGrob.matcher(zeilen[i]);
-//			System.out.println(zeilen[i] + m.matches());
-//			if (m.matches())
-//				grobentwurf.add(zeilen[i]); //FIXME hier geht er nicht rein, stimmt das mit Pattern nicht?
-//		}
-		//System.out.println("\n\n" + grobentwurf.get(0));
+		}
+		scanner.close();
+
 		// Pattern zum Pr�fen einer Matrix
 		Pattern pMatrix = Pattern.compile(".*\\[.*,.*\\].*");
-		if(grobentwurf.size()==0)
-			throw new IllegalArgumentException("R�ckgabetyp besitzt die L�nge == 0");
 		if (grobentwurf.size() == 0)
 			throw new IllegalArgumentException(
 					"R�ckgabetyp besitzt die L�nge == 0");
+		
 		m = pMatrix.matcher(grobentwurf.get(0));
 		if (m.matches()) {
 			// System.out.println("Matrix");
@@ -110,7 +114,7 @@ public class RParser {
 					rv.add(Double.parseDouble(zeil[j]));
 				}
 			}
-			if(rv.size()==1){
+			if (rv.size() == 1) {
 				RValue<Double> rs = new RValue<>();
 				rs.setValue(rv.get(0));
 				return rs;
@@ -120,9 +124,16 @@ public class RParser {
 		return null;
 	}
 
+	private RObject parsRead(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Diese Methode ersetzt alle "\" durch "/", da R den Pfad mit Slash trennt.
-	 * @param absolutePath - Ist der Absolute Pfad der Datei
+	 * 
+	 * @param absolutePath
+	 *            - Ist der Absolute Pfad der Datei
 	 * @return Gibt einen Pfad zur�ck mit dem R umgehen kann
 	 */
 	public String getRPath(String absolutePath) {

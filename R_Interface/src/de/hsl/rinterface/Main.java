@@ -58,31 +58,34 @@ public class Main
 
 //		List<String> list = new ArrayList<>();
 //			list.add("--save");
-		Connection con = null;
-		try
-		{
-			con = new ConsoleConnection();
-			System.out.println(con.sendCmdRaw(new RRead("test.csv")));
-			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			System.out.println(con.sendCmdRaw("qwertz"));
-		}
-		catch(RException ex)
-		{
-			ex.printStackTrace();
-			System.out.println(con.isAlive());
-			System.out.println(con.sendCmdRaw("mean(c(3,2,6,4))"));
-			System.out.println(con.isAlive());
-			System.out.println(con.sendCmdRaw("max(c(1,2,3))"));
-			System.out.println(con.isAlive());
-			System.out.println(con.sendCmdRaw("ls()"));
-			con.close();
-			
-		}
-//		try(Connection con = new ConsoleConnection())
+//		Connection con = null;
+//		try
 //		{
+//			con = new ConsoleConnection();
 //			System.out.println(con.sendCmdRaw(new RRead("test.csv")));
 //			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 //			System.out.println(con.sendCmdRaw("qwertz"));
 //		}
+//		catch(RException ex)
+//		{
+//			ex.printStackTrace();
+//			System.out.println(con.isAlive());
+//			System.out.println(con.sendCmdRaw("mean(c(3,2,6,4))"));
+//			System.out.println(con.isAlive());
+//			System.out.println(con.sendCmdRaw("max(c(1,2,3))"));
+//			System.out.println(con.isAlive());
+//			System.out.println(con.sendCmdRaw("ls()"));
+//			con.close();
+//			
+//		}
+		try(Connection con = new ConsoleConnection())
+		{
+			
+			System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
+			System.out.println(con.sendCmd(new RRead("c:\\test.csv")));
+			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+			//System.out.println(con.sendCmdRaw("qwertz"));
+			con.close();
+		}
 	}
 }
