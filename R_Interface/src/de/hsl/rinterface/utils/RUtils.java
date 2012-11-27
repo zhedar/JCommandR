@@ -5,9 +5,9 @@ import java.util.List;
 public abstract class RUtils 
 {
 	/**
-	 * Löst eine {@link List} in einen R-Vector auf. c(1,2,3,...) 
-	 * @param list die aufzulösende {@link List}
-	 * @return Textrepräsentation des Strings
+	 * L��st eine {@link List} in einen R-Vector auf. c(1,2,3,...) 
+	 * @param list die aufzul��sende {@link List}
+	 * @return Textrepr��sentation des Strings
 	 */
 	static public String resolveList(List<? extends Number> list)
 	{
@@ -29,13 +29,12 @@ public abstract class RUtils
 	 * @param string - es werden ein oder mehrere R-Befehle erwartet die durch ein ";" getrennt sind
 	 * @return ist der neue Befehl als String
 	 */
-	static String splitCommand(String string){
+	static public  String splitCommand(String string){
 		String[] split = string.split(";");
 		String result="";
-		for (int i = 0; i < split.length; i++) {
+		for (int i = 0; i < split.length; i++)
 			result+="try("+split[i]+"); ";
 			
-		}
 		return result;
 	}
 	
@@ -44,7 +43,7 @@ public abstract class RUtils
 	 * 
 	 * @param absolutePath
 	 *            - Ist der Absolute Pfad der Datei
-	 * @return Gibt einen Pfad zur�ck mit dem R umgehen kann
+	 * @return Gibt einen Pfad zur���ck mit dem R umgehen kann
 	 */
 	static public String getRPath(String absolutePath) {
 		return absolutePath.replace("\\", "/");

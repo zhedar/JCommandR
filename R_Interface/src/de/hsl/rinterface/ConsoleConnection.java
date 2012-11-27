@@ -111,7 +111,7 @@ public class ConsoleConnection implements Connection
 		{
 			log.info("Sende Kommando: " + cmd);
 			String outputStr = "";
-			procThread.getpWr().println("try(" + cmd + ")");
+			procThread.getpWr().println(RUtils.splitCommand(cmd));
 			procThread.getpWr().flush();
 			//Eingabe drin, auf Ausgabe horchen
 			
@@ -142,7 +142,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void sendCmdVoid(String cmd) throws RException {
 		log.info("Sende Kommando ohne Rückgabe(void): " + cmd);
-		procThread.getpWr().println("try(" + cmd + ")");
+		procThread.getpWr().println(RUtils.splitCommand(cmd));
 		procThread.getpWr().flush();
 		try {
 			processErrors();
@@ -196,7 +196,6 @@ public class ConsoleConnection implements Connection
 			log.warning("Exception in close: " + e.getMessage() );
 		}
 		
-		//TODO 
 		final Timer killTimer = new Timer();
 		killTimer.schedule(new TimerTask() {
 			
@@ -338,7 +337,7 @@ public class ConsoleConnection implements Connection
 
 		log.info("Connection aufgebaut.");
 		
-		sendCmdVoid("options(echo=FALSE)");
+		sendCmdRaw("options(echo=FALSE)");
 	}
 	
 	@Override
