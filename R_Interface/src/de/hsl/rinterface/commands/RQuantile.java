@@ -3,12 +3,12 @@ package de.hsl.rinterface.commands;
 import de.hsl.rinterface.objects.RObject;
 
 /***********************************************************************
- * Module:  RQuantil.java
+ * Module:  RQuantile.java
  * Author:  Peggy Kübe
- * Purpose: Defines the Class RQuantil
+ * Purpose: Defines the Class RQuantile
  ***********************************************************************/
 /**
- * Quantil: quantile(x, probs = seq(0, 1, 0.25),
+ * Quantile: quantile(x, probs = seq(0, 1, 0.25),
  					na.rm = FALSE, names = TRUE, type = 7, ...)
  * x - numeric vector whose sample quantiles are wanted, or
  * an object of a class for which a method has been defined (see also ‘details’).
@@ -35,7 +35,7 @@ import de.hsl.rinterface.objects.RObject;
    27.5 
  */
 
-public class RQuantil implements RCommand {
+public class RQuantile implements RCommand {
 
 	private RObject x;
 	private RObject probs;
@@ -43,7 +43,7 @@ public class RQuantil implements RCommand {
 	private String names;
 	private int type;
 	
-	public RQuantil(RObject x) {
+	public RQuantile(RObject x) {
 		this.x = x;
 	}
 	
@@ -89,7 +89,7 @@ public class RQuantil implements RCommand {
 
 	@Override
 	public String prepareForSending() {
-		return "quantil(" + x.toRString() + 
+		return "quantile(" + x.toRString() + 
 				(probs != null ? ", probs = " + probs : "")+
 				(na_rm != null ? ", na.rm = " + na_rm : "")+
 				(names != null ? ", names = " + names : "")+
