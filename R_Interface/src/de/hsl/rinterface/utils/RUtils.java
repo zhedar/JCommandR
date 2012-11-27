@@ -25,6 +25,21 @@ public abstract class RUtils
 	}
 	
 	/**
+	 * Diese Methode Formt R-Befehle um, so dass diese mit einem "try(...)" umschlossen werden, damit der Prozess nicht geschlossen wird.
+	 * @param string - es werden ein oder mehrere R-Befehle erwartet die durch ein ";" getrennt sind
+	 * @return ist der neue Befehl als String
+	 */
+	static String splitCommand(String string){
+		String[] split = string.split(";");
+		String result="";
+		for (int i = 0; i < split.length; i++) {
+			result+="try("+split[i]+"); ";
+			
+		}
+		return result;
+	}
+	
+	/**
 	 * Diese Methode ersetzt alle "\" durch "/", da R den Pfad mit Slash trennt.
 	 * 
 	 * @param absolutePath
@@ -34,4 +49,10 @@ public abstract class RUtils
 	static public String getRPath(String absolutePath) {
 		return absolutePath.replace("\\", "/");
 	}
+	
+//	public static void main(String[] args) {
+//		String test ="is.vector(RInterfaceTmpVar); is.matrix(RInterfaceTmpVar); is.table(RInterfaceTmpVar); is.data.frame(RInterfaceTmpVar)";
+//		String test2 = "is.vector(RInterfaceTmpVar)";
+//		System.out.println(splitCommand(test2));
+//	}
 }
