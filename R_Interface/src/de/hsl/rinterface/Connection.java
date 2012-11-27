@@ -7,6 +7,7 @@ package de.hsl.rinterface;
  ***********************************************************************/
 
 import java.io.Closeable;
+import java.io.File;
 import java.util.List;
 
 import de.hsl.rinterface.commands.RCommand;
@@ -142,4 +143,19 @@ public interface Connection extends Closeable, AutoCloseable
 //	 * @pdOid a61f12ea-6797-4ed4-9806-8ae82df2ed87
 //	 */
 //	void close() throws InterruptedException, RException;
+	public long getCloseTimeOut();
+
+	public void setCloseTimeOut(long closeTimeOut);
+	
+	public String getTempVarName();
+
+	public void setTempVarName(String tempVarName);
+
+	public File getWorkspace();
+
+	public void changeWorkspace(File workspace) throws RException;
+	
+	public void saveWorkspace(File workspace) throws RException;
+	
+	public void saveWorkspace() throws RException;
 }

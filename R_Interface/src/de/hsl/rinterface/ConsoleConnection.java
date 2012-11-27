@@ -2,6 +2,7 @@ package de.hsl.rinterface;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,20 +25,15 @@ import de.hsl.rinterface.objects.RReference;
 
 public class ConsoleConnection implements Connection
 {
-	//TODO evtl in thread verlagern
-	private Process proc;
-	private BufferedReader errRd, outRd;
-	private PrintWriter pWr;
-	private boolean isRunning;
-	
 	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
 	private long closeTimeOut = 200l;
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
-	private ProcEndWatcherThread procEndWatcherThread;
-	//temporäre variable in der letzte antwort gespeichert wird
+	private ProcHandlerThread procThread;
+	/**temporäre variable in der letzte antwort gespeichert wird**/
 	private String tempVarName;
+	private File workspace;
 	
 	static
 	{
@@ -74,7 +70,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public boolean isAlive()
 	{
-		return isRunning;
+		return procThread.isRunning();
 	}
 
 	/**
@@ -114,16 +110,16 @@ public class ConsoleConnection implements Connection
 		{
 			log.info("Sende Kommando: " + cmd);
 			String outputStr = "";
-			pWr.println("try(" + cmd + ")");
-			pWr.flush();
+			procThread.getpWr().println("try(" + cmd + ")");
+			procThread.getpWr().flush();
 			//Eingabe drin, auf Ausgabe horchen
 			
 			blockTillNextAnswer();
 			
 			processErrors("Eingabe fehlerhaft: " + cmd);
-			while(outRd.ready())
+			while(procThread.getOutRd().ready())
 			{
-				outputStr += (char) outRd.read();
+				outputStr += (char) procThread.getOutRd().read();
 				processErrors();
 			}
 			processErrors();
@@ -144,8 +140,14 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void sendCmdVoid(String cmd) throws RException {
 		log.info("Sende Kommando ohne Rückgabe(void): " + cmd);
-		pWr.println(cmd);
-		pWr.flush();
+		procThread.getpWr().println("try(" + cmd + ")");
+		procThread.getpWr().flush();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			processErrors();
 		} catch (Exception e) {
@@ -190,22 +192,23 @@ public class ConsoleConnection implements Connection
 		try {
 			sendCmdVoid("q()");
 			
-			errRd.close();
-			outRd.close();
-			pWr.close();
+			procThread.getErrRd().close();
+			procThread.getOutRd().close();
+			procThread.getpWr().close();
 		}
 		catch (Exception e)
 		{
 			log.warning("Exception in close: " + e.getMessage() );
 		}
 		
+		//TODO 
 		final Timer killTimer = new Timer();
 		killTimer.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
-				if(!procEndWatcherThread.isInterrupted())
-					procEndWatcherThread.interrupt();
+				if(!procThread.isInterrupted())
+					procThread.interrupt();
 				killTimer.cancel();
 			}
 		}, closeTimeOut);
@@ -214,7 +217,7 @@ public class ConsoleConnection implements Connection
 	//Hilfsmethoden
 	private void blockTillNextAnswer() throws RException
 	{
-		blockTillNextAnswer(outRd);
+		blockTillNextAnswer(procThread.getOutRd());
 	}
 	
 	private void blockTillNextAnswer(BufferedReader reader) throws RException {
@@ -231,16 +234,15 @@ public class ConsoleConnection implements Connection
 	
 	private void processErrors(String msg) throws RException
 	{
-		if(pWr.checkError())
+		if(procThread.getpWr().checkError())
 			throw new RException("Fehler beim Senden der Anforderung.");
 		try
 		{
 			String errStr = msg + " ";
-			while(errRd.ready())
+			while(procThread.getErrRd().ready())
 			{
-				char c = (char) errRd.read();
+				char c = (char) procThread.getErrRd().read();
 				errStr += c;
-//				System.out.println("c:" + c);
 			}
 			if(	!errStr.isEmpty() && 
 				!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
@@ -264,12 +266,12 @@ public class ConsoleConnection implements Connection
 	
 	/**
 	 * Hilfsmethode für parameterlosen Konstruktor.
-	 * @return Liste mit Wert "--save"
+	 * @return Liste mit Wert "--no-save"
 	 */
 	static private List<String> provideStandardArgs()
 	{
 		List<String> list = new ArrayList<>();
-			list.add("--save");
+			list.add("--no-save");
 		return list;
 	}
 	
@@ -298,55 +300,97 @@ public class ConsoleConnection implements Connection
 //		initCon();
 //	}
 	
-	//TODO ins interface rein
+	@Override
 	public long getCloseTimeOut() {
 		return closeTimeOut;
 	}
-
+	
+	@Override
 	public void setCloseTimeOut(long closeTimeOut) {
 		this.closeTimeOut = closeTimeOut;
 	}
 	
-	private void initCon() throws RException, IOException
-	{
-		//Prozess starten
-				proc = new ProcessBuilder(pathAndArgs).start();
-				
-				errRd = new BufferedReader(new InputStreamReader(
-						proc.getErrorStream()));
-				outRd = new BufferedReader(new InputStreamReader(
-						proc.getInputStream()));
-				BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(
-							proc.getOutputStream()));
-				pWr = new PrintWriter(inWr);
-				
-				procEndWatcherThread = new ProcEndWatcherThread();
-				procEndWatcherThread.start();
-				
-				//Blocke bis zum Eintreffen der Willkommensnachricht
-				blockTillNextAnswer();
-				
-				while(outRd.ready())
-				{	//Verwerfen
-					outRd.readLine();
-				}
-				//Moegliche Fehler, sowie Meldung abfangen, dass Workspace geladen wurde
-				String errStr = "";
-				while(errRd.ready())
-				{	
-					char c = (char) errRd.read();
-					errStr += c;
-				}
-				if(!errStr.isEmpty())
-					log.warning(errStr);
-					
-				log.info("Connection aufgebaut.");
+	@Override
+	public String getTempVarName() {
+		return tempVarName;
 	}
 	
-	private class ProcEndWatcherThread extends Thread
+	@Override
+	public void setTempVarName(String tempVarName) {
+		this.tempVarName = tempVarName;
+	}
+
+	private void initCon() throws RException, IOException 
 	{
-		private Process termProc = proc; //TODO defensive-copy
+		procThread = new ProcHandlerThread();
+		procThread.start();
+
+		// Blocke bis zum Eintreffen der Willkommensnachricht
+		blockTillNextAnswer();
+
+		while (procThread.getOutRd().ready()) { // Verwerfen
+			procThread.getOutRd().readLine();
+		}
+		// Moegliche Fehler, sowie Meldung abfangen, dass Workspace geladen
+		// wurde
+		String errStr = "";
+		while (procThread.getErrRd().ready()) {
+			char c = (char) procThread.getErrRd().read();
+			errStr += c;
+		}
+		if (!errStr.isEmpty())
+			log.warning(errStr);
+
+		log.info("Connection aufgebaut.");
+	}
+	
+	@Override
+	public File getWorkspace() {
+		return workspace;
+	}
+	
+	@Override
+	public void changeWorkspace(File workspace) throws RException {
+		this.workspace = workspace;
+		String cmd = "setwd(\"" + workspace.getAbsolutePath() + "\"));rm(list=ls())";
+		if(new File(workspace.getAbsolutePath() + File.separator + ".RData").exists())
+			cmd += ";load(\".RData\""; //TODO testen, wenn .rdata nich existiert
+			
+		sendCmdVoid(cmd);
+	}
+	
+	//TODO test
+	@Override
+	public void saveWorkspace(File workspace) throws RException
+	{
+		sendCmdVoid("save.image(file=\"" + workspace.getAbsolutePath() + "/.Rdata" + "\")");
+	}
+	
+	@Override
+	public void saveWorkspace() throws RException {
+		sendCmdVoid("save.image()");
+	}
+
+	private class ProcHandlerThread extends Thread
+	{
+		private Process proc;
+		private BufferedReader errRd, outRd;
+		private PrintWriter pWr;
+		private boolean isRunning;
 		
+		public ProcHandlerThread() throws IOException
+		{
+			proc = new ProcessBuilder(pathAndArgs).start();
+			
+			errRd = new BufferedReader(new InputStreamReader(
+					proc.getErrorStream()));
+			outRd = new BufferedReader(new InputStreamReader(
+					proc.getInputStream()));
+			BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(
+						proc.getOutputStream()));
+			pWr = new PrintWriter(inWr);
+		}
+			
 		@Override
 		public void run()
 		{
@@ -354,7 +398,7 @@ public class ConsoleConnection implements Connection
 			try
 			{	//blockt bis der Prozess beendet wurde
 				isRunning = true;
-				termProc.waitFor();
+				proc.waitFor();
 				closed = true;
 				log.info("Prozess erfolgreich innerhalb der vorgegebenen Zeit geschlossen.");
 			}
@@ -367,13 +411,28 @@ public class ConsoleConnection implements Connection
 				if(!closed)
 				{
 					log.info("Timeout überschritten. Beende Prozess.");
-					termProc.destroy();
+					proc.destroy();
 				}
 					
-				//TODO könnte vorherigen start wieder überschreiben
 				isRunning = false;
-				log.info("Verbindung beendet. Exitvalue: " + termProc.exitValue());
+				log.info("Verbindung beendet. Exitvalue: " + proc.exitValue());
 			}
+		}
+
+		public BufferedReader getErrRd() {
+			return errRd;
+		}
+
+		public BufferedReader getOutRd() {
+			return outRd;
+		}
+		
+		public PrintWriter getpWr() {
+			return pWr;
+		}
+
+		public boolean isRunning() {
+			return isRunning;
 		}
 	}
 }
