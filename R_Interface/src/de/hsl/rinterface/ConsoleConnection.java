@@ -11,9 +11,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
@@ -27,6 +31,7 @@ public class ConsoleConnection implements Connection
 	private PrintWriter pWr;
 	private boolean isRunning;
 	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
+	private long closeTimeOut = 200l;
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
@@ -36,7 +41,7 @@ public class ConsoleConnection implements Connection
 	{
 		try {
 			log.addHandler(new FileHandler("rinterface%u.log", 50000, 1, true));
-			log.setLevel(Level.WARNING);
+			log.setLevel(Level.FINEST);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -106,7 +111,7 @@ public class ConsoleConnection implements Connection
 		{
 			log.info("Sende Kommando: " + cmd);
 			String outputStr = "";
-			pWr.println(cmd);
+			pWr.println("try(" + cmd + ")");
 			pWr.flush();
 			//Eingabe drin, auf Ausgabe horchen
 			
@@ -138,6 +143,12 @@ public class ConsoleConnection implements Connection
 		log.info("Sende Kommando ohne Rückgabe(void): " + cmd);
 		pWr.println(cmd);
 		pWr.flush();
+		try {
+			processErrors();
+		} catch (Exception e) {
+			e.printStackTrace();
+//			log.throwing(sourceClass, sourceMethod, thrown);
+		}
 		//Eingabe drin
 	}
 
@@ -162,15 +173,9 @@ public class ConsoleConnection implements Connection
 	public List<String> getAllVars()
 	{
 		// TODO generischer Parser w�re gut, da ls() einen Vektor von Strings zur�ckliefert
-		return null;
+		throw new NotImplementedException();
 	}
 
-	//	public void max(List<? extends Number> list) throws RException
-	//	{
-	//		sendCmd("max(" + resolveList(list) + ")");
-	//	}
-		
-	
 		/**
 		 * Schlie�t sowohl alle offenen Ressourcen, als auch den ausgef�hrten R-Prozess.
 		 * Kehrt zur�ck, wenn der Prozess beendet wurde.
@@ -181,22 +186,26 @@ public class ConsoleConnection implements Connection
 		// Gebe Befehl zum Schlie�en der Anwendung
 		try {
 			sendCmdVoid("q()");
-
-			// Warten bis Prozess terminiert hat
-			proc.waitFor();
-			System.out.println("Beendet. Exitvalue: " + proc.exitValue());
-
+			
 			errRd.close();
 			outRd.close();
 			pWr.close();
-			// //kill, falls noch nicht erfolgt
-			// proc.destroy();
 		}
 		catch (Exception e)
 		{
 			log.warning("Exception in close: " + e.getMessage() );
 		}
 		
+		final Timer killTimer = new Timer();
+		killTimer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				if(!procEndWatcherThread.isInterrupted())
+					procEndWatcherThread.interrupt();
+				killTimer.cancel();
+			}
+		}, closeTimeOut);
 	}
 
 	//Hilfsmethoden
@@ -234,7 +243,6 @@ public class ConsoleConnection implements Connection
 				!errStr.contains("[Vorher gesicherter Workspace wiederhergestellt]")
 				&& (errStr.length() != msg.length() +1))
 			{
-				rebuildConnection(); // TODO nochmal überdenken
 				log.warning("Fehler ausgelesen: " + errStr);
 				throw new RException(errStr);
 			}
@@ -244,8 +252,6 @@ public class ConsoleConnection implements Connection
 			log.throwing("ConsoleConnection", "processErrors", e);
 			throw new RException("Fehler beim Fehlerauslesen. Ausführung ist möglichweise nicht mehr sicher.", e);
 		}
-		
-			
 	}
 	
 	private void processErrors() throws IOException, RException
@@ -278,24 +284,30 @@ public class ConsoleConnection implements Connection
 		}
 	}
 
-	@Override
-	public void rebuildConnection() throws IOException, RException
-	{
-		close();
-		procEndWatcherThread.interrupt();
-		if(pathAndArgs == null)
-			pathAndArgs =provideStandardArgs();
-		
-		initCon();
+//	@Override
+//	public void rebuildConnection() throws IOException, RException
+//	{
+//		close();
+//		
+//		if(pathAndArgs == null)
+//			pathAndArgs =provideStandardArgs();
+//		
+//		initCon();
+//	}
+	
+	//TODO ins interface rein
+	public long getCloseTimeOut() {
+		return closeTimeOut;
+	}
+
+	public void setCloseTimeOut(long closeTimeOut) {
+		this.closeTimeOut = closeTimeOut;
 	}
 	
 	private void initCon() throws RException, IOException
 	{
 		//Prozess starten
 				proc = new ProcessBuilder(pathAndArgs).start();
-				
-				procEndWatcherThread = new ProcEndWatcherThread();
-				procEndWatcherThread.start();
 				
 				errRd = new BufferedReader(new InputStreamReader(
 						proc.getErrorStream()));
@@ -304,6 +316,9 @@ public class ConsoleConnection implements Connection
 				BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
 							proc.getOutputStream())));
 				pWr = new PrintWriter(inWr);
+				
+				procEndWatcherThread = new ProcEndWatcherThread();
+				procEndWatcherThread.start();
 				
 				//Blocke bis zum Eintreffen der Willkommensnachricht
 				blockTillNextAnswer();
@@ -327,19 +342,34 @@ public class ConsoleConnection implements Connection
 	
 	private class ProcEndWatcherThread extends Thread
 	{
+		private Process termProc = proc; //TODO defensive-copy
+		
 		@Override
 		public void run()
 		{
+			boolean closed = false;
 			try
 			{	//blockt bis der Prozess beendet wurde
 				isRunning = true;
-				proc.waitFor();
-				isRunning = false;
+				termProc.waitFor();
+				closed = true;
+				log.info("Prozess erfolgreich innerhalb der vorgegebenen Zeit geschlossen.");
 			}
 			catch (InterruptedException e)
 			{
-				interrupt();
-				//TODO hier fehlt noch was
+				Thread.currentThread().interrupt();
+			}
+			finally
+			{
+				if(!closed)
+				{
+					log.info("Timeout überschritten. Beende Prozess.");
+					termProc.destroy();
+				}
+					
+				//TODO könnte vorherigen start wieder überschreiben
+				isRunning = false;
+				log.info("Verbindung beendet. Exitvalue: " + termProc.exitValue());
 			}
 		}
 	}
