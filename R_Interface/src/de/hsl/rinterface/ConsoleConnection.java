@@ -169,7 +169,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void saveObject(RObject toSave, String name) throws RException
 	{
-		sendCmdVoid(name + "<-" + toSave.toRString());
+		sendCmdVoid(name + " <- " + toSave.toRString());
 	}
 
 	@Override
