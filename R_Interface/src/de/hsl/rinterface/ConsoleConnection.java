@@ -1,6 +1,5 @@
 package de.hsl.rinterface;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -18,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
@@ -26,16 +24,20 @@ import de.hsl.rinterface.objects.RReference;
 
 public class ConsoleConnection implements Connection
 {
+	//TODO evtl in thread verlagern
 	private Process proc;
 	private BufferedReader errRd, outRd;
 	private PrintWriter pWr;
 	private boolean isRunning;
+	
 	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
 	private long closeTimeOut = 200l;
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
 	private ProcEndWatcherThread procEndWatcherThread;
+	//temporäre variable in der letzte antwort gespeichert wird
+	private String tempVarName;
 	
 	static
 	{
@@ -43,8 +45,9 @@ public class ConsoleConnection implements Connection
 			log.addHandler(new FileHandler("rinterface%u.log", 50000, 1, true));
 			log.setLevel(Level.FINEST);
 		}
-		catch (Exception e) {
-			// TODO: handle exception
+		catch (Exception e) 
+		{
+			log.warning("Loggingfehler. Filehandler konnte nicht erstellt werden. " + e.getMessage());
 		}
 	}
 	
@@ -82,7 +85,7 @@ public class ConsoleConnection implements Connection
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{	
-		return new RParser().construct(sendCmdRaw(cmd));
+		return new RParser().construct(sendCmdRaw(tempVarName + " <- " + cmd + ";" + tempVarName));
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public RReference sendCmd(String cmd, String name) throws RException
 	{
-		sendCmdVoid(name + "<-" +cmd);
+		sendCmdVoid(name + " <- " +cmd);
 		
 		return new RReference(name);
 	}
@@ -313,8 +316,8 @@ public class ConsoleConnection implements Connection
 						proc.getErrorStream()));
 				outRd = new BufferedReader(new InputStreamReader(
 						proc.getInputStream()));
-				BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(
-							proc.getOutputStream())));
+				BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(
+							proc.getOutputStream()));
 				pWr = new PrintWriter(inWr);
 				
 				procEndWatcherThread = new ProcEndWatcherThread();
