@@ -24,6 +24,11 @@ import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RReference;
 import de.hsl.rinterface.utils.RUtils;
 
+/**
+ * Konkrete Implementierung einer {@link Connection}, die Zugriff
+ * auf einen R-Prozess bietet, basierend auf Konsolenein-/ausgaben.
+ * @author pgruhn
+ */
 public class ConsoleConnection implements Connection
 {
 	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
@@ -33,7 +38,7 @@ public class ConsoleConnection implements Connection
 	private List<String> pathAndArgs;
 	private ProcHandlerThread procThread;
 	/**temporäre variable in der letzte antwort gespeichert wird**/
-	private String tempVarName;
+	private String tempVarName = "RInterfaceTempVar";
 	private File workspace;
 	
 	static
@@ -48,6 +53,14 @@ public class ConsoleConnection implements Connection
 		}
 	}
 	
+	/**
+	 * Baut eine Verbindung zum angegebenen R-Prozess auf. Blockt, bis der Prozess gestartet
+	 * und fertig initialisiert wurde. Sämtliche Streams sind danach leer und arbeitsbereit.
+	 * @param path der Pfad zur R-Binary
+	 * @param args Liste von Argumenten, die zum Start des Prozesses benutzt werden sollen
+	 * @throws IOException
+	 * @throws RException
+	 */
 	public ConsoleConnection(String path, List<String> args) throws IOException, RException
 	{
 		//Pfad und Argumente zusammenstecken
@@ -58,11 +71,27 @@ public class ConsoleConnection implements Connection
 		initCon();
 	}
 	
+	/**
+	 * Baut eine Verbindung zu einem R-Prozess auf, dessen Pfad in der path.properties
+	 * unter dem Schlüssel "path" festgelegt ist. Blockt, bis der Prozess gestartet
+	 * und fertig initialisiert wurde. Sämtliche Streams sind danach leer und arbeitsbereit.
+	 * @param args Liste von Argumenten, die zum Start des Prozesses benutzt werden sollen
+	 * @throws IOException
+	 * @throws RException
+	 */
 	public ConsoleConnection(List<String> args) throws IOException, RException
 	{
 		this(loadPathFromProp(), args);
 	}
 	
+	/**
+	 * Baut eine Verbindung zu einem R-Prozess auf, dessen Pfad in der path.properties
+	 * unter dem Schlüssel "path" festgelegt ist. Der Prozess wird mit dem Kommandozeilen-
+	 * argument "--no-save" gestartet. Blockt, bis der Prozess gestartet und fertig 
+	 * initialisiert wurde. Sämtliche Streams sind danach leer und arbeitsbereit.
+	 * @throws IOException
+	 * @throws RException
+	 */
 	public ConsoleConnection() throws IOException, RException
 	{
 		this(provideStandardArgs());
@@ -74,11 +103,11 @@ public class ConsoleConnection implements Connection
 		return procThread.isRunning();
 	}
 
-	/**
-	 * Sendet den �bergebenen Befehl sofort an die Konsole. F�gt einen Zeilenumbruch an. 
-	 * @param cmd der auszuf�hrende Befehl
-	 * @throws RException falls bei der �bermittlung zum Prozess ein Fehler auftritt
-	 */
+//	/**
+//	 * Sendet den �bergebenen Befehl sofort an die Konsole. F�gt einen Zeilenumbruch an. 
+//	 * @param cmd der auszuf�hrende Befehl
+//	 * @throws RException falls bei der �bermittlung zum Prozess ein Fehler auftritt
+//	 */
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{	
