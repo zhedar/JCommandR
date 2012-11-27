@@ -21,7 +21,7 @@ import de.hsl.rinterface.objects.RVector;
 public class RParser {
 
 	/** @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a */
-	public RObject construct(String string, Connection con) {
+	static public RObject construct(String string, Connection con) {
 		
 		//con.sendCmdRaw(cmd)
 		Scanner scanner = new Scanner(string);
@@ -45,7 +45,7 @@ public class RParser {
 		
 	}
 
-	private RObject parsSolution(String string) {
+	private static RObject parsSolution(String string) {
 		List<String> grobentwurf = new ArrayList<>();
 		// unwichtige Zeilen l�schen
 		Pattern pGrob = Pattern.compile(".*\\[.*\\].*");
@@ -129,7 +129,7 @@ public class RParser {
 		return null;
 	}
 
-	private RObject parsRead(String string) {
+	private static RObject parsRead(String string) {
 		ArrayList<ArrayList<String>> table = new ArrayList<>();
 		Scanner scanner = new Scanner(string);
 		String line ="";
