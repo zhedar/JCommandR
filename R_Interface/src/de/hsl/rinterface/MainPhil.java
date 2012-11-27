@@ -79,7 +79,7 @@ public class MainPhil {
 //		 System.out.println(con.sendCmdRaw(new RRead("test.csv")));
 //		 System.out.println(con.sendCmd(new RRead("test.csv")));
 //			 System.out.println(con.sendCmdRaw("rm(neuerwd)"));
-			 con.sendCmdVoid("options(echo=FALSE)");
+//			 con.sendCmdVoid("options(echo=FALSE)");
 //			 con.sendCmdVoid("setwd(\"/Users/pgruhn/rtest/"+ "\")");
 //			 System.out.println(con.sendCmdRaw("rm(neuerwd)"));
 			 
@@ -87,13 +87,12 @@ public class MainPhil {
 			 System.out.println(con.sendCmdRaw("getwd()"));
 			 File w1 = new File("w1");
 			 w1.mkdir();
-			 System.out.println(w1.getAbsolutePath());
 			 con.changeWorkspace(w1);
 			 System.out.println(con.sendCmdRaw("getwd()"));
 			 System.out.println(con.sendCmdRaw("ls()"));
 //			 System.out.println(con.loadSavedObject("testrnd"));
 //			 con.sendCmdVoid("testrnd <- runif(1, 5.0, 7.5)");
-			 con.saveWorkspace(w1);
+			 con.saveWorkspace();
 			 File w2 = new File("w2");
 			 w2.mkdir();
 			 con.changeWorkspace(w2);

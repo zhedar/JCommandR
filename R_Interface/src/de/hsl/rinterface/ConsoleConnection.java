@@ -22,6 +22,7 @@ import de.hsl.rinterface.commands.RCommand;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RReference;
+import de.hsl.rinterface.utils.RUtils;
 
 public class ConsoleConnection implements Connection
 {
@@ -81,7 +82,7 @@ public class ConsoleConnection implements Connection
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{	
-		return new RParser().construct(sendCmdRaw(tempVarName + " <- " + cmd + ";" + tempVarName));
+		return new RParser().construct(sendCmdRaw(tempVarName + " <- " + cmd + ";" + tempVarName), this);
 	}
 
 	@Override
@@ -137,22 +138,16 @@ public class ConsoleConnection implements Connection
 		return sendCmdRaw(cmd.prepareForSending());
 	}
 
+	//TODO wie fehler, die hier entstehen, auffangen?
 	@Override
 	public void sendCmdVoid(String cmd) throws RException {
 		log.info("Sende Kommando ohne Rückgabe(void): " + cmd);
 		procThread.getpWr().println("try(" + cmd + ")");
 		procThread.getpWr().flush();
 		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
 			processErrors();
 		} catch (Exception e) {
-			e.printStackTrace();
-//			log.throwing(sourceClass, sourceMethod, thrown);
+			log.throwing("ConsoleConnection", "sendCmdVoid", e);
 		}
 		//Eingabe drin
 	}
@@ -342,6 +337,8 @@ public class ConsoleConnection implements Connection
 			log.warning(errStr);
 
 		log.info("Connection aufgebaut.");
+		
+		sendCmdVoid("options(echo=FALSE)");
 	}
 	
 	@Override
@@ -352,18 +349,17 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void changeWorkspace(File workspace) throws RException {
 		this.workspace = workspace;
-		String cmd = "setwd(\"" + workspace.getAbsolutePath() + "\"));rm(list=ls())";
+		sendCmdVoid("setwd(\"" + RUtils.getRPath(workspace.getAbsolutePath()) + "\")");
+		sendCmdVoid("rm(list=ls())");
 		if(new File(workspace.getAbsolutePath() + File.separator + ".RData").exists())
-			cmd += ";load(\".RData\""; //TODO testen, wenn .rdata nich existiert
-			
-		sendCmdVoid(cmd);
+			sendCmdVoid("load(\".RData\")");
 	}
 	
-	//TODO test
+	//TODO test und evtl. abändern
 	@Override
 	public void saveWorkspace(File workspace) throws RException
 	{
-		sendCmdVoid("save.image(file=\"" + workspace.getAbsolutePath() + "/.Rdata" + "\")");
+		sendCmdVoid("save.image(file=\"" + RUtils.getRPath(workspace.getAbsolutePath()) + "/.Rdata" + "\")");
 	}
 	
 	@Override
