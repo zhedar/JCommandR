@@ -23,4 +23,15 @@ public abstract class RUtils
 	
 		return listCmd;
 	}
+	
+	/**
+	 * Diese Methode ersetzt alle "\" durch "/", da R den Pfad mit Slash trennt.
+	 * 
+	 * @param absolutePath
+	 *            - Ist der Absolute Pfad der Datei
+	 * @return Gibt einen Pfad zur�ck mit dem R umgehen kann
+	 */
+	static public String getRPath(String absolutePath) {
+		return absolutePath.replace("\\", "/");
+	}
 }

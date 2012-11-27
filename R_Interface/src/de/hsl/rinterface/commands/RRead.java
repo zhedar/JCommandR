@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import de.hsl.rinterface.RParser;
+import de.hsl.rinterface.utils.RUtils;
 
 
 /** @pdOid 2fd80f5b-c8a9-4d29-aa6f-077440217b27 */
@@ -179,7 +180,7 @@ public class RRead implements RCommand {
 	 */
 	@Override
 	public String prepareForSending() {
-		String path = new RParser().getRPath(file.getAbsolutePath());	
+		String path = RUtils.getRPath(file.getAbsolutePath());	
 		String cmd = "read." + type + "(\"" + path + "\"";
 		
 		cmd += (header != false ? ", header=\"" + header + "\"" : "");

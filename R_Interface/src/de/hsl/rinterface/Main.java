@@ -80,12 +80,14 @@ public class Main
 //		}
 		try(Connection con = new ConsoleConnection())
 		{
-			
+			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 			System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
-			System.out.println(con.sendCmd(new RRead("c:\\test.csv")));
+			//Thread.sleep(1000);
+			//System.out.println(con.sendCmd(new RRead("c:\\test.csv")));
+			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+			//Thread.sleep(1000);
 			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 			//System.out.println(con.sendCmdRaw("qwertz"));
-			con.close();
 		}
 	}
 }
