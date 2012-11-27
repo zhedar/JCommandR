@@ -28,7 +28,7 @@ public class RParser {
 		String line ="";
 		if(scanner.hasNextLine()){
 			line = scanner.nextLine();
-			if (line.contains("read.")){
+			if (line.contains("read")){
 				System.out.println("Read Befehl erkannt");
 				return parsRead(string);
 			}		
@@ -48,7 +48,7 @@ public class RParser {
 		// zeilenweises Verarbeiten, platformunabh�ngig durch Scanner
 		
 		Matcher m;
-		Scanner scanner = null;
+		Scanner scanner = new Scanner(string);
 		String line = "";
 		while (scanner.hasNextLine()) {
 			line = scanner.nextLine();
@@ -125,7 +125,43 @@ public class RParser {
 	}
 
 	private RObject parsRead(String string) {
-		// TODO Auto-generated method stub
+		ArrayList<String> table = new ArrayList<>();
+		Scanner scanner = new Scanner(string);
+		String line ="";
+		String lineNr="";
+		String sep="";
+		int lineCounter=1;
+		if(scanner.hasNextLine()){
+			line = scanner.nextLine();
+			if (line.contains("read")){
+				System.out.println("sep rausfinden");
+			}		
+		}
+		while(scanner.hasNextLine()){
+			line = scanner.nextLine();
+			int nextChar=0;
+			int tmp = 0;
+			while(true){
+				try{
+					lineNr+= Integer.parseInt(line.substring(nextChar, nextChar+1));
+				}catch(Exception e){
+					tmp = -1;
+				}
+				if(tmp == -1)
+					break;
+				else
+					nextChar++;
+			}
+			System.out.println(line.substring(nextChar).trim());
+			//Pattern um die Zeilennummer abzuspalten
+			Pattern pNummer = Pattern.compile("\\d* *");
+			Matcher m;
+			if( tmp>0 ){
+				m=pNummer.matcher(line);
+				System.out.println(lineNr.length());
+			}
+				
+		}
 		return null;
 	}
 

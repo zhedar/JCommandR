@@ -94,7 +94,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public RReference sendCmd(String cmd, String name) throws RException
 	{
-		sendCmdVoid(name + "<-" +cmd);
+		sendCmdVoid(name + " <- " +cmd);
 		
 		return new RReference(name);
 	}
@@ -166,7 +166,7 @@ public class ConsoleConnection implements Connection
 	@Override
 	public void saveObject(RObject toSave, String name) throws RException
 	{
-		sendCmdVoid(name + "<-" + toSave.toRString());
+		sendCmdVoid(name + " <- " + toSave.toRString());
 	}
 
 	@Override
