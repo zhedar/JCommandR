@@ -122,8 +122,9 @@ public interface Connection extends Closeable, AutoCloseable
 	
 	/** @pdOid fe0ba04f-ad7a-43b1-be41-6fbfc377bcf7
 	 * Liefert eine Liste von allen Variablen zurück, die im momentanen Workspace gespeichert sind.
-	 * @return {@link List} aller Namen*/
-	List<String> getAllVars();
+	 * @return {@link List} aller Namen
+	 * @throws RException */
+	List<String> getAllVars() throws RException;
 
 	/** @pdOid e52857a7-cc5b-4beb-8ca8-10a178dd8d7e 
 	 * Testet, ob der R-Prozess hinter dieser Verbindung noch läuft.
@@ -143,19 +144,69 @@ public interface Connection extends Closeable, AutoCloseable
 //	 * @pdOid a61f12ea-6797-4ed4-9806-8ae82df2ed87
 //	 */
 //	void close() throws InterruptedException, RException;
+	
+	
 	public long getCloseTimeOut();
-
+	/**
+	 * Setzt ein Timeout in Millisekunden, während dem der 
+	 * R-Prozess terminieren soll.<br> Braucht er länger als erwartet,
+	 * wird er zu beenden versucht.<br>Sollte bei langsameren Maschinen höher
+	 * gesetzt werden, damit der Prozess ordentlich terminieren kann.
+	 * @param closeTimeOut timeout in ms, default: 200 ms
+	 */
 	public void setCloseTimeOut(long closeTimeOut);
 	
+	/**
+	 * Liefert den Namen der Variable zurück, in der das Ergebnis
+	 * der letzten Anfrage gespeichert ist.
+	 * @return name der Variable, default: <i>RInterfaceTempVar</i>
+	 */
 	public String getTempVarName();
-
-	public void setTempVarName(String tempVarName);
-
-	public File getWorkspace();
-
-	public void changeWorkspace(File workspace) throws RException;
 	
+	/**
+	 * Setzt den namen der Variable, in die das Ergebnis
+	 * der letzten Anfrage gespeichert werden soll.<br>
+	 * Nur wenn unbedingt nötig ändern.
+	 * @param tempVarName name der Variable, default: <i>RInterfaceTempVar</i>
+	 */
+	public void setTempVarName(String tempVarName);
+	
+	/**
+	 * Liefert den Ordner des aktuellen Workspaces zurück.
+	 * @return working directory
+	 */
+	public File getWorkspace();
+	
+	/**
+	 * Setzt den zu verwendenden Workspace.<br>
+	 * Der vorher aktive Workspace wird <b>nicht</b> gespeichert und 
+	 * mögliche ungespeicherte Variablen gehen durch den Wechsel verloren.<br>
+	 * Sollte sich im angegebenen Ordner bereits eine ".RData"-Datei befinden,
+	 * wird der vorhandene Workspace aus ihr geladen. Wenn nicht, wird ein 
+	 * leerer Workspace erstellt.
+	 * @param workspace Pfad zum Workspaceordner
+	 * @throws RException
+	 */
+	public void changeWorkspace(File workspace) throws RException;
+	/**
+	 * Speichert den aktiven Workspace an einer bestimmten Stelle.
+	 * @throws RException
+	 * @see changeWorkspace(File)
+	 */
 	public void saveWorkspace(File workspace) throws RException;
 	
+	/**
+	 * Speichert den aktiven Workspace im angegebenen Order in einer ".RData"-Datei.
+	 * @throws RException
+	 * @see changeWorkspace(File)
+	 */
 	public void saveWorkspace() throws RException;
+	
+	public void setTriesTillTimeout(int tryCount);
+	
+	public int getTriesTillTimeout();
+
+	long getWaitForAnswerInterval();
+
+	void setWaitForAnswerInterval(long waitForAnswerInterval);
 }
