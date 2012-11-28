@@ -111,7 +111,7 @@ public class ConsoleConnection implements Connection
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{	
-		return RParser.construct(sendCmdRaw(tempVarName + " <- " + cmd + ");(" + tempVarName), this);
+		return RParser.construct(sendCmdRaw(tempVarName + " <- " + cmd + ";" + tempVarName), this);
 	}
 
 	@Override
