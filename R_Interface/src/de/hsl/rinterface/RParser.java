@@ -84,14 +84,15 @@ public class RParser {
 		RVector<T> result = new RVector<>();
 		scanner = new Scanner(rawData);
 		String line = "";
-		Pattern pLine = Pattern.compile("[\\d+]");
+		Pattern pLine = Pattern.compile("\\[\\d*\\]");
 		Matcher m;
 		while (scanner.hasNextLine()) {
 			line = scanner.nextLine();
 			String[] cell = line.split(" +");
 			for (int i = 0; i < cell.length; i++) {
 				m = pLine.matcher(cell[i]);
-				if (m.matches()) {
+				if (!(m.matches())) {
+					//System.out.println(cell[i]);
 					result.add((T) cell[i]);
 				}
 			}
