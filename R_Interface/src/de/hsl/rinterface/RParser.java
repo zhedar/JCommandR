@@ -7,7 +7,7 @@ package de.hsl.rinterface;
  ***********************************************************************/
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,8 +22,7 @@ import de.hsl.rinterface.objects.RVector;
 public class RParser {
 
 	private static Connection con;
-	private static String rawData;
-	private static Scanner scanner;
+	//private static Scanner scanner;
 
 	/**
 	 * @throws RException
@@ -34,9 +33,7 @@ public class RParser {
 			throws RException {
 
 		setCon(con);
-		setString(rawData);
 		String line = "";
-		String type = "";
 		String typeRaw = con.sendCmdRaw("" + "is.vector("
 				+ con.getTempVarName() + "); " + "is.matrix("
 				+ con.getTempVarName() + ");" + "is.table("
@@ -49,9 +46,9 @@ public class RParser {
 			if (line.toLowerCase().contains("true")) {
 				switch (lineCounter) {
 				case 0:
-					return parsVector();
+					return parsVector(rawData);
 				case 1:
-					return parsMatrix();
+					return parsMatrix(rawData);
 				case 2:
 					return parsTable();
 				case 3:
@@ -60,7 +57,7 @@ public class RParser {
 					throw new RException("Datentyp nicht vorhanden.");
 				}
 			}
-
+			lineCounter++;
 		}
 		throw new RException("Datentyp nicht vorhanden.");
 	}
@@ -75,14 +72,43 @@ public class RParser {
 		return null;
 	}
 
-	private static RObject parsMatrix() {
-		// TODO Auto-generated method stub
-		return null;
+	private static RObject parsMatrix(String rawData) throws RException {
+		RObject dim = con.sendCmd("dim(" + con.getTempVarName() + ")");
+		int dimX = 0, dimY = 0;
+		// System.out.println(dim.toString());
+		if (dim instanceof RVector) {
+			dimX = Integer.parseInt(((RVector) dim).get(0).toString());
+			dimY = Integer.parseInt(((RVector) dim).get(1).toString());
+		}
+		
+		RMatrix<String> result = new RMatrix<>();
+		int lineCount = 0;
+		Scanner scanner = new Scanner(rawData);
+		for (int i = 0; i < dimX; i++) {
+		}
+		while (scanner.hasNextLine()) {
+			ArrayList<String> row = new ArrayList<>();
+			String line = scanner.nextLine();
+			//System.out.println(line);
+			Pattern pHead = Pattern.compile(" +\\[,\\d+\\].*");
+			Matcher m = pHead.matcher(line);
+			if (!m.matches()) {
+				
+				String[] cells = line.split(" + +");
+				for (int i = 1; i < cells.length; i++) {
+					//System.out.println("|+"+cells[i]+"+|");
+					row.add( cells[i]);
+				}
+				result.add(new ArrayList<String>(row));
+			}
+		}
+		return result;
 	}
 
-	private static <T> RObject parsVector() throws RException {
-		RVector<T> result = new RVector<>();
-		scanner = new Scanner(rawData);
+	@SuppressWarnings("unchecked")
+	private static RObject parsVector(String rawData) throws RException {
+		RVector<String> result = new RVector<>();
+		Scanner scanner = new Scanner(rawData);
 		String line = "";
 		Pattern pLine = Pattern.compile("\\[\\d*\\]");
 		Matcher m;
@@ -92,25 +118,17 @@ public class RParser {
 			for (int i = 0; i < cell.length; i++) {
 				m = pLine.matcher(cell[i]);
 				if (!(m.matches())) {
-					//System.out.println(cell[i]);
-					result.add((T) cell[i]);
+					// System.out.println(cell[i]);
+					result.add((String) cell[i]);
 				}
 			}
 		}
 		if (result.size() == 1) {
-			RValue<T> rv = new RValue<>();
+			RValue<String> rv = new RValue<>();
 			rv.setValue(result.get(0));
 			return rv;
 		}
 		return result;
-	}
-
-	public static String getString() {
-		return rawData;
-	}
-
-	public static void setString(String string) {
-		RParser.rawData = string;
 	}
 
 	public static Connection getCon() {
@@ -123,7 +141,7 @@ public class RParser {
 
 	private static String typeofRCmd() throws RException {
 		String answer = con.sendCmdRaw("typeof(" + con.getTempVarName() + ")");
-		System.out.println(answer);
+		// System.out.println(answer);
 		if (answer.contains("double"))
 			return "double";
 		if (answer.contains("integer"))

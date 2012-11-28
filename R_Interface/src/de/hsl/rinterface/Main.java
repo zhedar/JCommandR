@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import de.hsl.rinterface.commands.RRead;
 import de.hsl.rinterface.exception.RException;
+import de.hsl.rinterface.objects.RMatrix;
 
 
 public class Main 
 {
-	public static void main(String[] args) throws IOException, 
+	public static <T> void main(String[] args) throws IOException, 
 			RException, InterruptedException
 	{
 //		int count = 0;
@@ -80,8 +81,10 @@ public class Main
 //		}
 		try(Connection con = new ConsoleConnection())
 		{
-			System.out.println(con.sendCmd("c(3,2,3,1)").toString());
-			System.out.println(con.sendCmd("c(\"awd\",\"test\",\"agh\",\"oiuzt\")").toString());
+			RMatrix<String> m = (RMatrix<String>) con.sendCmd("matrix(2,10,5)");
+			System.out.println(m);
+//			System.out.println(con.sendCmd("c(3,2,3,1)").toString());
+//			System.out.println(con.sendCmd("c(\"awd\",\"test\",\"agh\",\"oiuzt\")").toString());
 			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 			//System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
 			//Thread.sleep(1000);

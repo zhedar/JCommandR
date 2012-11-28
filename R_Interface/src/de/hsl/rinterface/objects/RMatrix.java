@@ -39,4 +39,17 @@ public class RMatrix<T> extends ArrayList<ArrayList<T>> implements RObject {
 		return mat;
 	}
 
+	@Override
+	public String toString(){
+		String result ="";
+		for (ArrayList<T> row : this) {
+			for (T cell : row) {
+				result+= cell+ " ";
+			}
+			result+="\n";
+		}
+		
+		return result;
+		
+	}
 }
