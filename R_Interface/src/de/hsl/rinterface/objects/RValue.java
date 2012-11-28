@@ -30,6 +30,10 @@ public String toRString()
 	return value.toString();
 }
 
+@Override
+public String toString(){
+	return ""+value;
+}
 
 
 

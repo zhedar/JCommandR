@@ -2,5 +2,5 @@ package de.hsl.rinterface.objects;
 
 public enum RObjectTypes {
 
-	VECTOR , MATRIX, VALUE, REFERENCE;
+	VECTOR , MATRIX, VALUE, REFERENCE, TABLE;
 }

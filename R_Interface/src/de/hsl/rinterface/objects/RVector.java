@@ -35,4 +35,12 @@ public class RVector<T> extends ArrayList<T> implements RObject {
 		return rRepresentation;
 	}
 
+	@Override
+	public String toString(){
+		String result="";
+		for (T value : this) {
+			result+=value.toString()+" ";
+		}
+		return result;
+	}
 }

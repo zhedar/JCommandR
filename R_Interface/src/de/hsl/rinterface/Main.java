@@ -80,7 +80,7 @@ public class Main
 //		}
 		try(Connection con = new ConsoleConnection())
 		{
-			System.out.println(con.sendCmd("c(1,2,3,4,5,6)"));
+			System.out.println(con.sendCmd("c(3,2,3,1)").toString());
 			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
 			//System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
 			//Thread.sleep(1000);

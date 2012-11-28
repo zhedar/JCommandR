@@ -23,6 +23,7 @@ public class RParser {
 
 	private static Connection con;
 	private static String rawData;
+	private static Scanner scanner;
 
 	/**
 	 * @throws RException
@@ -79,20 +80,28 @@ public class RParser {
 		return null;
 	}
 
-	private static RObject parsVector() {
-		Scanner scanner = new Scanner(rawData);
+	private static <T> RObject parsVector() throws RException {
+		RVector<T> result = new RVector<>();
+		scanner = new Scanner(rawData);
 		String line = "";
-		//Pattern pLine = Pattern.
-		while(scanner.hasNextLine()){
+		Pattern pLine = Pattern.compile("[\\d+]");
+		Matcher m;
+		while (scanner.hasNextLine()) {
 			line = scanner.nextLine();
-			String [] cell = line.split(" +");
+			String[] cell = line.split(" +");
 			for (int i = 0; i < cell.length; i++) {
-				if(cell[i]== null){
-					
+				m = pLine.matcher(cell[i]);
+				if (m.matches()) {
+					result.add((T) cell[i]);
 				}
 			}
 		}
-		return null;
+		if (result.size() == 1) {
+			RValue<T> rv = new RValue<>();
+			rv.setValue(result.get(0));
+			return rv;
+		}
+		return result;
 	}
 
 	public static String getString() {
@@ -109,6 +118,16 @@ public class RParser {
 
 	public static void setCon(Connection con) {
 		RParser.con = con;
+	}
+
+	private static String typeofRCmd() throws RException {
+		String answer = con.sendCmdRaw("typeof(" + con.getTempVarName() + ")");
+		System.out.println(answer);
+		if (answer.contains("double"))
+			return "double";
+		if (answer.contains("integer"))
+			return "integer";
+		return null;
 	}
 
 }
