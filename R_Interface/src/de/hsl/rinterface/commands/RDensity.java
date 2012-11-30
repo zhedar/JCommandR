@@ -47,7 +47,7 @@ import de.hsl.rinterface.objects.RVector;
 public class RDensity implements RCommand {
 
 	private RObject x;
-	private String bw; // oder auch double, int -.-
+	private String bw;
 	private int adjust;
 	private String kernel;
 	private RVector weight; //stimmt das?
@@ -60,6 +60,23 @@ public class RDensity implements RCommand {
 	private int cut;
 	private String na_rm;
 	
+	@Override
+	public String prepareForSending() {
+		return "density(" + x.toRString() + 
+				(bw != null ? ", bw = " + bw : "")+
+				(adjust != 0 ? ", adjust = " + adjust : "")+
+				(kernel != null ? ", kernel = \"" + kernel + "\"" : "")+
+				(weight != null ? ", weight = " + weight : "")+
+				(window != null ? ", window = \"" + window + "\"" : "")+
+				(width != 0 ? ", width = " + width : "")+
+				(give_Rkern != null ? ", give.Rkern = \"" + give_Rkern + "\"" : "")+
+				(n != 0 ? ", n = " + n : "")+
+				(from != 0.0d ? ", from = " + from : "")+
+				(to != 0.0d ? ", to = " + to : "")+
+				(cut != 0 ? ", cut = " + cut : "")+
+				(na_rm != null ? ", na.rm = \"" + na_rm + "\"" : "")
+				 +")";
+	}
 	
 	public RDensity(RObject x) {
 		this.x = x;
@@ -167,23 +184,5 @@ public class RDensity implements RCommand {
 
 	public void setNa_rm(String na_rm) {
 		this.na_rm = na_rm;
-	}
-
-	@Override
-	public String prepareForSending() {
-		return "density(" + x.toRString() + 
-				(bw != null ? ", bw = \"" + bw + "\"" : "")+
-				(adjust != 0 ? ", adjust = " + adjust : "")+
-				(kernel != null ? ", kernel = \"" + kernel + "\"" : "")+
-				(weight != null ? ", weight = " + weight : "")+
-				(window != null ? ", window = \"" + window + "\"" : "")+
-				(width != 0 ? ", width = " + width : "")+
-				(give_Rkern != null ? ", give.Rkern = \"" + give_Rkern + "\"" : "")+
-				(n != 0 ? ", n = " + n : "")+
-				(from != 0.0d ? ", from = " + from : "")+
-				(to != 0.0d ? ", to = " + to : "")+
-				(cut != 0 ? ", cut = " + cut : "")+
-				(na_rm != null ? ", na.rm = \"" + na_rm + "\"" : "")
-				 +")";
 	}
 }
