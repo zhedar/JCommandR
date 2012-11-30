@@ -2,8 +2,12 @@ package de.hsl.rinterface.utils;
 
 import java.util.List;
 
+import de.hsl.rinterface.exception.IllegalVariableNameException;
+
 public abstract class RUtils 
 {
+	
+	private final static String sysVar="RInterface";
 	/**
 	 * L��st eine {@link List} in einen R-Vector auf. c(1,2,3,...) 
 	 * @param list die aufzul��sende {@link List}
@@ -49,9 +53,23 @@ public abstract class RUtils
 		return absolutePath.replace("\\", "/");
 	}
 	
-//	public static void main(String[] args) {
+	static public void isSysVar(String var){
+		if (var.startsWith(sysVar))
+			throw new IllegalVariableNameException("Variable wird vom System verwendet. Die Variable darf nicht mit \"RInterface\" beginnen");
+	}
+	
+	public static void main(String[] args) {
 //		String test ="is.vector(RInterfaceTmpVar); is.matrix(RInterfaceTmpVar); is.table(RInterfaceTmpVar); is.data.frame(RInterfaceTmpVar)";
 //		String test2 = "is.vector(RInterfaceTmpVar)";
 //		System.out.println(splitCommand(test2));
-//	}
+		isSysVar("jkaanja");
+		isSysVar("RIn");
+		try {
+			isSysVar("RInterfacetest");
+		} catch (IllegalVariableNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		isSysVar("RInterbla");
+	}
 }
