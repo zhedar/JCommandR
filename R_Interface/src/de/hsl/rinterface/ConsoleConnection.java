@@ -42,6 +42,7 @@ public class ConsoleConnection implements Connection
 	private ProcHandlerThread procThread;
 	/**temporäre variable in der letzte antwort gespeichert wird**/
 	private String tempVarName = "RInterfaceTempVar";
+	private String tempRefName = "RInterfaceTempRef";
 	private File workspace;
 	
 	static
@@ -293,6 +294,10 @@ public class ConsoleConnection implements Connection
 		}
 	}
 	
+	public String getTempRefName() {
+		return tempRefName;
+	}
+
 	private void processErrors(String msg) throws RException
 	{
 		if(procThread.getpWr().checkError())
