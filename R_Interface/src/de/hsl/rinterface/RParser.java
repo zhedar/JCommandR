@@ -81,7 +81,7 @@ public class RParser {
 			dimY = Integer.parseInt(((RVector) dim).get(1).toString());
 		}
 		
-		RMatrix<String> result = new RMatrix<>();
+		RMatrix result = new RMatrix();
 		int lineCount = 0;
 		Scanner scanner = new Scanner(rawData);
 		for (int i = 0; i < dimX; i++) {

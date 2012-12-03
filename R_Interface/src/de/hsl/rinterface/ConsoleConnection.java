@@ -41,8 +41,8 @@ public class ConsoleConnection implements Connection
 	private List<String> pathAndArgs;
 	private ProcHandlerThread procThread;
 	/**temporäre variable in der letzte antwort gespeichert wird**/
-	private String tempVarName = "RInterfaceTempVar";
-	private String tempRefName = "RInterfaceTempRef";
+	private static String tempVarName = "RInterfaceTempVar";
+	private static String tempRefName = "RInterfaceTempRef";
 	private File workspace;
 	
 	static
@@ -294,7 +294,8 @@ public class ConsoleConnection implements Connection
 		}
 	}
 	
-	public String getTempRefName() {
+	
+	public static String getTempRefName() {
 		return tempRefName;
 	}
 
@@ -402,15 +403,15 @@ public class ConsoleConnection implements Connection
 		this.closeTimeOut = closeTimeOut;
 	}
 	
-	@Override
-	public String getTempVarName() {
+//	@Override
+	public static String getTempVarName() {
 		return tempVarName;
 	}
 	
-	@Override
-	public void setTempVarName(String tempVarName) {
-		this.tempVarName = tempVarName;
-	}
+//	@Override
+//	public void setTempVarName(String tempVarName) {
+//		this.tempVarName = tempVarName;
+//	}
 	
 	@Override
 	public void setTriesTillTimeout(int tryCount) {

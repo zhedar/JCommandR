@@ -2,83 +2,111 @@ package de.hsl.rinterface.objects;
 
 import java.util.ArrayList;
 
-public class RTable<E> implements RObject{
-	
-	ArrayList<String> colTitle;
-	ArrayList<String> rowTitle;
-	ArrayList<ArrayList<E>> table;
-	
-	public RTable() {
-		super();
+import de.hsl.rinterface.ConsoleConnection;
+
+public class RTable extends RMatrix implements RObject {
+
+	private String[] colTitle;
+	private String[] rowTitle;
+
+	public RTable(int dimX, int dimY) {
+		super(dimX, dimY);
+		colTitle = new String[dimX];
+		rowTitle = new String[dimY];
 	}
 
-	public RTable(ArrayList<String> colTitle, ArrayList<String> rowTitle,
-			ArrayList<ArrayList<E>> table) {
-		super();
-		this.colTitle = colTitle;
-		this.rowTitle = rowTitle;
-		this.table = table;
+	public RTable(RTable rTable) {
+		super(rTable.getMatrix());
+		this.colTitle = rTable.getColTitle();
+		this.rowTitle = rTable.getRowTitle();
 	}
 
-	public void addRowTitle(String s){
-		rowTitle.add(s);
-	}
-	
-	public void addColTitle(String s){
-		colTitle.add(s);
-	}
-	
-	
-	
-	public ArrayList<String> getcolTitle() {
+	public String[] getColTitle() {
 		return colTitle;
 	}
 
-	public void setcolTitle(ArrayList<String> colTitle) {
+	public String getColTitleAt(int index) {
+		if (index <= colTitle.length)
+			return colTitle[index];
+		else
+			throw new IndexOutOfBoundsException();
+	}
+
+	public void setColTitle(String[] colTitle) {
 		this.colTitle = colTitle;
 	}
 
-	public ArrayList<String> getRowTitle() {
+	public void setcolTitleAt(int index, String name) {
+		if (index <= colTitle.length)
+			colTitle[index] = name;
+		else
+			throw new IndexOutOfBoundsException();
+	}
+
+	public String[] getRowTitle() {
 		return rowTitle;
 	}
 
-	public void setRowTitle(ArrayList<String> rowTitle) {
+	public String getRowTitleAt(int index) {
+		if (index <= rowTitle.length)
+			return rowTitle[index];
+		else
+			throw new IndexOutOfBoundsException();
+	}
+
+	public void setRowTitle(String[] rowTitle) {
 		this.rowTitle = rowTitle;
 	}
 
-	public ArrayList<ArrayList<E>> getTable() {
-		return table;
-	}
-
-	public void setTable(ArrayList<ArrayList<E>> table) {
-		this.table = table;
+	public void setRowTitleAt(int index, String name) {
+		if (index <= rowTitle.length)
+			rowTitle[index] = name;
+		else
+			throw new IndexOutOfBoundsException();
 	}
 
 	@Override
 	public String toRString() {
-		String result ="";
-		
-		
-		
-		
-		// Tabellenkopf hinzufügen
-		if(colTitle!= null){
-			result += " ; colnames( ";
-			result+= "\""+ colTitle.get(0) + "\"";
-			for (int i = 1; i < colTitle.size(); i++) {
-				result+= "; \""+ colTitle.get(i) + "\"";
+		String result = "";
+
+		if (matrix.length > 0) {
+			// Tabellenzellen hinzufügen
+			result += ConsoleConnection.getTempRefName() + "<- data.frame( ";
+			for (int i = 0; i < matrix.length; i++) {
+				if (i == 0)
+					result += "c( ";
+				else
+					result += ", c( ";
+				for (int j = 0; j < matrix[i].length; j++) {
+					if (j == 0)
+						result += matrix[i][j];
+					else
+						result += ", " + matrix[i][j];
+				}
+				result += " ) ";
 			}
-			result += ")";
-		}
-		if(rowTitle!= null){
-			result += " ; rownames( ";
-			result+= "\""+ rowTitle.get(0) + "\"";
-			for (int i = 1; i < rowTitle.size(); i++) {
-				result+= "; \""+ rowTitle.get(i) + "\"";
+
+			// Tabellenkopf hinzufügen
+			if (colTitle != null) {
+				result += " ; colnames( " + ConsoleConnection.getTempRefName()
+						+ ")<- (";
+				result += "\"" + colTitle[0] + "\"";
+				for (int i = 1; i < colTitle.length; i++) {
+					result += ", \"" + colTitle[i] + "\"";
+				}
+				result += ")";
 			}
-			result += ")";
+			// Titel für Tabellenzeilen hinzufügen
+			if (rowTitle != null) {
+				result += " ; rownames( " + ConsoleConnection.getTempRefName()
+						+ ")<- (";
+				result += "\"" + rowTitle[0] + "\"";
+				for (int i = 1; i < rowTitle.length; i++) {
+					result += ", \"" + rowTitle[i] + "\"";
+				}
+				result += ")";
+			}
 		}
-			
 		return result;
 	}
 
@@ -86,28 +114,33 @@ public class RTable<E> implements RObject{
 	public RObjectTypes getType() {
 		return RObjectTypes.TABLE;
 	}
-	
+
 	@Override
-	public String toString(){
-		String result="";
-		for (String cell : this.colTitle) {
-			result += cell + "\\t";
+	public String toString() {
+		String result = "";
+		if(rowTitle.length>0)
+			result += " \t";
+		for (int i = 0; i < colTitle.length; i++) {
+			result += colTitle[i] + "\t";
 		}
-		result = "\n";
-		for (int i = 0; i < rowTitle.size(); i++) {
-			result += rowTitle.get(i) + "\\t";
-			for (E cell : table.get(i)) {
-				result += cell.toString() + "\\t";
+		result += "\n";
+		for (int i = 0; i < rowTitle.length; i++) {
+			result += rowTitle[i] + "\t";
+
+			for (int j = 0; j < matrix.length; j++) {
+				result += matrix[i][j] + "\t";
 			}
-			result+="\n";
-		}	
+			result += "\n";
+		}
 		return result;
 	}
-	
+
 	public static void main(String[] args) {
-		RTable<String> t1 = new RTable<>();
-		
-		System.out.println(t1.toRString());
+		RTable t1 = new RTable(2, 2);
+		t1.setColTitle(new String[] { "a", "b" });
+		t1.setRowTitle(new String[] { "c", "d" });
+		t1.setMatrix(new String[][] { { "1", "2" }, { "3", "4" } });
+		System.out.println(t1.toString());
 	}
 
 }

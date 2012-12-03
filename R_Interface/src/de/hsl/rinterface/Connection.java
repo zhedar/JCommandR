@@ -161,7 +161,7 @@ public interface Connection extends Closeable, AutoCloseable
 	 * der letzten Anfrage gespeichert ist.
 	 * @return name der Variable, default: <i>RInterfaceTempVar</i>
 	 */
-	public String getTempVarName();
+	//public static String getTempVarName();
 	
 	/**
 	 * Setzt den namen der Variable, in die das Ergebnis
@@ -169,7 +169,7 @@ public interface Connection extends Closeable, AutoCloseable
 	 * Nur wenn unbedingt nötig ändern.
 	 * @param tempVarName name der Variable, default: <i>RInterfaceTempVar</i>
 	 */
-	public void setTempVarName(String tempVarName);
+	//public void setTempVarName(String tempVarName);
 	
 	/**
 	 * Liefert den Ordner des aktuellen Workspaces zurück.
