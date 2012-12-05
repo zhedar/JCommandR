@@ -70,7 +70,7 @@ public class RTable extends RMatrix implements RObject {
 		String result = "";
 
 		if (matrix.length > 0) {
-			// Tabellenzellen hinzufügen
+			// Tabellenzellen hinzufï¿½gen
 			result += ConsoleConnection.getTempRefName() + "<- data.frame( ";
 			for (int i = 0; i < matrix.length; i++) {
 				if (i == 0)
@@ -86,7 +86,7 @@ public class RTable extends RMatrix implements RObject {
 				result += " ) ";
 			}
 
-			// Tabellenkopf hinzufügen
+			// Tabellenkopf hinzufï¿½gen
 			if (colTitle != null) {
 				result += " ; colnames( " + ConsoleConnection.getTempRefName()
 						+ ")<- (";
@@ -96,7 +96,7 @@ public class RTable extends RMatrix implements RObject {
 				}
 				result += ")";
 			}
-			// Titel für Tabellenzeilen hinzufügen
+			// Titel fï¿½r Tabellenzeilen hinzufï¿½gen
 			if (rowTitle != null) {
 				result += " ; rownames( " + ConsoleConnection.getTempRefName()
 						+ ")<- (";
@@ -118,14 +118,15 @@ public class RTable extends RMatrix implements RObject {
 	@Override
 	public String toString() {
 		String result = "";
-		if(rowTitle.length>0)
+		if (rowTitle != null && rowTitle.length > 0)
 			result += " \t";
 		for (int i = 0; i < colTitle.length; i++) {
 			result += colTitle[i] + "\t";
 		}
 		result += "\n";
-		for (int i = 0; i < rowTitle.length; i++) {
-			result += rowTitle[i] + "\t";
+		for (int i = 0; i < getDimY(); i++) {
+			if (rowTitle != null)
+				result += rowTitle[i] + "\t";
 
 			for (int j = 0; j < matrix.length; j++) {
 				result += matrix[i][j] + "\t";

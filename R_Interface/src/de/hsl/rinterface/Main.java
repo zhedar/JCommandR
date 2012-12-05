@@ -81,18 +81,25 @@ public class Main
 //		}
 		try(Connection con = new ConsoleConnection())
 		{
-//			RMatrix<String> m = (RMatrix<String>) con.sendCmd("matrix(2,10,5)");
+			/**
+			 * geht nicht
+			 */
+			System.out.println(con.sendCmd("summary(c(1,2,3,4,5))"));
+//			System.out.println(con.sendCmd(new RRead("c:\\test.csv")));
+//			System.out.println(con.sendCmdRaw("qwertz"));
+			
+			/**
+			 * geht
+			 */
+//			RMatrix m = (RMatrix) con.sendCmd("matrix(2,10,5)");
 //			System.out.println(m);
 //			System.out.println(con.sendCmd("c(3,2,3,1)").toString());
 //			System.out.println(con.sendCmd("c(\"awd\",\"test\",\"agh\",\"oiuzt\")").toString());
-			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			//System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
-			//Thread.sleep(1000);
-			//System.out.println(con.sendCmd(new RRead("c:\\test.csv")));
-			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			//Thread.sleep(1000);
-			//System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			//System.out.println(con.sendCmdRaw("qwertz"));
+//			System.out.println(con.sendCmd("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
+
 			
 		}
 	}

@@ -12,9 +12,13 @@ import java.util.Arrays;
 public class RMatrix implements RObject {
 	/** @pdOid a1d46f5d-b3f9-4b07-9894-50df3d61ac51 */
 	protected String[][] matrix;
+	private int dimX;
+	private int dimY;
 
 	public RMatrix(int dimX, int dimY){
 		this.matrix= new String[dimX][dimY];
+		this.dimX=dimX;
+		this.dimY=dimY;
 	}
 	
 	public RMatrix(String[][] matrix){
@@ -28,6 +32,14 @@ public class RMatrix implements RObject {
 	@Override
 	public RObjectTypes getType() {
 		return RObjectTypes.MATRIX;
+	}
+	
+	public int getDimX() {
+		return dimX;
+	}
+
+	public int getDimY() {
+		return dimY;
 	}
 
 	@Override
@@ -58,6 +70,13 @@ public class RMatrix implements RObject {
 
 	public void setMatrix(String[][] matrix) {
 		this.matrix = matrix;
+	}
+	
+	public void setMtrixLine(int index, String[] line){
+		if(index <= matrix.length)
+			matrix[index]=line;
+		else
+			throw new IndexOutOfBoundsException();
 	}
 	
 	public void setMatrixAt(int indexRow, int indexCol, String value){
