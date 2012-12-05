@@ -34,8 +34,8 @@ public class ConsoleConnection implements Connection
 {
 	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
 	private long 	closeTimeOut = 200l,
-					waitForAnswerInterval = 50l;
-	private int 	triesTillTimeout = 200;
+					tryIdleTime = 50l;
+	private int 	triesTillFail = 200;
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
@@ -107,11 +107,6 @@ public class ConsoleConnection implements Connection
 		return procThread.isRunning();
 	}
 
-//	/**
-//	 * Sendet den �bergebenen Befehl sofort an die Konsole. F�gt einen Zeilenumbruch an. 
-//	 * @param cmd der auszuf�hrende Befehl
-//	 * @throws RException falls bei der �bermittlung zum Prozess ein Fehler auftritt
-//	 */
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{	
@@ -276,14 +271,14 @@ public class ConsoleConnection implements Connection
 		try {
 			while (!reader.ready())
 			{
-				if(tryCount++==triesTillTimeout)
+				if(tryCount++==triesTillFail)
 				{	//mögliche Fehler auslesen, die dazu geführt haben könnten
 					processErrors("Timeout beim Warten auf eine Antwort und Fehler aufgetreten: ");
 					//keine Fehler ausgelesen, werfe Exception
 					throw new RException("Timeout beim Warten auf eine Antwort.");
 				}
 					
-				Thread.sleep(waitForAnswerInterval);
+				Thread.sleep(tryIdleTime);
 			}
 				
 		} catch (InterruptedException e) {
@@ -342,12 +337,13 @@ public class ConsoleConnection implements Connection
 		return list;
 	}
 	
+	//TODO auf weitere attribute erweitern
 	static private String loadPathFromProp() throws IOException
 	{
 		try {
 			Properties prop = new Properties(); 
 			
-			prop.load(new FileInputStream("path.properties"));
+			prop.load(new FileInputStream("rinterface.properties"));
 			
 			return prop.getProperty("path");
 		} catch (Exception e) {
@@ -414,23 +410,23 @@ public class ConsoleConnection implements Connection
 //	}
 	
 	@Override
-	public void setTriesTillTimeout(int tryCount) {
-		this.triesTillTimeout = tryCount;
+	public void setTriesTillFail(int tryCount) {
+		this.triesTillFail = tryCount;
 	}
 
 	@Override
-	public int getTriesTillTimeout() {
-		return triesTillTimeout;
+	public int getTriesTillFail() {
+		return triesTillFail;
 	}
 	
 	@Override
-	public long getWaitForAnswerInterval() {
-		return waitForAnswerInterval;
+	public long getTryIdleTime() {
+		return tryIdleTime;
 	}
 	
 	@Override
-	public void setWaitForAnswerInterval(long waitForAnswerInterval) {
-		this.waitForAnswerInterval = waitForAnswerInterval;
+	public void setTryIdleTime(long waitForAnswerInterval) {
+		this.tryIdleTime = waitForAnswerInterval;
 	}
 
 	@Override

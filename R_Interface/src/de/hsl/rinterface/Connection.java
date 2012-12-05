@@ -202,11 +202,11 @@ public interface Connection extends Closeable, AutoCloseable
 	 */
 	public void saveWorkspace() throws RException;
 	
-	public void setTriesTillTimeout(int tryCount);
+	public void setTriesTillFail(int tryCount);
 	
-	public int getTriesTillTimeout();
+	public int getTriesTillFail();
 
-	long getWaitForAnswerInterval();
+	long getTryIdleTime();
 
-	void setWaitForAnswerInterval(long waitForAnswerInterval);
+	void setTryIdleTime(long idleTime);
 }
