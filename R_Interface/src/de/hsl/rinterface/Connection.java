@@ -201,12 +201,4 @@ public interface Connection extends Closeable, AutoCloseable
 	 * @see changeWorkspace(File)
 	 */
 	public void saveWorkspace() throws RException;
-	
-//	public void setTriesTillFail(int tryCount);
-//	
-//	public int getTriesTillFail();
-//
-//	long getTryIdleTime();
-//
-//	void setTryIdleTime(long idleTime);
 }

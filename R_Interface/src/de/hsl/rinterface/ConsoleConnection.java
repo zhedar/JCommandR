@@ -3,14 +3,12 @@ package de.hsl.rinterface;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.FileHandler;
@@ -33,16 +31,10 @@ import de.hsl.rinterface.utils.RUtils;
 public class ConsoleConnection implements Connection
 {
 	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
-	private long 	closeTimeOut = 200l,
-					tryIdleTime = 50l;
-	private int 	triesTillFail = 200;
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
 	private ProcHandlerThread procThread;
-	/**temporäre variable in der letzte antwort gespeichert wird**/
-	private static String tempVarName = "RInterfaceTempVar";
-	private static String tempRefName = "RInterfaceTempRef";
 	private File workspace;
 	
 	static
@@ -110,7 +102,7 @@ public class ConsoleConnection implements Connection
 	@Override	
 	public RObject sendCmd(String cmd) throws RException
 	{	
-		return RParser.construct(sendCmdRaw(tempVarName + " <- " + cmd + ";" + tempVarName), this);
+		return RParser.construct(sendCmdRaw(RCONSTANTS.NAME_TMP_VAR + " <- " + cmd + ";" + RCONSTANTS.NAME_TMP_VAR), this);
 	}
 
 	@Override
@@ -257,7 +249,7 @@ public class ConsoleConnection implements Connection
 					procThread.interrupt();
 				killTimer.cancel();
 			}
-		}, closeTimeOut);
+		}, RCONSTANTS.CLOSE_TIMEOUT);
 	}
 
 	//Hilfsmethoden
@@ -271,14 +263,14 @@ public class ConsoleConnection implements Connection
 		try {
 			while (!reader.ready())
 			{
-				if(tryCount++==triesTillFail)
+				if(tryCount++== RCONSTANTS.TRIES_TILL_FAIL)
 				{	//mögliche Fehler auslesen, die dazu geführt haben könnten
 					processErrors("Timeout beim Warten auf eine Antwort und Fehler aufgetreten: ");
 					//keine Fehler ausgelesen, werfe Exception
 					throw new RException("Timeout beim Warten auf eine Antwort.");
 				}
 					
-				Thread.sleep(tryIdleTime);
+				Thread.sleep(RCONSTANTS.TRY_IDLE_TIME);
 			}
 				
 		} catch (InterruptedException e) {
@@ -290,9 +282,9 @@ public class ConsoleConnection implements Connection
 	}
 	
 	
-	public static String getTempRefName() {
-		return tempRefName;
-	}
+//	public static String getTempRefName() {
+//		return tempRefName;
+//	}
 
 	private void processErrors(String msg) throws RException
 	{
@@ -337,20 +329,6 @@ public class ConsoleConnection implements Connection
 		return list;
 	}
 	
-//	static private String loadPathFromProp() throws IOException
-//	{
-//		try {
-//			Properties prop = new Properties(); 
-//			
-//			prop.load(new FileInputStream("rinterface.properties"));
-//			
-//			return prop.getProperty("path");
-//		} catch (Exception e) {
-//			log.throwing("ConsoleConnection", "loadPathFromProp()", e);
-//			throw e;
-//		}
-//	}
-
 //	@Override
 //	public void rebuildConnection() throws IOException, RException
 //	{
@@ -387,46 +365,6 @@ public class ConsoleConnection implements Connection
 		
 		sendCmdRaw("options(echo=FALSE)");
 	}
-
-//	@Override
-//	public long getCloseTimeOut() {
-//		return closeTimeOut;
-//	}
-//	
-//	@Override
-//	public void setCloseTimeOut(long closeTimeOut) {
-//		this.closeTimeOut = closeTimeOut;
-//	}
-	
-//	@Override
-//	public static String getTempVarName() {
-//		return tempVarName;
-//	}
-	
-//	@Override
-//	public void setTempVarName(String tempVarName) {
-//		this.tempVarName = tempVarName;
-//	}
-	
-//	@Override
-//	public void setTriesTillFail(int tryCount) {
-//		this.triesTillFail = tryCount;
-//	}
-//
-//	@Override
-//	public int getTriesTillFail() {
-//		return triesTillFail;
-//	}
-//	
-//	@Override
-//	public long getTryIdleTime() {
-//		return tryIdleTime;
-//	}
-//	
-//	@Override
-//	public void setTryIdleTime(long waitForAnswerInterval) {
-//		this.tryIdleTime = waitForAnswerInterval;
-//	}
 
 	@Override
 	public File getWorkspace() {

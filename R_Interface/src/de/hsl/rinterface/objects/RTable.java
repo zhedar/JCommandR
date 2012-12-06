@@ -3,6 +3,7 @@ package de.hsl.rinterface.objects;
 import java.util.ArrayList;
 
 import de.hsl.rinterface.ConsoleConnection;
+import de.hsl.rinterface.RCONSTANTS;
 
 public class RTable extends RMatrix implements RObject {
 
@@ -71,7 +72,7 @@ public class RTable extends RMatrix implements RObject {
 
 		if (matrix.length > 0) {
 			// Tabellenzellen hinzuf�gen
-			result += ConsoleConnection.getTempRefName() + "<- data.frame( ";
+			result += RCONSTANTS.NAME_TMP_REF + "<- data.frame( ";
 			for (int i = 0; i < matrix.length; i++) {
 				if (i == 0)
 					result += "c( ";
@@ -88,8 +89,7 @@ public class RTable extends RMatrix implements RObject {
 
 			// Tabellenkopf hinzuf�gen
 			if (colTitle != null) {
-				result += " ; colnames( " + ConsoleConnection.getTempRefName()
-						+ ")<- (";
+				result += " ; colnames( " + RCONSTANTS.NAME_TMP_REF + ")<- (";
 				result += "\"" + colTitle[0] + "\"";
 				for (int i = 1; i < colTitle.length; i++) {
 					result += ", \"" + colTitle[i] + "\"";
@@ -98,8 +98,7 @@ public class RTable extends RMatrix implements RObject {
 			}
 			// Titel f�r Tabellenzeilen hinzuf�gen
 			if (rowTitle != null) {
-				result += " ; rownames( " + ConsoleConnection.getTempRefName()
-						+ ")<- (";
+				result += " ; rownames( " + RCONSTANTS.NAME_TMP_REF	+ ")<- (";
 				result += "\"" + rowTitle[0] + "\"";
 				for (int i = 1; i < rowTitle.length; i++) {
 					result += ", \"" + rowTitle[i] + "\"";
