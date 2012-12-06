@@ -85,7 +85,7 @@ public class ConsoleConnection implements Connection
 	 */
 	public ConsoleConnection(List<String> args) throws IOException, RException
 	{
-		this(loadPathFromProp(), args);
+		this(RCONSTANTS.PATH, args);
 	}
 	
 	/**
@@ -337,20 +337,19 @@ public class ConsoleConnection implements Connection
 		return list;
 	}
 	
-	//TODO auf weitere attribute erweitern
-	static private String loadPathFromProp() throws IOException
-	{
-		try {
-			Properties prop = new Properties(); 
-			
-			prop.load(new FileInputStream("rinterface.properties"));
-			
-			return prop.getProperty("path");
-		} catch (Exception e) {
-			log.throwing("ConsoleConnection", "loadPathFromProp()", e);
-			throw e;
-		}
-	}
+//	static private String loadPathFromProp() throws IOException
+//	{
+//		try {
+//			Properties prop = new Properties(); 
+//			
+//			prop.load(new FileInputStream("rinterface.properties"));
+//			
+//			return prop.getProperty("path");
+//		} catch (Exception e) {
+//			log.throwing("ConsoleConnection", "loadPathFromProp()", e);
+//			throw e;
+//		}
+//	}
 
 //	@Override
 //	public void rebuildConnection() throws IOException, RException
@@ -389,45 +388,45 @@ public class ConsoleConnection implements Connection
 		sendCmdRaw("options(echo=FALSE)");
 	}
 
-	@Override
-	public long getCloseTimeOut() {
-		return closeTimeOut;
-	}
-	
-	@Override
-	public void setCloseTimeOut(long closeTimeOut) {
-		this.closeTimeOut = closeTimeOut;
-	}
+//	@Override
+//	public long getCloseTimeOut() {
+//		return closeTimeOut;
+//	}
+//	
+//	@Override
+//	public void setCloseTimeOut(long closeTimeOut) {
+//		this.closeTimeOut = closeTimeOut;
+//	}
 	
 //	@Override
-	public static String getTempVarName() {
-		return tempVarName;
-	}
+//	public static String getTempVarName() {
+//		return tempVarName;
+//	}
 	
 //	@Override
 //	public void setTempVarName(String tempVarName) {
 //		this.tempVarName = tempVarName;
 //	}
 	
-	@Override
-	public void setTriesTillFail(int tryCount) {
-		this.triesTillFail = tryCount;
-	}
-
-	@Override
-	public int getTriesTillFail() {
-		return triesTillFail;
-	}
-	
-	@Override
-	public long getTryIdleTime() {
-		return tryIdleTime;
-	}
-	
-	@Override
-	public void setTryIdleTime(long waitForAnswerInterval) {
-		this.tryIdleTime = waitForAnswerInterval;
-	}
+//	@Override
+//	public void setTriesTillFail(int tryCount) {
+//		this.triesTillFail = tryCount;
+//	}
+//
+//	@Override
+//	public int getTriesTillFail() {
+//		return triesTillFail;
+//	}
+//	
+//	@Override
+//	public long getTryIdleTime() {
+//		return tryIdleTime;
+//	}
+//	
+//	@Override
+//	public void setTryIdleTime(long waitForAnswerInterval) {
+//		this.tryIdleTime = waitForAnswerInterval;
+//	}
 
 	@Override
 	public File getWorkspace() {

@@ -146,15 +146,15 @@ public interface Connection extends Closeable, AutoCloseable
 //	void close() throws InterruptedException, RException;
 	
 	
-	public long getCloseTimeOut();
-	/**
-	 * Setzt ein Timeout in Millisekunden, während dem der 
-	 * R-Prozess terminieren soll.<br> Braucht er länger als erwartet,
-	 * wird er zu beenden versucht.<br>Sollte bei langsameren Maschinen höher
-	 * gesetzt werden, damit der Prozess ordentlich terminieren kann.
-	 * @param closeTimeOut timeout in ms, default: 200 ms
-	 */
-	public void setCloseTimeOut(long closeTimeOut);
+//	public long getCloseTimeOut();
+//	/**
+//	 * Setzt ein Timeout in Millisekunden, während dem der 
+//	 * R-Prozess terminieren soll.<br> Braucht er länger als erwartet,
+//	 * wird er zu beenden versucht.<br>Sollte bei langsameren Maschinen höher
+//	 * gesetzt werden, damit der Prozess ordentlich terminieren kann.
+//	 * @param closeTimeOut timeout in ms, default: 200 ms
+//	 */
+//	public void setCloseTimeOut(long closeTimeOut);
 	
 	/**
 	 * Liefert den Namen der Variable zurück, in der das Ergebnis
@@ -202,11 +202,11 @@ public interface Connection extends Closeable, AutoCloseable
 	 */
 	public void saveWorkspace() throws RException;
 	
-	public void setTriesTillFail(int tryCount);
-	
-	public int getTriesTillFail();
-
-	long getTryIdleTime();
-
-	void setTryIdleTime(long idleTime);
+//	public void setTriesTillFail(int tryCount);
+//	
+//	public int getTriesTillFail();
+//
+//	long getTryIdleTime();
+//
+//	void setTryIdleTime(long idleTime);
 }

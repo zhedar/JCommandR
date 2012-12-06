@@ -32,7 +32,7 @@ public abstract class RCONSTANTS {
 	
 	static {
 		Properties prop = new Properties();
-		try(InputStream is = new FileInputStream("rinterface.prop")) {
+		try(InputStream is = new FileInputStream("rinterface.properties")) {
 	      prop.load(is);
 	      PATH = prop.getProperty("path");
 	      CLOSE_TIMEOUT = Long.parseLong(prop.getProperty("closetimeout", "200"));
