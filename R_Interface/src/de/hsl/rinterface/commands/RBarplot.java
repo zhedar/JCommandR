@@ -77,6 +77,7 @@ import de.hsl.rinterface.utils.RUtils;
  */
 public class RBarplot implements RCommand {
 
+	
 	private File file;
 	private String savePath;
 	private RPlotSaveTypes type; 
