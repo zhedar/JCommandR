@@ -1,6 +1,9 @@
 package de.hsl.rinterface.commands;
 
+import java.io.File;
+
 import de.hsl.rinterface.objects.RObject;
+import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RBarplot.java
@@ -73,6 +76,7 @@ import de.hsl.rinterface.objects.RObject;
  */
 public class RBarplot implements RCommand {
 
+	private File file;
 	private RObject height;
 	private String width;
 	private String space;
@@ -102,10 +106,14 @@ public class RBarplot implements RCommand {
 	private String offset;
 	private String add;
 	private String args_legend;
+	private String savePath;
+	private RPlotSaveTypes type; 
 	
 	@Override
 	public String prepareForSending() {
-		return "barplot(" + height.toRString() + 
+		String path = RUtils.getRPath(file.getAbsolutePath());
+		
+		return  type + "(\"" + path + "\"); barplot(" + height.toRString() + 
 				(width != null ? ", width = " + width  : "") + 
 				(space != null ? ", space = " + space : "")+
 				(names_arg != null ? ", names.arg = " + names_arg : "")+
@@ -137,8 +145,34 @@ public class RBarplot implements RCommand {
 				+")";
 	}
 
-	public RBarplot(RObject height) {
+	public RBarplot(RObject height, String savePath, RPlotSaveTypes type) {
 		this.height = height;
+		this.savePath = savePath;
+		this.type = type;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public RPlotSaveTypes getType() {
+		return type;
+	}
+
+	public void setType(RPlotSaveTypes type) {
+		this.type = type;
+	}
+
+	public String getSavePath() {
+		return savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
 	}
 
 	public RObject getHeight() {
