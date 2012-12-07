@@ -188,7 +188,7 @@ public class RParser {
 	 * @param rawData sind die Rohdaten von R
 	 * @param con ist die derzeitige Verbindung
 	 * @return gibt eine 2x2 Matrix zurück
-	 * @throws RException die Eception tritt auf, wenn die Abfrage nach der Anzahl für Zeilen und Spalten missglückt
+	 * @throws diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
 	 */
 	private static RObject parsMatrix(String rawData, Connection con) throws RException {
 		RObject dim = con.sendCmd("dim(" + RCONSTANTS.NAME_TMP_VAR + ")");
