@@ -52,12 +52,12 @@ public class RDensity implements RCommand {
 	private String kernel;
 	private RVector<Double> weights;
 	private String window;
-	private int width;
+	private String width;
 	private String give_Rkern;
 	private int n;
 	private double from;
 	private double to;
-	private int cut;
+	private double cut;
 	private String na_rm;
 	
 	@Override
@@ -68,12 +68,12 @@ public class RDensity implements RCommand {
 				(kernel != null ? ", kernel = \"" + kernel + "\"" : "")+
 				(weights != null ? ", weights = " + weights : "")+
 				(window != null ? ", window = \"" + window + "\"" : "")+
-				(width != 0 ? ", width = " + width : "")+
+				(width != null ? ", width = " + width : "")+
 				(give_Rkern != null ? ", give.Rkern = \"" + give_Rkern + "\"" : "")+
 				(n != 0 ? ", n = " + n : "")+
 				(from != 0.0d ? ", from = " + from : "")+
 				(to != 0.0d ? ", to = " + to : "")+
-				(cut != 0 ? ", cut = " + cut : "")+
+				(cut != 0.0d ? ", cut = " + cut : "")+
 				(na_rm != null ? ", na.rm = \"" + na_rm + "\"" : "")
 				 +")";
 	}
@@ -130,11 +130,11 @@ public class RDensity implements RCommand {
 		this.window = window;
 	}
 
-	public int getWidth() {
+	public String getWidth() {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(String width) {
 		this.width = width;
 	}
 
@@ -170,11 +170,11 @@ public class RDensity implements RCommand {
 		this.to = to;
 	}
 
-	public int getCut() {
+	public double getCut() {
 		return cut;
 	}
 
-	public void setCut(int cut) {
+	public void setCut(double cut) {
 		this.cut = cut;
 	}
 
