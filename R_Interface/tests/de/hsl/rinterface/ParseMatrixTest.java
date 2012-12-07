@@ -36,7 +36,7 @@ public class ParseMatrixTest
 		{
 			RMatrix name = (RMatrix) ro;
 			Assert.assertNotNull(name);
-			Assert.assertTrue(name.getrowLength()== 5 && name.getcolLength() == 5);		
+			Assert.assertTrue(name.getRowLength()== 5 && name.getColLength() == 5);		
 		}
 	}
 	

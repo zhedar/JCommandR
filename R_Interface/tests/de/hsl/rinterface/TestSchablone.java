@@ -33,7 +33,7 @@ public class TestSchablone
 		{	//Ergebnis ist eine Matrix - prima
 			RMatrix name = (RMatrix) ro;
 			Assert.assertNotNull(name);
-			Assert.assertTrue(name.getrowLength()== 5 && name.getcolLength() == 5);		
+			Assert.assertTrue(name.getRowLength()== 5 && name.getColLength() == 5);		
 		}
 		else	//Test fehlschlagen lassen, falls if nicht ausgelöst wurde
 			Assert.fail("Ergebnis ist keine Matrix, sollte aber eine sein.");
