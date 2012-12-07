@@ -50,7 +50,7 @@ public class RDensity implements RCommand {
 	private String bw;
 	private int adjust;
 	private String kernel;
-	private RVector weight; //stimmt das?
+	private RVector<Double> weights;
 	private String window;
 	private int width;
 	private String give_Rkern;
@@ -66,7 +66,7 @@ public class RDensity implements RCommand {
 				(bw != null ? ", bw = " + bw : "")+
 				(adjust != 0 ? ", adjust = " + adjust : "")+
 				(kernel != null ? ", kernel = \"" + kernel + "\"" : "")+
-				(weight != null ? ", weight = " + weight : "")+
+				(weights != null ? ", weights = " + weights : "")+
 				(window != null ? ", window = \"" + window + "\"" : "")+
 				(width != 0 ? ", width = " + width : "")+
 				(give_Rkern != null ? ", give.Rkern = \"" + give_Rkern + "\"" : "")+
@@ -114,12 +114,12 @@ public class RDensity implements RCommand {
 		this.kernel = kernel;
 	}
 
-	public RVector getWeight() {
-		return weight;
+	public RVector<Double> getWeights() {
+		return weights;
 	}
 
-	public void setWeight(RVector weight) {
-		this.weight = weight;
+	public void setWeight(RVector<Double> weights) {
+		this.weights = weights;
 	}
 
 	public String getWindow() {
