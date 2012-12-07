@@ -2,14 +2,13 @@ package de.hsl.rinterface;
 
 /***********************************************************************
  * Module:  RParser.java
- * Author:  tobo1987
+ * Author:  Tobias Steinmetzer
  * Purpose: Defines the Class RParser
  ***********************************************************************/
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
@@ -22,10 +21,13 @@ import de.hsl.rinterface.objects.RVector;
 public class RParser {
 
 	/**
-	 * @throws RException
-	 * @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a
+	 * Diese Methode pr&uuml;ft, ob der Befehl in R in einer Matrix, Vektor, Einzelwert, Tabelle oder Data.Frame handelt. 
+	 * Danach wird der dementsprechende Parser aufgerufen.
+	 * @param rawData sind die Rohdaten von R
+	 * @param con ist die aktuelle Verbindung
+	 * @return liefert ein RObject zurück
+	 * @throws RException diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
 	 */
-
 	static public RObject construct(String rawData, Connection con)
 			throws RException {
 
@@ -64,6 +66,13 @@ public class RParser {
 		throw new RException("Datentyp nicht vorhanden.");
 	}
 
+	/**
+	 * Diese Methode bildet ein RTable-Objekt aus einem data.frame von R
+	 * @param rawData sind die Rohdaten von R
+	 * @param con ist die aktuelle Verbindung
+	 * @return gibt ein RTable_Objekt zurück
+	 * @throws RException diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
+	 */
 	private static RObject parsDataFrame(String rawData, Connection con) throws RException {
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
@@ -118,6 +127,13 @@ public class RParser {
 		return table;
 	}
 
+	/**
+	 * Diese Methode bildet ein RTable-Objekt aus dem Output von R
+	 * @param rawData sind die Rohdaten die von R verschickt werden
+	 * @param con ist die derzeitige Verbindung
+	 * @return liefert ein RTable-Objekt 
+	 * @throws RException diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
+	 */
 	private static RObject parsTable(String rawData, Connection con) throws RException {
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
@@ -167,6 +183,13 @@ public class RParser {
 		return table;
 	}
 
+	/**
+	 * Die Methode bildet aus einem Output von eine 2x2 Matrix
+	 * @param rawData sind die Rohdaten von R
+	 * @param con ist die derzeitige Verbindung
+	 * @return gibt eine 2x2 Matrix zurück
+	 * @throws RException die Eception tritt auf, wenn die Abfrage nach der Anzahl für Zeilen und Spalten missglückt
+	 */
 	private static RObject parsMatrix(String rawData, Connection con) throws RException {
 		RObject dim = con.sendCmd("dim(" + RCONSTANTS.NAME_TMP_VAR + ")");
 		int dimX = 0, dimY = 0;
@@ -193,13 +216,18 @@ public class RParser {
 
 			}
 			j++;
-
 		}
 		scanner.close();
 		return result;
 	}
 
-	private static RObject parsVector(String rawData, Connection con) throws RException {
+	/**
+	 * Parst Daten und bildet aus diesen ein Vektor oder einen Einzelwert. 
+	 * @param rawData Rohdaten die aus R kommen
+	 * @param con ist ein Verbindungsobjekt der derzeitigen Connection
+	 * @return gibt einen RVector oder RValue zur&uuml;ck
+	 */
+	private static RObject parsVector(String rawData, Connection con){
 		RVector<String> result = new RVector<>();
 		Scanner scanner = new Scanner(rawData);
 		String line = "";
@@ -216,26 +244,29 @@ public class RParser {
 			for (int i = 0; i < cell.length; i++) {
 				m = pLine.matcher(cell[i]);
 				if (!(m.matches())) {
-					// System.out.println(cell[i]);
 					cell[i] = cell[i].replaceAll("\"", "");
 					result.add((String) cell[i]);
 				}
 			}
 		}
+		scanner.close();
 		if (result.size() == 1) {
 			RValue<String> rv = new RValue<>();
 			rv.setValue(result.get(0));
 			return rv;
 		}
-		scanner.close();
 		return result;
 	}
 
-
+	/**
+	 * Diese Methode pr&uuml;ft um welchen Datentyp es sich bei den Daten handelt.
+	 * @param con ist die derzeitige Connection
+	 * @return gibt den Datentyp als String zur&uuml;ck
+	 * @throws RException
+	 */
 	private static String typeofRCmd(Connection con) throws RException {
 		String answer = con.sendCmdRaw("typeof(" + RCONSTANTS.NAME_TMP_VAR
 				+ ")");
-		// System.out.println(answer);
 		if (answer.contains("double"))
 			return "double";
 		if (answer.contains("integer"))
