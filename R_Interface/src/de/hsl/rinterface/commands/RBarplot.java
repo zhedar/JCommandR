@@ -1,6 +1,7 @@
 package de.hsl.rinterface.commands;
 
 import java.io.File;
+import java.util.Vector;
 
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.utils.RUtils;
@@ -77,16 +78,19 @@ import de.hsl.rinterface.utils.RUtils;
 public class RBarplot implements RCommand {
 
 	private File file;
+	private String savePath;
+	private RPlotSaveTypes type; 
+	
 	private RObject height;
 	private String width;
 	private String space;
-	private String names_arg;
-	private String legend_text;
+	private Vector<String> names_arg;
+	private Vector<String> legend_text;
 	private String beside;
 	private String horiz;
-	private String density;
+	private Vector<Double> density;
 	private String angle;
-	private String col;
+	private Vector<String> col;
 	private String border;
 	private String main;
 	private String sub;
@@ -103,11 +107,9 @@ public class RBarplot implements RCommand {
 	private String inside;
 	private String plot;
 	private int axis_lty;
-	private String offset;
+	private Vector<Double> offset;
 	private String add;
 	private String args_legend;
-	private String savePath;
-	private RPlotSaveTypes type; 
 	
 	@Override
 	public String prepareForSending() {
@@ -199,19 +201,19 @@ public class RBarplot implements RCommand {
 		this.space = space;
 	}
 
-	public String getNames_arg() {
+	public Vector<String> getNames_arg() {
 		return names_arg;
 	}
 
-	public void setNames_arg(String names_arg) {
+	public void setNames_arg(Vector<String> names_arg) {
 		this.names_arg = names_arg;
 	}
 
-	public String getLegend_text() {
+	public Vector<String> getLegend_text() {
 		return legend_text;
 	}
 
-	public void setLegend_text(String legend_text) {
+	public void setLegend_text(Vector<String> legend_text) {
 		this.legend_text = legend_text;
 	}
 
@@ -231,11 +233,11 @@ public class RBarplot implements RCommand {
 		this.horiz = horiz;
 	}
 
-	public String getDensity() {
+	public Vector<Double> getDensity() {
 		return density;
 	}
 
-	public void setDensity(String density) {
+	public void setDensity(Vector<Double> density) {
 		this.density = density;
 	}
 
@@ -247,11 +249,11 @@ public class RBarplot implements RCommand {
 		this.angle = angle;
 	}
 
-	public String getCol() {
+	public Vector<String> getCol() {
 		return col;
 	}
 
-	public void setCol(String col) {
+	public void setCol(Vector<String> col) {
 		this.col = col;
 	}
 
@@ -383,11 +385,11 @@ public class RBarplot implements RCommand {
 		this.axis_lty = axis_lty;
 	}
 
-	public String getOffset() {
+	public Vector<Double> getOffset() {
 		return offset;
 	}
 
-	public void setOffset(String offset) {
+	public void setOffset(Vector<Double> offset) {
 		this.offset = offset;
 	}
 
