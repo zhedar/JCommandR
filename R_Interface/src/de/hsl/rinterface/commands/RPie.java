@@ -1,6 +1,10 @@
 package de.hsl.rinterface.commands;
 
+import java.io.File;
+import java.util.Vector;
+
 import de.hsl.rinterface.objects.RObject;
+import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RPie.java
@@ -40,6 +44,10 @@ import de.hsl.rinterface.objects.RObject;
  */
 public class RPie implements RCommand {
 
+	private File file;
+	private String savePath;
+	private RPlotSaveTypes type; 
+	
 	private RObject x;
 	private String labels;
 	private int edges;
@@ -48,14 +56,16 @@ public class RPie implements RCommand {
 	private String init_angle;
 	private String density;
 	private String angle;
-	private String col;
+	private Vector<String> col;
 	private String border;
 	private String lty;
 	private String main;
 	
 	@Override
 	public String prepareForSending() {
-		return "pie(" + x.toRString() + 
+		String path = RUtils.getRPath(file.getAbsolutePath());
+		
+		return  type + "(\"" + path + "\"); pie(" + x.toRString() + 
 				(labels != null ? ", labels = \"" + labels + "\"" : "") + 
 				(edges != 0 ? ", edges = " + edges : "")+
 				(radius != 0.0d ? ", radius = " + labels : "")+
@@ -70,8 +80,10 @@ public class RPie implements RCommand {
 				+")";
 	}
 	
-	public RPie(RObject x) {
+	public RPie(RObject x, String savePath, RPlotSaveTypes type) {
 		this.x = x;
+		this.savePath = savePath;
+		this.type = type;
 	}
 
 	public RObject getX() {
@@ -80,6 +92,30 @@ public class RPie implements RCommand {
 
 	public void setX(RObject x) {
 		this.x = x;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getSavePath() {
+		return savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+
+	public RPlotSaveTypes getType() {
+		return type;
+	}
+
+	public void setType(RPlotSaveTypes type) {
+		this.type = type;
 	}
 
 	public String getLabels() {
@@ -138,11 +174,11 @@ public class RPie implements RCommand {
 		this.angle = angle;
 	}
 
-	public String getCol() {
+	public Vector<String> getCol() {
 		return col;
 	}
 
-	public void setCol(String col) {
+	public void setCol(Vector<String> col) {
 		this.col = col;
 	}
 
