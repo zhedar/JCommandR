@@ -363,7 +363,7 @@ public class ConsoleConnection implements Connection
 	
 		log.info("Connection aufgebaut.");
 		
-		sendCmdRaw("options(echo=FALSE)");
+		sendCmdRaw("options(echo=FALSE, width=10000)");
 	}
 
 	@Override

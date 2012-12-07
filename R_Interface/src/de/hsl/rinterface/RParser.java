@@ -47,18 +47,19 @@ public class RParser {
 			if (line.toLowerCase().contains("true")) {
 				switch (lineCounter) {
 				case 0:
-					//System.out.println("vec");
+					// System.out.println("vec");
 					return parsVector(rawData);
 				case 1:
-					//System.out.println("mat");
+					// System.out.println("mat");
 					return parsMatrix(rawData);
 				case 2:
-					//System.out.println("tab");
+					// System.out.println("tab");
 					return parsTable(rawData);
 				case 3:
+					// System.out.println("data.frame");
 					return parsDataFrame(rawData);
 				default:
-					//System.out.println("err");
+					// System.out.println("err");
 					throw new RException("Datentyp nicht vorhanden.");
 				}
 			}
@@ -68,23 +69,63 @@ public class RParser {
 	}
 
 	private static RObject parsDataFrame(String rawData) throws RException {
-
-		return parsTable(rawData);
-	}
-
-	private static RObject parsTable(String rawData) throws RException {
-		// RReference tmpRef =con.sendCmd(ConsoleConnection.getTempVarName(),
-		// ConsoleConnection.getTempRefName());
-		// int dimX =
-		// Integer.parseInt((con.sendCmd("length(names("+tmpRef.getRef()+"))")).toRString());
-		// int dimY =
-		// Integer.parseInt((con.sendCmd("length(row.names("+tmpRef.getRef()+"))")).toRString());
-		// System.out.println(""+dimX);
-		// System.out.println(""+dimY);
-
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentitel
+		RVector<String> colTitleList = (RVector<String>) con.sendCmd("names("
+				+ tmpRef.getRef() + ")");
+
+		String[] colTitle = new String[colTitleList.size()];
+		int i = 0;
+		for (String string : colTitleList) {
+			colTitle[i++] = string;
+		}
+		// Herausbekommen, ob Zeilentitel vorhanden sind
+		String[] rowTitle = null;
+		try {
+			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
+					+ ")");
+			i = 0;
+			for (String string : (RVector<String>) parsVector(rowTitleRaw)) {
+				rowTitle[i++] = string;
+			}
+
+		} catch (Exception e) {
+
+		}
+		// Herausbekommen der größe der Tabelle
+		int colLength = Integer.parseInt((con.sendCmd("length(names("
+				+ tmpRef.getRef() + "))")).toRString());
+		int rowLength = Integer.parseInt((con.sendCmd("length(row.names(" + tmpRef.getRef() + "))")).toRString());
+		// Anlegen eines RTable Objektes und füllen der Attribute
+		RTable table = new RTable(rowLength, colLength);
+		table.setColTitle(colTitle);
+		table.setRowTitle(rowTitle);
+		String line;
+		scanner = new Scanner(rawData);
+		scanner.nextLine();
+		int lineCounter = 1;
+		while (scanner.hasNextLine()) {
+			line = scanner.nextLine();
+			
+			line = line.substring(((String)""+lineCounter).length());
+			line = line.trim();
+			String[] cellLine = line.split(" +");
+//			System.out.print("Z:"+lineCounter+ " | | :");
+//			for (String string : cellLine) {
+//				System.out.print(" / "+string);
+//			}
+			table.setMatrixLine(lineCounter-1, cellLine);
+			lineCounter++;
+		}
+
+		return table;
+	}
+
+	private static RObject parsTable(String rawData) throws RException {
+		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
+				RCONSTANTS.NAME_TMP_REF);
+		// Herausbekommen der Spaltentiteloptions
 		RVector<String> colTitleList = (RVector<String>) con.sendCmd("names("
 				+ tmpRef.getRef() + ")");
 
@@ -111,6 +152,7 @@ public class RParser {
 				+ tmpRef.getRef() + "))")).toRString());
 		int dimY = Integer.parseInt((con.sendCmd("length(" + tmpRef.getRef()
 				+ "[\"" + colTitle[0] + "\"]" + ")")).toRString());
+		System.out.println("Fff" + dimX + "d" + dimY);
 		// Anlegen eines RTable Objektes und füllen der Attribute
 		RTable table = new RTable(dimX, dimY);
 		table.setColTitle(colTitle);
@@ -123,15 +165,14 @@ public class RParser {
 			line = scanner.nextLine();
 			line = line.trim();
 			String[] cellLine = line.split(" +");
-			table.setMtrixLine(lineCounter++, cellLine);
+			table.setMatrixLine(lineCounter++, cellLine);
 		}
 
 		return table;
 	}
 
 	private static RObject parsMatrix(String rawData) throws RException {
-		RObject dim = con.sendCmd("dim(" + RCONSTANTS.NAME_TMP_VAR
-				+ ")");
+		RObject dim = con.sendCmd("dim(" + RCONSTANTS.NAME_TMP_VAR + ")");
 		int dimX = 0, dimY = 0;
 		// System.out.println(dim.toString());
 		if (dim instanceof RVector) {
@@ -171,10 +212,10 @@ public class RParser {
 			line = scanner.nextLine();
 			line = line.trim();
 			String[] cell;
-			if(line.contains("\""))
+			if (line.contains("\""))
 				cell = line.split(" +\"");
-			 else
-				 cell = line.split(" +");
+			else
+				cell = line.split(" +");
 			for (int i = 0; i < cell.length; i++) {
 				m = pLine.matcher(cell[i]);
 				if (!(m.matches())) {
@@ -201,8 +242,8 @@ public class RParser {
 	}
 
 	private static String typeofRCmd() throws RException {
-		String answer = con.sendCmdRaw("typeof("
-				+ RCONSTANTS.NAME_TMP_VAR + ")");
+		String answer = con.sendCmdRaw("typeof(" + RCONSTANTS.NAME_TMP_VAR
+				+ ")");
 		// System.out.println(answer);
 		if (answer.contains("double"))
 			return "double";

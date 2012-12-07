@@ -3,8 +3,10 @@ package de.hsl.rinterface;
 import java.io.IOException;
 
 import de.hsl.rinterface.commands.RRead;
+import de.hsl.rinterface.commands.RReadTypes;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
+import de.hsl.rinterface.objects.RObjectTypes;
 
 
 public class Main 
@@ -84,22 +86,24 @@ public class Main
 			/**
 			 * geht nicht
 			 */
-//			System.out.println(con.sendCmd(new RRead("c:\\test.csv")));
+			RRead read = new RRead("c:\\co2.csv");
+			read.setType(RReadTypes.CSV2);
+			System.out.println(con.sendCmd(read));
 //			System.out.println(con.sendCmdRaw("qwertz"));
 			
 			/**
 			 * geht
 			 */
 
-			System.out.println(con.sendCmd("summary(c(1,2,3,4,5))"));
-			RMatrix m = (RMatrix) con.sendCmd("matrix(2,10,5)");
-			System.out.println(m);
-			System.out.println(con.sendCmd("c(3,2,3,1)").toString());
-			System.out.println(con.sendCmd("c(\"awd\",\"test\",\"agh\",\"oiuzt\")").toString());
-			System.out.println(con.sendCmd("mean(c(1,2,3,4))"));
-			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
-			System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
+//			System.out.println(con.sendCmd("summary(c(1,2,3,4,5))"));
+//			RMatrix m = (RMatrix) con.sendCmd("matrix(2,10,5)");
+//			System.out.println(m);
+//			System.out.println(con.sendCmd("c(3,2,3,1)").toString());
+//			System.out.println(con.sendCmd("c(\"awd\",\"test\",\"agh\",\"oiuzt\")").toString());
+//			System.out.println(con.sendCmd("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw("mean(c(1,2,3,4))"));
+//			System.out.println(con.sendCmdRaw(new RRead("c:\\test.csv")));
 
 			
 		}

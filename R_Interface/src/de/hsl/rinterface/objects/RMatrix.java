@@ -12,13 +12,13 @@ import java.util.Arrays;
 public class RMatrix implements RObject {
 	/** @pdOid a1d46f5d-b3f9-4b07-9894-50df3d61ac51 */
 	protected String[][] matrix;
-	private int dimX;
-	private int dimY;
+	private int rowLength;
+	private int colLength;
 
-	public RMatrix(int dimX, int dimY){
-		this.matrix= new String[dimX][dimY];
-		this.dimX=dimX;
-		this.dimY=dimY;
+	public RMatrix(int rowLength, int colLength){
+		this.matrix= new String[rowLength][colLength];
+		this.rowLength=rowLength;
+		this.colLength=colLength;
 	}
 	
 	public RMatrix(String[][] matrix){
@@ -34,12 +34,12 @@ public class RMatrix implements RObject {
 		return RObjectTypes.MATRIX;
 	}
 	
-	public int getDimX() {
-		return dimX;
+	public int getrowLength() {
+		return rowLength;
 	}
 
-	public int getDimY() {
-		return dimY;
+	public int getcolLength() {
+		return colLength;
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class RMatrix implements RObject {
 		this.matrix = matrix;
 	}
 	
-	public void setMtrixLine(int index, String[] line){
+	public void setMatrixLine(int index, String[] line){
 		if(index <= matrix.length)
 			matrix[index]=line;
 		else

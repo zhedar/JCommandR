@@ -10,10 +10,10 @@ public class RTable extends RMatrix implements RObject {
 	private String[] colTitle;
 	private String[] rowTitle;
 
-	public RTable(int dimX, int dimY) {
-		super(dimX, dimY);
-		colTitle = new String[dimX];
-		rowTitle = new String[dimY];
+	public RTable(int rowLength, int colLength) {
+		super(rowLength, colLength);
+		colTitle = new String[rowLength];
+		rowTitle = new String[colLength];
 	}
 
 	public RTable(RTable rTable) {
@@ -117,17 +117,18 @@ public class RTable extends RMatrix implements RObject {
 	@Override
 	public String toString() {
 		String result = "";
+//		System.out.println( matrix.length);
 		if (rowTitle != null && rowTitle.length > 0)
 			result += " \t";
 		for (int i = 0; i < colTitle.length; i++) {
 			result += colTitle[i] + "\t";
 		}
 		result += "\n";
-		for (int i = 0; i < getDimY(); i++) {
+		for (int i = 0; i < getrowLength(); i++) {
 			if (rowTitle != null)
 				result += rowTitle[i] + "\t";
-
-			for (int j = 0; j < matrix.length; j++) {
+			
+			for (int j = 0; j < getcolLength(); j++) {
 				result += matrix[i][j] + "\t";
 			}
 			result += "\n";
