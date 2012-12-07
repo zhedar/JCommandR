@@ -1,6 +1,10 @@
 package de.hsl.rinterface.commands;
 
+import java.io.File;
+import java.util.Vector;
+
 import de.hsl.rinterface.objects.RObject;
+import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RBoxplot.java
@@ -40,16 +44,20 @@ import de.hsl.rinterface.objects.RObject;
  */
 public class RBoxplot implements RCommand {
 
+	private File file;
+	private String savePath;
+	private RPlotSaveTypes type;
+	
 	private RObject x;
 	private double range;
-	private String width;
+	private Vector<Double> width;
 	private String varwidth;
 	private String notch;
 	private String outline;
-	private String names;
+	private Vector<String> names;
 	private String plot;
-	private String border;
-	private String col;
+	private Vector<String> border;
+	private Vector<String> col;
 	private String log;
 	private String pars;
 	private double boxwex;
@@ -57,11 +65,13 @@ public class RBoxplot implements RCommand {
 	private double outwex;
 	private String horizontal;
 	private String add;
-	private String at;
+	private Vector<Double> at;
 	
 	@Override
 	public String prepareForSending() {
-		return "boxplot(" + x.toRString() + 
+		String path = RUtils.getRPath(file.getAbsolutePath());
+		
+		return type + "(\"" + path + "\"); boxplot(" + x.toRString() + 
 				(range != 0.0d ? ", range = " + range  : "") + 
 				(width != null ? ", width = " + width : "")+
 				(varwidth != null ? ", varwidth = " + varwidth : "")+
@@ -82,8 +92,10 @@ public class RBoxplot implements RCommand {
 				+")";
 	}
 
-	public RBoxplot(RObject x) {
+	public RBoxplot(RObject x, String savePath, RPlotSaveTypes type) {
 		this.x = x;
+		this.savePath = savePath;
+		this.type = type;
 	}
 
 	public RObject getX() {
@@ -94,6 +106,30 @@ public class RBoxplot implements RCommand {
 		this.x = x;
 	}
 
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getSavePath() {
+		return savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+
+	public RPlotSaveTypes getType() {
+		return type;
+	}
+
+	public void setType(RPlotSaveTypes type) {
+		this.type = type;
+	}
+
 	public double getRange() {
 		return range;
 	}
@@ -102,11 +138,11 @@ public class RBoxplot implements RCommand {
 		this.range = range;
 	}
 
-	public String getWidth() {
+	public Vector<Double> getWidth() {
 		return width;
 	}
 
-	public void setWidth(String width) {
+	public void setWidth(Vector<Double> width) {
 		this.width = width;
 	}
 
@@ -134,11 +170,11 @@ public class RBoxplot implements RCommand {
 		this.outline = outline;
 	}
 
-	public String getNames() {
+	public Vector<String> getNames() {
 		return names;
 	}
 
-	public void setNames(String names) {
+	public void setNames(Vector<String> names) {
 		this.names = names;
 	}
 
@@ -150,19 +186,19 @@ public class RBoxplot implements RCommand {
 		this.plot = plot;
 	}
 
-	public String getBorder() {
+	public Vector<String> getBorder() {
 		return border;
 	}
 
-	public void setBorder(String border) {
+	public void setBorder(Vector<String> border) {
 		this.border = border;
 	}
 
-	public String getCol() {
+	public Vector<String> getCol() {
 		return col;
 	}
 
-	public void setCol(String col) {
+	public void setCol(Vector<String> col) {
 		this.col = col;
 	}
 
@@ -222,11 +258,11 @@ public class RBoxplot implements RCommand {
 		this.add = add;
 	}
 
-	public String getAt() {
+	public Vector<Double> getAt() {
 		return at;
 	}
 
-	public void setAt(String at) {
+	public void setAt(Vector<Double> at) {
 		this.at = at;
 	}
 }
