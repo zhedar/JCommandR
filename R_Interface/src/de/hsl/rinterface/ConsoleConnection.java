@@ -99,10 +99,10 @@ public class ConsoleConnection implements Connection
 		return procThread.isRunning();
 	}
 
-	@Override	
-	public RObject sendCmd(String cmd) throws RException
-	{	
-		return RParser.construct(sendCmdRaw(RCONSTANTS.NAME_TMP_VAR + " <- " + cmd + ";" + RCONSTANTS.NAME_TMP_VAR), this);
+	@Override
+	public RObject sendCmd(String cmd) throws RException {
+		return RParser.construct(sendCmdRaw(RCONSTANTS.NAME_TMP_VAR + " <- "
+				+ cmd + ";" + RCONSTANTS.NAME_TMP_VAR), this);
 	}
 
 	@Override
@@ -211,8 +211,8 @@ public class ConsoleConnection implements Connection
 	}
 
 		/**
-		 * Schlie�t sowohl alle offenen Ressourcen, als auch den ausgef�hrten R-Prozess.
-		 * Kehrt zur�ck, wenn der Prozess beendet wurde.
+		 * Schließt sowohl alle offenen Ressourcen, als auch den ausgeführten R-Prozess.
+		 * Kehrt zurück, wenn der Prozess beendet wurde.
 		 * @throws IOException falls der Prozess bereits beendet sein sollte
 		 */
 	@Override

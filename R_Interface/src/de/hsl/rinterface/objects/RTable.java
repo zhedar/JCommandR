@@ -1,8 +1,5 @@
 package de.hsl.rinterface.objects;
 
-import java.util.ArrayList;
-
-import de.hsl.rinterface.ConsoleConnection;
 import de.hsl.rinterface.RCONSTANTS;
 
 public class RTable extends RMatrix implements RObject {

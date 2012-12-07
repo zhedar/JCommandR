@@ -1,12 +1,5 @@
 package de.hsl.rinterface.objects;
 
-import java.util.Arrays;
-
-/***********************************************************************
- * Module:  RMatrix.java
- * Author:  tobo1987
- * Purpose: Defines the Class RMatrix
- ***********************************************************************/
 
 /** @pdOid 29978f29-da45-474b-9c60-54845abcaa61 */
 public class RMatrix implements RObject {
