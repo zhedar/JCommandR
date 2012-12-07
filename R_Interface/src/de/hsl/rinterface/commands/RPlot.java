@@ -1,162 +1,170 @@
 package de.hsl.rinterface.commands;
-
-/***********************************************************************
- * Module: RPlot.java Author: tobo1987 Purpose: Defines the Class RPlot
- ***********************************************************************/
-
-import java.awt.Color;
-
+import java.io.File;
+import java.util.Vector;
 import de.hsl.rinterface.objects.RObject;
-import de.hsl.rinterface.objects.RVector;
+import de.hsl.rinterface.utils.RUtils;
+/***********************************************************************
+ * Module: RPlot.java
+ * Author: Peggy Kübe
+ * Purpose: Defines the Class RPlot
+ ***********************************************************************/
+/**
+ * plot(x, y, ...)
+ * x - the coordinates of points in the plot. Alternatively, a single plotting structure, function or any R object with a plot method can be provided.
+ * y - the y coordinates of points in the plot, optional if x is an appropriate structure.
+ * what type of plot should be drawn. Possible types are 
+ * "p" for points, 
+ * "l" for lines, 
+ * "b" for both, 
+ * "c" for the lines part alone of "b", 
+ * "o" for both ‘overplotted’, 
+ * "h" for ‘histogram’ like (or ‘high-density’) vertical lines,
+ * "s" for stair steps, 
+ * "S" for other steps, see ‘Details’ below, 
+ * "n" for no plotting. 
+ * main - an overall title for the plot: see title.
+ * sub - a sub title for the plot: see title.
+ * xlab - a title for the x axis: see title.
+ * ylab - a title for the y axis: see title.
+ * asp - the y/x aspect ratio, see plot.window.
+ * 
+ * Beispiel:
+ * test<-c(2,77,900)
+ * plot(test)
+ * plot(test,type="l")
+ */
 
-/** @pdOid 39a0896e-bf92-4772-9991-e0c33a78c6ff */
 public class RPlot implements RCommand
 {
-	/** @pdOid 79fd6d76-223e-40ae-a028-9a4cb5db1edb */
+	private File file;
 	private String savePath;
-	/** @pdOid af74cd0a-2eb4-405b-9387-2a454d038853 */
-	private RObject xCoords;
-	/** @pdOid 50b90bbb-0a8d-45c6-b5df-5e6026a85ebf */
-	private RObject yCoords;
-	/** @pdOid 96421329-6fff-422f-89f8-d2338cf819d0 */
-	private String subtitle;
-	/** @pdOid 9daeeec5-9a1f-4287-b6b9-9522e9953859 */
-	private String maintitle;
-	/** @pdOid b8d6ca41-6fe7-4a32-9491-ac4bb14f026f */
-	private String xLab;
-	/** @pdOid 89f14368-ae70-499a-b221-797363624ee3 */
-	private String yLab;
-	/** @pdOid fdb9769c-dc26-4a49-b7a4-ec1fda36c1a1 */
-	private char type = ' ';
-	/** @pdOid e9409dcd-f1c3-4831-a10b-3b29931073e1 */
-	private Color col;
-	/**
-	 * @pdOid dd97a996-7d6d-4fb9-9760-18bdc17ef2a5 line width
-	 */
-	private int lwd;
+	private RPlotSaveTypes type;
+	private RPlotTypes plottype;
+	
+	private RObject x;
+	private RObject y;
+	private String sub;
+	private String main;
+	private String xlab;
+	private String ylab;
+	private Vector<String> col;
 	private double asp;
-	public RPlot(RObject xCoords)
-	{
-		this.xCoords = xCoords;
-	}
 	
 	@Override
-	public String prepareForSending()
-	{
-		return "plot(" + xCoords.toRString() + 
-				(type!=' ' ? ", type = \"" + type + "\"" : "") + 
-				(yLab!=null ? ", ylab = \"" + yLab + "\"" : "")
-				
+	public String prepareForSending() {
+		String path = RUtils.getRPath(file.getAbsolutePath());
+		
+		return  type + "(\"" + path + "\"); plot(" + x.toRString() + 
+				(y != null ? ", y = " + y  : "") + 
+				(main != null ? ", main = \"" + main + "\"" : "")+
+				(sub != null ? ", sub = \"" + sub + "\"" : "")+
+				(xlab != null ? ", xlab = \"" + xlab + "\"" : "")+
+				(ylab != null ? ", ylab = \"" + ylab + "\"" : "")+
+				(col != null ? ", col = " + col : "")+
+				(asp != 0.0d ? ", asp = " + asp : "")+
+				(plottype != null ? ", type = \"" + plottype + "\"" : "")
 				+")";
 	}
 
-	public String getSavePath()
-	{
-		return savePath;
-	}
-
-	public void setSavePath(String savePath)
-	{
+	public RPlot(RObject x, String savePath, RPlotSaveTypes type) {
+		this.x = x;
 		this.savePath = savePath;
-	}
-
-	public RObject getxCoords()
-	{
-		return xCoords;
-	}
-
-	public void setxCoords(RVector xCoords)
-	{
-		this.xCoords = xCoords;
-	}
-
-	public RObject getyCoords()
-	{
-		return yCoords;
-	}
-
-	public void setyCoords(RVector yCoords)
-	{
-		this.yCoords = yCoords;
-	}
-
-	public String getSubtitle()
-	{
-		return subtitle;
-	}
-
-	public void setSubtitle(String subtitle)
-	{
-		this.subtitle = subtitle;
-	}
-
-	public String getxLab()
-	{
-		return xLab;
-	}
-
-	public void setxLab(String xLab)
-	{
-		this.xLab = xLab;
-	}
-
-	public String getyLab()
-	{
-		return yLab;
-	}
-
-	public void setyLab(String yLab)
-	{
-		this.yLab = yLab;
-	}
-
-	public char getType()
-	{
-		return type;
-	}
-
-	public void setType(char type)
-	{
 		this.type = type;
 	}
 
-	public Color getCol()
-	{
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getSavePath() {
+		return savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+
+	public RPlotSaveTypes getType() {
+		return type;
+	}
+
+	public void setType(RPlotSaveTypes type) {
+		this.type = type;
+	}
+
+	public RPlotTypes getPlottype() {
+		return plottype;
+	}
+
+	public void setPlottype(RPlotTypes plottype) {
+		this.plottype = plottype;
+	}
+
+	public RObject getX() {
+		return x;
+	}
+
+	public void setX(RObject x) {
+		this.x = x;
+	}
+
+	public RObject getY() {
+		return y;
+	}
+
+	public void setY(RObject y) {
+		this.y = y;
+	}
+
+	public String getSub() {
+		return sub;
+	}
+
+	public void setSub(String sub) {
+		this.sub = sub;
+	}
+
+	public String getMain() {
+		return main;
+	}
+
+	public void setMain(String main) {
+		this.main = main;
+	}
+
+	public String getxlab() {
+		return xlab;
+	}
+
+	public void setxLab(String xlab) {
+		this.xlab = xlab;
+	}
+
+	public String getylab() {
+		return ylab;
+	}
+
+	public void setylab(String ylab) {
+		this.ylab = ylab;
+	}
+
+	public Vector<String> getCol() {
 		return col;
 	}
 
-	public void setCol(Color col)
-	{
+	public void setCol(Vector<String> col) {
 		this.col = col;
 	}
 
-	public int getLwd()
-	{
-		return lwd;
-	}
-
-	public void setLwd(int lwd)
-	{
-		this.lwd = lwd;
-	}
-
-	public String getMaintitle()
-	{
-		return maintitle;
-	}
-
-	public void setMaintitle(String maintitle)
-	{
-		this.maintitle = maintitle;
-	}
-
-	public double getAsp()
-	{
+	public double getAsp() {
 		return asp;
 	}
 
-	public void setAsp(double asp)
-	{
+	public void setAsp(double asp) {
 		this.asp = asp;
 	}
 }
