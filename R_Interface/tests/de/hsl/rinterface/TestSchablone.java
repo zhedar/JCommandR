@@ -1,8 +1,6 @@
 package de.hsl.rinterface;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import junit.framework.Assert;
 
@@ -15,34 +13,35 @@ import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
 
-public class ParseMatrixTest
+public class TestSchablone
 {
+	//Testverbindung
 	private Connection con;
-	private List<String> argSave = new ArrayList<>();
 
 	@Before
 	public void init() throws IOException, RException
 	{
-		if (argSave.isEmpty())
-			argSave.add("-save");
-		con = new ConsoleConnection(argSave);
+		con = new ConsoleConnection();
 	}
 	
+	//Dies ist ein Beispiel
 	@Test
 	public void parse5_5Matrix() throws RException
 	{
-		RObject ro=con.sendCmd("matrix(1,5,5)");
+		RObject ro = con.sendCmd("matrix(1,5,5)");
 		if (ro.getType().equals(RObjectTypes.MATRIX))
-		{
+		{	//Ergebnis ist eine Matrix - prima
 			RMatrix name = (RMatrix) ro;
 			Assert.assertNotNull(name);
 			Assert.assertTrue(name.getrowLength()== 5 && name.getcolLength() == 5);		
 		}
+		else	//Test fehlschlagen lassen, falls if nicht ausgelöst wurde
+			Assert.fail("Ergebnis ist keine Matrix, sollte aber eine sein.");
 	}
 	
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{
+	{	//Connection schließen, wenn nicht bereits geschehen
 		if (con != null && con.isAlive())
 		{
 			con.close();
