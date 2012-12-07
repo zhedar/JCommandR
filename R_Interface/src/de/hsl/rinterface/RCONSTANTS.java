@@ -29,6 +29,8 @@ public abstract class RCONSTANTS {
 	/** Name der Variablen, in der interne Referenzen auf 
 	 * zu verarbeitende Datenstrukturen gesetzt werden.**/
 								NAME_TMP_REF;
+	/**Pfad zum verwendeten Logger**/
+	public static final String LOGGERPATH = "de.hsl.rinterface";
 	
 	static {
 		Properties prop = new Properties();

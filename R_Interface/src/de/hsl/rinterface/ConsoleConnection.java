@@ -30,7 +30,7 @@ import de.hsl.rinterface.utils.RUtils;
  */
 public class ConsoleConnection implements Connection
 {
-	private static Logger log =  Logger.getLogger("de.hsl.rinterface");
+	private static Logger log =  Logger.getLogger(RCONSTANTS.LOGGERPATH);
 	
 	//speichern für späteren Neuaufbau der Verbindung
 	private List<String> pathAndArgs;
@@ -281,11 +281,6 @@ public class ConsoleConnection implements Connection
 		}
 	}
 	
-	
-//	public static String getTempRefName() {
-//		return tempRefName;
-//	}
-
 	private void processErrors(String msg) throws RException
 	{
 		if(procThread.getpWr().checkError())
@@ -328,17 +323,6 @@ public class ConsoleConnection implements Connection
 			list.add("--no-save");
 		return list;
 	}
-	
-//	@Override
-//	public void rebuildConnection() throws IOException, RException
-//	{
-//		close();
-//		
-//		if(pathAndArgs == null)
-//			pathAndArgs =provideStandardArgs();
-//		
-//		initCon();
-//	}
 	
 	private void initCon() throws RException, IOException 
 	{
