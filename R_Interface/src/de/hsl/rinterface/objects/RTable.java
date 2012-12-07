@@ -124,11 +124,11 @@ public class RTable extends RMatrix implements RObject {
 			result += colTitle[i] + "\t";
 		}
 		result += "\n";
-		for (int i = 0; i < getrowLength(); i++) {
+		for (int i = 0; i < getRowLength(); i++) {
 			if (rowTitle != null)
 				result += rowTitle[i] + "\t";
 			
-			for (int j = 0; j < getcolLength(); j++) {
+			for (int j = 0; j < getColLength(); j++) {
 				result += matrix[i][j] + "\t";
 			}
 			result += "\n";

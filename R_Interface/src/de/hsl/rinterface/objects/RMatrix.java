@@ -34,11 +34,11 @@ public class RMatrix implements RObject {
 		return RObjectTypes.MATRIX;
 	}
 	
-	public int getrowLength() {
+	public int getRowLength() {
 		return rowLength;
 	}
 
-	public int getcolLength() {
+	public int getColLength() {
 		return colLength;
 	}
 
