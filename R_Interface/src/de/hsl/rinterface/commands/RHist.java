@@ -1,7 +1,11 @@
 package de.hsl.rinterface.commands;
 
 
+import java.io.File;
+import java.util.Vector;
+
 import de.hsl.rinterface.objects.RObject;
+import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RHist.java
@@ -51,13 +55,17 @@ import de.hsl.rinterface.objects.RObject;
  */
 public class RHist implements RCommand {
 
+	private File file;
+	private String savePath;
+	private RPlotSaveTypes type; 
+	
 	private RObject x;
 	private String breaks;
 	private String freq;
 	private String probability;
 	private String include_lowest;
 	private String right;
-	private String density;
+	private Vector<Double>  density;
 	private String angle;
 	private String col;
 	private String border;
@@ -74,7 +82,9 @@ public class RHist implements RCommand {
 	
 	@Override
 	public String prepareForSending() {
-		return "hist(" + x.toRString() + 
+		String path = RUtils.getRPath(file.getAbsolutePath());
+		
+		return  type + "(\"" + path + "\"); hist(" + x.toRString() + 
 				(breaks != null ? ", breaks = " + breaks  : "") + 
 				(freq != null ? ", freq = " + freq : "")+
 				(probability != null ? ", probability = " + probability : "")+
@@ -97,8 +107,10 @@ public class RHist implements RCommand {
 				+")";
 	}
 
-	public RHist(RObject x) {
+	public RHist(RObject x, String savePath, RPlotSaveTypes type) {
 		this.x = x;
+		this.savePath = savePath;
+		this.type = type;
 	}
 
 	public RObject getX() {
@@ -107,6 +119,30 @@ public class RHist implements RCommand {
 
 	public void setX(RObject x) {
 		this.x = x;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getSavePath() {
+		return savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+
+	public RPlotSaveTypes getType() {
+		return type;
+	}
+
+	public void setType(RPlotSaveTypes type) {
+		this.type = type;
 	}
 
 	public String getBreaks() {
@@ -149,11 +185,11 @@ public class RHist implements RCommand {
 		this.right = right;
 	}
 
-	public String getDensity() {
+	public Vector<Double>  getDensity() {
 		return density;
 	}
 
-	public void setDensity(String density) {
+	public void setDensity(Vector<Double>  density) {
 		this.density = density;
 	}
 
