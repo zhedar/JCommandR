@@ -21,10 +21,6 @@ import de.hsl.rinterface.objects.RVector;
 /** @pdOid 0331b484-3a04-4082-9cca-3c92db3656d8 */
 public class RParser {
 
-	private static Connection con;
-	// private static Scanner scanner;
-	private static Scanner scanner;
-
 	/**
 	 * @throws RException
 	 * @pdOid b6537a14-6fd3-4cd8-9682-9ea62319ef7a
@@ -33,14 +29,13 @@ public class RParser {
 	static public RObject construct(String rawData, Connection con)
 			throws RException {
 
-		setCon(con);
 		String line = "";
 		String typeRaw = con.sendCmdRaw("" + "is.vector("
 				+ RCONSTANTS.NAME_TMP_VAR + "); " + "is.matrix("
 				+ RCONSTANTS.NAME_TMP_VAR + ");" + "is.table("
 				+ RCONSTANTS.NAME_TMP_VAR + ");" + "is.data.frame("
 				+ RCONSTANTS.NAME_TMP_VAR + ")");
-		scanner = new Scanner(typeRaw);
+		Scanner scanner = new Scanner(typeRaw);
 		int lineCounter = 0;
 		while (scanner.hasNextLine()) {
 			line = scanner.nextLine();
@@ -48,16 +43,16 @@ public class RParser {
 				switch (lineCounter) {
 				case 0:
 					// System.out.println("vec");
-					return parsVector(rawData);
+					return parsVector(rawData,con);
 				case 1:
 					// System.out.println("mat");
-					return parsMatrix(rawData);
+					return parsMatrix(rawData,con);
 				case 2:
 					// System.out.println("tab");
-					return parsTable(rawData);
+					return parsTable(rawData,con);
 				case 3:
 					// System.out.println("data.frame");
-					return parsDataFrame(rawData);
+					return parsDataFrame(rawData,con);
 				default:
 					// System.out.println("err");
 					throw new RException("Datentyp nicht vorhanden.");
@@ -65,10 +60,11 @@ public class RParser {
 			}
 			lineCounter++;
 		}
+		scanner.close();
 		throw new RException("Datentyp nicht vorhanden.");
 	}
 
-	private static RObject parsDataFrame(String rawData) throws RException {
+	private static RObject parsDataFrame(String rawData, Connection con) throws RException {
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentitel
@@ -86,7 +82,7 @@ public class RParser {
 			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
 					+ ")");
 			i = 0;
-			for (String string : (RVector<String>) parsVector(rowTitleRaw)) {
+			for (String string : (RVector<String>) parsVector(rowTitleRaw, con)) {
 				rowTitle[i++] = string;
 			}
 
@@ -102,7 +98,7 @@ public class RParser {
 		table.setColTitle(colTitle);
 		table.setRowTitle(rowTitle);
 		String line;
-		scanner = new Scanner(rawData);
+		Scanner scanner = new Scanner(rawData);
 		scanner.nextLine();
 		int lineCounter = 1;
 		while (scanner.hasNextLine()) {
@@ -118,11 +114,11 @@ public class RParser {
 			table.setMatrixLine(lineCounter-1, cellLine);
 			lineCounter++;
 		}
-
+		scanner.close();
 		return table;
 	}
 
-	private static RObject parsTable(String rawData) throws RException {
+	private static RObject parsTable(String rawData, Connection con) throws RException {
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentiteloptions
@@ -140,7 +136,7 @@ public class RParser {
 			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
 					+ ")");
 			i = 0;
-			for (String string : (RVector<String>) parsVector(rowTitleRaw)) {
+			for (String string : (RVector<String>) parsVector(rowTitleRaw, con)) {
 				rowTitle[i++] = string;
 			}
 
@@ -158,7 +154,7 @@ public class RParser {
 		table.setColTitle(colTitle);
 		table.setRowTitle(rowTitle);
 		String line;
-		scanner = new Scanner(rawData);
+		Scanner scanner = new Scanner(rawData);
 		scanner.nextLine();
 		int lineCounter = 0;
 		while (scanner.hasNextLine()) {
@@ -167,11 +163,11 @@ public class RParser {
 			String[] cellLine = line.split(" +");
 			table.setMatrixLine(lineCounter++, cellLine);
 		}
-
+		scanner.close();
 		return table;
 	}
 
-	private static RObject parsMatrix(String rawData) throws RException {
+	private static RObject parsMatrix(String rawData, Connection con) throws RException {
 		RObject dim = con.sendCmd("dim(" + RCONSTANTS.NAME_TMP_VAR + ")");
 		int dimX = 0, dimY = 0;
 		// System.out.println(dim.toString());
@@ -180,7 +176,7 @@ public class RParser {
 			dimY = Integer.parseInt(((RVector) dim).get(1).toString());
 		}
 		RMatrix result = new RMatrix(dimX, dimY);
-		scanner = new Scanner(rawData);
+		Scanner scanner = new Scanner(rawData);
 		int j = 0;
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
@@ -199,12 +195,13 @@ public class RParser {
 			j++;
 
 		}
+		scanner.close();
 		return result;
 	}
 
-	private static RObject parsVector(String rawData) throws RException {
+	private static RObject parsVector(String rawData, Connection con) throws RException {
 		RVector<String> result = new RVector<>();
-		scanner = new Scanner(rawData);
+		Scanner scanner = new Scanner(rawData);
 		String line = "";
 		Pattern pLine = Pattern.compile("\\[\\d*\\]");
 		Matcher m;
@@ -230,18 +227,12 @@ public class RParser {
 			rv.setValue(result.get(0));
 			return rv;
 		}
+		scanner.close();
 		return result;
 	}
 
-	public static Connection getCon() {
-		return con;
-	}
 
-	public static void setCon(Connection con) {
-		RParser.con = con;
-	}
-
-	private static String typeofRCmd() throws RException {
+	private static String typeofRCmd(Connection con) throws RException {
 		String answer = con.sendCmdRaw("typeof(" + RCONSTANTS.NAME_TMP_VAR
 				+ ")");
 		// System.out.println(answer);
