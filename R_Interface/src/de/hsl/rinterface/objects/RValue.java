@@ -7,7 +7,6 @@ public class RValue<T> implements RObject {
 	
 	public RValue()
 	{
-		
 	}
 	
 	public RValue(T val)

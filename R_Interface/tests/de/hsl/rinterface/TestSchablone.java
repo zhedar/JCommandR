@@ -46,16 +46,18 @@ public class TestSchablone
 		rv.add(5.0);
 		rv.add(90.0);
 		rv.add(25.0);
-		
-		RObject ro = con.sendCmd(new RMean(rv));
+		RMean mean =new RMean(rv);
+		RObject ro = con.sendCmd(mean.prepareForSending());
 		
 		if (ro.getType().equals(RObjectTypes.VALUE)) {
 			RValue<Double> value = (RValue<Double>) ro;
+			
 			Assert.assertNotNull(value);
-			Assert.assertTrue(value.getValue() == 30.25);		
-			}
-			else	//Test fehlschlagen lassen, falls if nicht ausgelöst wurde
-				Assert.fail("Ergebnis ist keine Value, sollte aber eine sein."+rv.getType()+ro);
+			Assert.assertTrue((""+value.getValue()).equals("30.25"));
+			System.out.println(value.getValue());
+		}
+		else	//Test fehlschlagen lassen, falls if nicht ausgelöst wurde
+			Assert.fail("Ergebnis ist keine Value, sollte aber eine sein."+rv.getType()+ro);
 		
 	}
 	

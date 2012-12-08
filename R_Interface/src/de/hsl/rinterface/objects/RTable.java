@@ -1,6 +1,17 @@
 package de.hsl.rinterface.objects;
+/***********************************************************************
+ * Module:  RTable.java
+ * Author:  Tobias Steinmetzer
+ * Purpose: Defines the Class RTable
+ ***********************************************************************/
 
 import de.hsl.rinterface.RCONSTANTS;
+
+/**
+ * Diese Klasse dient zur Erstellung von Tabellen. Die 
+ * Zellen bestehen dabei aus einer RMatrix und die 
+ * Zeilen- bzw. Spaltentitel aus String-Arrays
+ */
 
 public class RTable extends RMatrix implements RObject {
 
@@ -19,10 +30,19 @@ public class RTable extends RMatrix implements RObject {
 		this.rowTitle = rTable.getRowTitle();
 	}
 
+	/**
+	 * Gibt die Spaltentitel zur&uuml;ck
+	 * @return String-Array der Spaltentitel
+	 */
 	public String[] getColTitle() {
 		return colTitle;
 	}
 
+	/**
+	 * Gibt eine Zelle an einem bestimmten index zur&uuml;ck aus dem Spaltentiteln.
+	 * @param index Position im colTitle-Array
+	 * @return Wert von der Zelle an der Position index
+	 */
 	public String getColTitleAt(int index) {
 		if (index <= colTitle.length)
 			return colTitle[index];
@@ -30,10 +50,19 @@ public class RTable extends RMatrix implements RObject {
 			throw new IndexOutOfBoundsException();
 	}
 
+	/**
+	 * Dient zum setzten von Spaltentiteln
+	 * @param colTitle Array für die Titel
+	 */
 	public void setColTitle(String[] colTitle) {
 		this.colTitle = colTitle;
 	}
 
+	/**
+	 * Methode zum setzten eines Titels an einer bestimmten Stelle in den Spaltentiteln
+	 * @param index Position im Array, welches Element ersetzt werden soll
+	 * @param name Wert, der die Zelle ersetzt
+	 */
 	public void setcolTitleAt(int index, String name) {
 		if (index <= colTitle.length)
 			colTitle[index] = name;
@@ -41,10 +70,19 @@ public class RTable extends RMatrix implements RObject {
 			throw new IndexOutOfBoundsException();
 	}
 
+	/**
+	 * Gibt die Zeilentitel zur&uuml;ck
+	 * @return String-Array der Zeilentitel
+	 */
 	public String[] getRowTitle() {
 		return rowTitle;
 	}
 
+	/**
+	 * Gibt eine Zelle an einem bestimmten index zur&uuml;ck aus den Zeilentiteln.
+	 * @param index Position im rowTitle-Array
+	 * @return Wert von der Zelle, an der Position index
+	 */
 	public String getRowTitleAt(int index) {
 		if (index <= rowTitle.length)
 			return rowTitle[index];
@@ -52,10 +90,19 @@ public class RTable extends RMatrix implements RObject {
 			throw new IndexOutOfBoundsException();
 	}
 
+	/**
+	 * Dient zum setzten von Zeilentiteln
+	 * @param rowTitle Array für die Titel
+	 */
 	public void setRowTitle(String[] rowTitle) {
 		this.rowTitle = rowTitle;
 	}
 
+	/**
+	 * Methode zum setzten eines Titels an einer bestimmten Stelle in den Zeilentiteln
+	 * @param index Position im Array, welches Element ersetzt werden soll
+	 * @param name Wert, der die Zelle ersetzt
+	 */
 	public void setRowTitleAt(int index, String name) {
 		if (index <= rowTitle.length)
 			rowTitle[index] = name;
@@ -132,13 +179,4 @@ public class RTable extends RMatrix implements RObject {
 		}
 		return result;
 	}
-
-	public static void main(String[] args) {
-		RTable t1 = new RTable(2, 2);
-		t1.setColTitle(new String[] { "a", "b" });
-		t1.setRowTitle(new String[] { "c", "d" });
-		t1.setMatrix(new String[][] { { "1", "2" }, { "3", "4" } });
-		System.out.println(t1.toString());
-	}
-
 }
