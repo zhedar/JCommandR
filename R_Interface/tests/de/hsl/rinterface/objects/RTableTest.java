@@ -1,5 +1,8 @@
 package de.hsl.rinterface.objects;
 
+/**
+ * @author Tobias Steinmetzer
+ */
 import java.io.IOException;
 import junit.framework.Assert;
 import org.junit.After;

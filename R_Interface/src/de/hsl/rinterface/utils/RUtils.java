@@ -1,32 +1,11 @@
 package de.hsl.rinterface.utils;
 
-import java.util.List;
-
-import de.hsl.rinterface.exception.IllegalVariableNameException;
+/**
+ * @author Philipp Gruhn, Tobias Steinmetzer
+ */
 
 public abstract class RUtils 
 {
-	
-	private final static String sysVar="RInterface";
-	/**
-	 * L��st eine {@link List} in einen R-Vector auf. c(1,2,3,...) 
-	 * @param list die aufzul��sende {@link List}
-	 * @return Textrepr��sentation des Strings
-	 */
-	static public String resolveList(List<? extends Number> list)
-	{
-		int count = 0;
-		String listCmd = "c(";
-		for(Number n : list)
-		{
-			if(++count != list.size())
-				listCmd += n.toString() + ", ";
-			else
-				listCmd += n.toString() + ")";
-		}
-	
-		return listCmd;
-	}
 	
 	/**
 	 * Diese Methode Formt R-Befehle um, so dass diese mit einem "try(...)" umschlossen werden, damit der Prozess nicht geschlossen wird.
@@ -47,29 +26,9 @@ public abstract class RUtils
 	 * 
 	 * @param absolutePath
 	 *            - Ist der Absolute Pfad der Datei
-	 * @return Gibt einen Pfad zur���ck mit dem R umgehen kann
+	 * @return Gibt einen Pfad zur&uuml;ck mit dem R umgehen kann
 	 */
 	static public String getRPath(String absolutePath) {
 		return absolutePath.replace("\\", "/");
-	}
-	
-	static public void isSysVar(String var){
-		if (var.startsWith(sysVar))
-			throw new IllegalVariableNameException("Variable wird vom System verwendet. Die Variable darf nicht mit \"RInterface\" beginnen");
-	}
-	
-	public static void main(String[] args) {
-//		String test ="is.vector(RInterfaceTmpVar); is.matrix(RInterfaceTmpVar); is.table(RInterfaceTmpVar); is.data.frame(RInterfaceTmpVar)";
-//		String test2 = "is.vector(RInterfaceTmpVar)";
-//		System.out.println(splitCommand(test2));
-		isSysVar("jkaanja");
-		isSysVar("RIn");
-		try {
-			isSysVar("RInterfacetest");
-		} catch (IllegalVariableNameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		isSysVar("RInterbla");
 	}
 }

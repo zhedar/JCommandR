@@ -13,6 +13,7 @@ import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RReference;
+import de.hsl.rinterface.objects.RString;
 import de.hsl.rinterface.objects.RTable;
 import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
@@ -54,16 +55,13 @@ public class RParser {
 					return parsTable(rawData,con);
 				case 3:
 					// System.out.println("data.frame");
-					return parsDataFrame(rawData,con);
-				default:
-					// System.out.println("err");
-					throw new RException("Datentyp nicht vorhanden.");
+					return parsDataFrame(rawData,con);					
 				}
 			}
 			lineCounter++;
 		}
 		scanner.close();
-		throw new RException("Datentyp nicht vorhanden.");
+		return new RString(rawData);
 	}
 
 	/**

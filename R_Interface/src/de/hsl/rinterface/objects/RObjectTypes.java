@@ -15,5 +15,5 @@ public enum RObjectTypes {
 	/**
 	 * Typen eines RObject
 	 */
-	VECTOR , MATRIX, VALUE, REFERENCE, TABLE;
+	VECTOR , MATRIX, VALUE, REFERENCE, TABLE, STRING;
 }
