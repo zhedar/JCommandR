@@ -1,10 +1,5 @@
 package de.hsl.rinterface.commands;
 
-/**
- * @author Tobias Steinmetzer, Peggy Kübe
- */
-
-
 import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
@@ -13,7 +8,7 @@ import de.hsl.rinterface.objects.RVector;
 
 /***********************************************************************
  * Module:  RBinomTest.java
- * Author:  Peggy K�be
+ * Author:  Peggy K&uuml;be, Tobias Steinmetzer
  * Purpose: Defines the Class RBinomTest
  ***********************************************************************/
 /**

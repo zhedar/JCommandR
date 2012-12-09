@@ -1,7 +1,7 @@
 package de.hsl.rinterface.commands;
 /***********************************************************************
  * Module:  RCommand.java
- * Author:  tobo1987
+ * Author:  Tobias Steinmetzer, Philipp Gruhn
  * Purpose: Defines the Interface RCommand
  ***********************************************************************/
 
@@ -11,6 +11,6 @@ public interface RCommand
 {
    /** @pdOid dede89b5-69d6-458f-be40-30cc9ae6ade4 
     	Fasst die Attribute der Klasse in einen Methodenaufrufzusammen und gibt
-    	sie als Stringrepräsentation zurück.*/
+    	sie als Stringrepr&auml;sentation zur&uuml;ck.*/
 		String prepareForSending();
 }
