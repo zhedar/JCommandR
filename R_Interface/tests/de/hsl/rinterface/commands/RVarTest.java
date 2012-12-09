@@ -16,7 +16,6 @@ import de.hsl.rinterface.ConsoleConnection;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
-import de.hsl.rinterface.objects.RTable;
 import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
 
