@@ -55,13 +55,13 @@ public class RMatrix implements RObject {
 
 	@Override
 	public String toRString() {
-		String mat = "matrix(";
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				if (i != matrix.length && j != matrix[0].length)
-					mat += matrix[j][i].toString() + ",";
+		String mat = "matrix(c(";
+		for (int i = 0; i < getRowLength(); i++) {
+			for (int j = 0; j < getColLength(); j++) {
+				if (i != getRowLength() && j != getColLength())
+					mat += matrix[i][j] + ",";
 				else
-					mat += matrix[j][i].toString();
+					mat += matrix[i][j];
 			}
 		}
 		mat += "), nrow=" + matrix.length + ",ncol=" + matrix[0].length + ")";

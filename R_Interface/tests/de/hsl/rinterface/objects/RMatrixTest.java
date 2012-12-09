@@ -24,6 +24,7 @@ public class RMatrixTest {
 		Assert.assertEquals(2, m1.getRowLength());
 		m1.setMatrix(new String[][] { { "1", "2","3" }, { "4", "5","6" } });
 		Assert.assertEquals(m1.getMatrixAt(1, 1), "5");
+		System.out.println(m1.toRString());
 	}
 	
 	@After
