@@ -51,7 +51,6 @@ public class RSDTest {
 		Assert.assertEquals("200.3247", rv.getValue());
 	}
 	
-		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
 	{	//Connection schliessen, wenn nicht bereits geschehen
