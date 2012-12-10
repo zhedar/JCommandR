@@ -38,7 +38,7 @@ public class RTTestTest {
 	
 	//Dies ist ein Beispiel
 		@Test
-		public void rmatrixtest() throws RException
+		public void rttesttest() throws RException
 		{
 			RTTest ttest = new RTTest(werte);
 			Assert.assertNotNull(ttest);

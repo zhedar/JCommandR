@@ -38,7 +38,7 @@ public class RSummaryTest {
 	
 	//Dies ist ein Beispiel
 		@Test
-		public void rmatrixtest() throws RException
+		public void rsummarytest() throws RException
 		{
 			RSummary rs = new RSummary(werte);
 			Assert.assertNotNull(rs);
