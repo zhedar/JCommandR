@@ -84,7 +84,7 @@ public class RTTest implements RCommand{
 
 
 	public void setPaired(String paired) {
-		this.paired = paired;
+		this.paired = paired.toUpperCase();
 	}
 
 
@@ -94,7 +94,7 @@ public class RTTest implements RCommand{
 
 
 	public void setVar_equal(String var_equal) {
-		this.var_equal = var_equal;
+		this.var_equal = var_equal.toUpperCase();
 	}
 
 

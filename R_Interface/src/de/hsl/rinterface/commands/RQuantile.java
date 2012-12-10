@@ -68,7 +68,7 @@ public class RQuantile implements RCommand {
 	}
 
 	public void setNa_rm(String na_rm) {
-		this.na_rm = na_rm;
+		this.na_rm = na_rm.toUpperCase();
 	}
 
 	public String getNames() {
@@ -76,7 +76,7 @@ public class RQuantile implements RCommand {
 	}
 
 	public void setNames(String names) {
-		this.names = names;
+		this.names = names.toUpperCase();
 	}
 
 	public int getType() {

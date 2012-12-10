@@ -143,7 +143,7 @@ public class RDensity implements RCommand {
 	}
 
 	public void setGive_Rkern(String give_Rkern) {
-		this.give_Rkern = give_Rkern;
+		this.give_Rkern = give_Rkern.toUpperCase();
 	}
 
 	public int getN() {
@@ -183,6 +183,6 @@ public class RDensity implements RCommand {
 	}
 
 	public void setNa_rm(String na_rm) {
-		this.na_rm = na_rm;
+		this.na_rm = na_rm.toUpperCase();
 	}
 }

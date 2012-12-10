@@ -79,7 +79,7 @@ public class RFilter implements RCommand{
 	}
 
 	public void setCircular(String circular) {
-		this.circular = circular;
+		this.circular = circular.toUpperCase();
 	}
 
 	public String getInit() {

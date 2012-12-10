@@ -223,7 +223,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setBeside(String beside) {
-		this.beside = beside;
+		this.beside = beside.toUpperCase();
 	}
 
 	public String getHoriz() {
@@ -231,7 +231,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setHoriz(String horiz) {
-		this.horiz = horiz;
+		this.horiz = horiz.toUpperCase();
 	}
 
 	public Vector<Double> getDensity() {
@@ -319,7 +319,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setXpd(String xpd) {
-		this.xpd = xpd;
+		this.xpd = xpd.toUpperCase();
 	}
 
 	public String getLog() {
@@ -335,7 +335,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setAxes(String axes) {
-		this.axes = axes;
+		this.axes = axes.toUpperCase();
 	}
 
 	public String getAxisnames() {
@@ -343,7 +343,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setAxisnames(String axisnames) {
-		this.axisnames = axisnames;
+		this.axisnames = axisnames.toUpperCase();
 	}
 
 	public String getCex_axis() {
@@ -367,7 +367,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setInside(String inside) {
-		this.inside = inside;
+		this.inside = inside.toUpperCase();
 	}
 
 	public String getPlot() {
@@ -375,7 +375,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setPlot(String plot) {
-		this.plot = plot;
+		this.plot = plot.toUpperCase();
 	}
 
 	public int getAxis_lty() {
@@ -399,7 +399,7 @@ public class RBarplot implements RCommand {
 	}
 
 	public void setAdd(String add) {
-		this.add = add;
+		this.add = add.toUpperCase();
 	}
 
 	public String getArgs_legend() {

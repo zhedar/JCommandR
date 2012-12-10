@@ -103,7 +103,7 @@ public class RHist implements RCommand {
 				(plot != null ? ", plot = " + plot : "")+
 				(labels != null ? ", labels = " + labels : "")+
 				(nclass != 0 ? ", nclass = " + nclass : "")+
-				(warn_unused != null ? ", warn_unused = " + warn_unused : "")
+				(warn_unused != null ? ", warn.unused = " + warn_unused : "")
 				+")";
 	}
 
@@ -158,7 +158,7 @@ public class RHist implements RCommand {
 	}
 
 	public void setFreq(String freq) {
-		this.freq = freq;
+		this.freq = freq.toUpperCase();
 	}
 
 	public String getProbability() {
@@ -182,7 +182,7 @@ public class RHist implements RCommand {
 	}
 
 	public void setRight(String right) {
-		this.right = right;
+		this.right = right.toUpperCase();
 	}
 
 	public Vector<Double>  getDensity() {
@@ -262,7 +262,7 @@ public class RHist implements RCommand {
 	}
 
 	public void setAxes(String axes) {
-		this.axes = axes;
+		this.axes = axes.toUpperCase();
 	}
 
 	public String getPlot() {
@@ -270,7 +270,7 @@ public class RHist implements RCommand {
 	}
 
 	public void setPlot(String plot) {
-		this.plot = plot;
+		this.plot = plot.toUpperCase();
 	}
 
 	public String getLabels() {
@@ -278,7 +278,7 @@ public class RHist implements RCommand {
 	}
 
 	public void setLabels(String labels) {
-		this.labels = labels;
+		this.labels = labels.toUpperCase();
 	}
 
 	public int getNclass() {
@@ -294,6 +294,6 @@ public class RHist implements RCommand {
 	}
 
 	public void setWarn_unused(String warn_unused) {
-		this.warn_unused = warn_unused;
+		this.warn_unused = warn_unused.toUpperCase();
 	}
 }

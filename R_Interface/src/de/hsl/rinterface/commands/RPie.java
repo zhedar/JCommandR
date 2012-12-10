@@ -147,7 +147,7 @@ public class RPie implements RCommand {
 	}
 
 	public void setClockwise(String clockwise) {
-		this.clockwise = clockwise;
+		this.clockwise = clockwise.toUpperCase();
 	}
 
 	public String getInit_angle() {
