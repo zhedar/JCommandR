@@ -38,7 +38,7 @@ import de.hsl.rinterface.objects.RObject;
 public class RQuantile implements RCommand {
 
 	private RObject x;
-	private RObject probs;
+	private String probs;
 	private String na_rm;
 	private String names;
 	private int type;
@@ -55,11 +55,11 @@ public class RQuantile implements RCommand {
 		this.x = x;
 	}
 
-	public RObject getProbs() {
+	public String getProbs() {
 		return probs;
 	}
 
-	public void setProbs(RObject probs) {
+	public void setProbs(String probs) {
 		this.probs = probs;
 	}
 
