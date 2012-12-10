@@ -39,7 +39,7 @@ public class RSD implements RCommand{
 	}
 
 	public void setNa_rm(String na_rm) {
-		this.na_rm = na_rm;
+		this.na_rm = na_rm.toUpperCase();
 	}
 
 
