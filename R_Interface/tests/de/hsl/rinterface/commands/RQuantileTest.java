@@ -39,57 +39,34 @@ public class RQuantileTest {
 
 	}
 	
-	//Dies ist ein Beispiel
-	/**
-	 * noch fehlerhaft
-	 * 
-	 * quantile(v)
-  		0%  25%  50%  75% 100% 
-  		10   50   80   90  500 
-	 * quantile(v, probs = 0.5, na.rm = TRUE)
-		50% 
- 		80 
-	 *quantile(v, probs = 0.5, na.rm = TRUE, names = TRUE)
-		50% 
- 		80 
-	 *quantile(v, probs = 0.5, na.rm = TRUE, names = FALSE, type = 7)
-		[1] 80
-	 */
-	
+	//Dies ist ein Beispiel	
 	@Test
 	public void rquantiltest() throws RException
 	{
 		
-		RQuantile quantile= new RQuantile(werte);
+		RQuantile quantile = new RQuantile(werte);
 		Assert.assertNotNull(quantile);
-		
-		//geht noch nicht
-		/*
 		Assert.assertEquals("quantile(c(10.0, 50.0, 90.0, 80.0, 500.0))", quantile.prepareForSending().trim());
 		RObject ro =con.sendCmd(quantile.prepareForSending());
-		
 		Assert.assertNotNull(ro);
-		Assert.assertEquals( RObjectTypes.TABLE, ro.getType());
-		RTable rt = (RTable)ro;
-		Assert.assertEquals(1, rt.getColLength());
-		Assert.assertEquals(5, rt.getRowLength());
-		Assert.assertEquals("10", rt.getMatrixAt(0, 0));
-		Assert.assertEquals("50", rt.getMatrixAt(0, 1));
-		Assert.assertEquals("80", rt.getMatrixAt(0, 2));
-		Assert.assertEquals("75%", rt.getColTitleAt(3));
-		Assert.assertEquals("500", rt.getMatrixAt(0, 4));	
-		*/
+		Assert.assertEquals( RObjectTypes.VECTOR, ro.getType());
+		RVector<String> rv = (RVector)ro;
+		Assert.assertEquals("0%", rv.get(0));
+		Assert.assertEquals("100%", rv.get(4));
+		Assert.assertEquals("75%", rv.get(3));
+		Assert.assertEquals("500", rv.get(9));
 		
-		//funktioniert
-		quantile.setProbs("0.5");
-		quantile.setNa_rm("true");
-		quantile.setNames("false");
-		quantile.setType(2);
 		
-		RObject ro =con.sendCmd(quantile.prepareForSending());
-		Assert.assertEquals(RObjectTypes.VALUE , ro.getType());
-		RValue<String> rv = (RValue<String>) ro;
-		Assert.assertEquals("80", rv.getValue());
+		RQuantile quantile2 = new RQuantile(werte);
+		Assert.assertNotNull(quantile2);
+		quantile2.setProbs("0.5");
+		quantile2.setNa_rm("true");
+		quantile2.setNames("false");
+		quantile2.setType(2);
+		RObject ro2 =con.sendCmd(quantile2.prepareForSending());
+		Assert.assertEquals(RObjectTypes.VALUE , ro2.getType());
+		RValue<String> rv2 = (RValue<String>) ro2;
+		Assert.assertEquals("80", rv2.getValue());
 		
 	}
 	
