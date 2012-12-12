@@ -32,11 +32,11 @@ import de.hsl.rinterface.utils.RUtils;
  * test<-c(2,77,900)
  * plot(test)
  * plot(test,type="l")
+ * jpeg("D:/Eigene Dokumente/Peggy/Studium/test2.jpg"); plot(test)
  */
 
 public class RPlot implements RCommand
 {
-	private File file;
 	private String savePath;
 	private RPlotSaveTypes type;
 	private RPlotTypes plottype;
@@ -52,9 +52,8 @@ public class RPlot implements RCommand
 	
 	@Override
 	public String prepareForSending() {
-		String path = RUtils.getRPath(file.getAbsolutePath());
 		
-		return  type + "(\"" + path + "\"); plot(" + x.toRString() + 
+		return  type + "(\"" + savePath + "\"); plot(" + x.toRString() + 
 				(y != null ? ", y = " + y  : "") + 
 				(main != null ? ", main = \"" + main + "\"" : "")+
 				(sub != null ? ", sub = \"" + sub + "\"" : "")+
@@ -70,14 +69,6 @@ public class RPlot implements RCommand
 		this.x = x;
 		this.savePath = savePath;
 		this.type = type;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public void setFile(File file) {
-		this.file = file;
 	}
 
 	public String getSavePath() {

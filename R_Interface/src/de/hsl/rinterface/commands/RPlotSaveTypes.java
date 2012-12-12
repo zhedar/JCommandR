@@ -12,7 +12,7 @@ package de.hsl.rinterface.commands;
 
 public enum RPlotSaveTypes {
 
-	JPG ("jpg"), PNG ("png"), WMF ("wmf"), PDF ("pdf"), POSTSCRIPT ("postscript");
+	JPEG ("jpeg"), PNG ("png"), WMF ("wmf"), PDF ("pdf"), POSTSCRIPT ("postscript");
 	
 	
 	private final String type; 
