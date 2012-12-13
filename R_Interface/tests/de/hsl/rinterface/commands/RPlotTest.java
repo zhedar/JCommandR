@@ -1,8 +1,10 @@
 package de.hsl.rinterface.commands;
 
 /**
- * @author Peggy Kübe
+ * @author Peggy Kï¿½be
  */
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import junit.framework.Assert;
@@ -43,10 +45,11 @@ public class RPlotTest {
 	@Test
 	public void rplottest() throws RException
 	{
-		
-		RPlot plot = new RPlot(werte, "D:/Eigene Dokumente/Peggy/Studium/test3.jpg",RPlotSaveTypes.JPEG);
+		File file = new File("C:\\Users\\tobo1987\\Documents\\Uni\\test.jpg");
+		RPlot plot = new RPlot(werte,file,RPlotSaveTypes.JPEG);
 		Assert.assertNotNull(plot);
-		Assert.assertEquals("jpeg(\"D:/Eigene Dokumente/Peggy/Studium/test3.jpg\"); plot(c(10.0, 50.0, 90.0, 80.0, 500.0))", plot.prepareForSending().trim());
+		Assert.assertEquals("jpeg(filename=\"C:/Users/tobo1987/Documents/Uni/test.jpg\"); plot(c(10.0, 50.0, 90.0, 80.0, 500.0))", plot.prepareForSending().trim());
+		System.out.println(plot.prepareForSending());
 		RObject ro =con.sendCmd(plot.prepareForSending());
 		Assert.assertNotNull(ro);
 	}

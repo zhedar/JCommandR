@@ -1,7 +1,7 @@
 package de.hsl.rinterface.commands;
 
 /**
- * @author Peggy Kübe
+ * @author Peggy Kï¿½be
  */
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ public class RMeanTest {
 	{
 		RMean mean = new RMean(werte);
 		Assert.assertNotNull(mean);
-		RObject ro =con.sendCmd(mean.prepareForSending());
+		RObject ro =con.sendCmd(mean);
 		Assert.assertEquals(RObjectTypes.VALUE , ro.getType());
 		RValue<String> rv = (RValue<String>) ro;
 		Assert.assertEquals("30.25", rv.getValue());

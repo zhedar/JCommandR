@@ -5,7 +5,7 @@ import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.utils.RUtils;
 /***********************************************************************
  * Module: RPlot.java
- * Author: Peggy Kübe
+ * Author: Peggy Kï¿½be
  * Purpose: Defines the Class RPlot
  ***********************************************************************/
 /**
@@ -17,10 +17,10 @@ import de.hsl.rinterface.utils.RUtils;
  * "l" for lines, 
  * "b" for both, 
  * "c" for the lines part alone of "b", 
- * "o" for both ‘overplotted’, 
- * "h" for ‘histogram’ like (or ‘high-density’) vertical lines,
+ * "o" for both ï¿½overplottedï¿½, 
+ * "h" for ï¿½histogramï¿½ like (or ï¿½high-densityï¿½) vertical lines,
  * "s" for stair steps, 
- * "S" for other steps, see ‘Details’ below, 
+ * "S" for other steps, see ï¿½Detailsï¿½ below, 
  * "n" for no plotting. 
  * main - an overall title for the plot: see title.
  * sub - a sub title for the plot: see title.
@@ -37,7 +37,7 @@ import de.hsl.rinterface.utils.RUtils;
 
 public class RPlot implements RCommand
 {
-	private String savePath;
+	private File file;
 	private RPlotSaveTypes type;
 	private RPlotTypes plottype;
 	
@@ -53,7 +53,7 @@ public class RPlot implements RCommand
 	@Override
 	public String prepareForSending() {
 		
-		return  type + "(\"" + savePath + "\"); plot(" + x.toRString() + 
+		return  type + "(filename=\"" + RUtils.getRPath(file.getAbsolutePath()) + "\"); plot(" + x.toRString() + 
 				(y != null ? ", y = " + y  : "") + 
 				(main != null ? ", main = \"" + main + "\"" : "")+
 				(sub != null ? ", sub = \"" + sub + "\"" : "")+
@@ -65,18 +65,18 @@ public class RPlot implements RCommand
 				+")";
 	}
 
-	public RPlot(RObject x, String savePath, RPlotSaveTypes type) {
+	public RPlot(RObject x, File file, RPlotSaveTypes type) {
 		this.x = x;
-		this.savePath = savePath;
+		this.file = file;
 		this.type = type;
 	}
 
-	public String getSavePath() {
-		return savePath;
+	public File getFile() {
+		return this.file;
 	}
 
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	public RPlotSaveTypes getType() {

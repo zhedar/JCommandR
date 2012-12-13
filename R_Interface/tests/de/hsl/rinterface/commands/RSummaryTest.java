@@ -53,6 +53,7 @@ public class RSummaryTest {
 			Assert.assertEquals("3", rt.getMatrixAt(0, 2));
 			Assert.assertEquals("1", rt.getMatrixAt(0, 0));
 			Assert.assertEquals("5", rt.getMatrixAt(0, 5));	
+			System.out.println(rt);
 		}
 	
 		
