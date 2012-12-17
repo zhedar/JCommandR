@@ -76,25 +76,27 @@ public class RParser {
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentitel
 		RVector<String> colTitleList = (RVector<String>) con.sendCmd("names("
-				+ tmpRef.getRef() + ")");
-
-		String[] colTitle = new String[colTitleList.size()];
+				+ tmpRef.getRef() + ")"),
+						rowTitleVec;
+		String[] rowTitle, colTitle= new String[colTitleList.size()];
 		int i = 0;
 		for (String string : colTitleList) {
 			colTitle[i++] = string;
 		}
 		// Herausbekommen, ob Zeilentitel vorhanden sind
-		String[] rowTitle = null;
+		
 		try {
 			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
 					+ ")");
 			i = 0;
-			for (String string : (RVector<String>) parseVector(rowTitleRaw, con)) {
+			rowTitleVec = (RVector<String>) parseVector(rowTitleRaw, con);
+			rowTitle = new String[rowTitleVec.size()];
+			for (String string : rowTitleVec) {
 				rowTitle[i++] = string;
 			}
 
-		} catch (Exception e) {
-			//FIXME kann das echt so durchgehn?
+		} catch (NumberFormatException e) {
+			rowTitle = new String[0];
 		}
 		// Herausbekommen der größe der Tabelle
 		int colLength = Integer.parseInt((con.sendCmd("length(names("
@@ -137,25 +139,26 @@ public class RParser {
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentiteloptions
 		RVector<String> colTitleList = (RVector<String>) con.sendCmd("names("
-				+ tmpRef.getRef() + ")");
-
-		String[] colTitle = new String[colTitleList.size()];
+				+ tmpRef.getRef() + ")"), rowTitleVec;
+		String[] rowTitle, colTitle = new String[colTitleList.size()];
+		
 		int i = 0;
 		for (String string : colTitleList) {
 			colTitle[i++] = string;
 		}
 		// Herausbekommen, ob Zeilentitel vorhanden sind
-		String[] rowTitle = null;
 		try {
 			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
 					+ ")");
 			i = 0;
+			rowTitleVec = (RVector<String>) parseVector(rowTitleRaw, con);
+			rowTitle = new String[rowTitleVec.size()];
 			for (String string : (RVector<String>) parseVector(rowTitleRaw, con)) {
 				rowTitle[i++] = string;
 			}
 
 		} catch (Exception e) {
-
+			rowTitle = new String[0];
 		}
 		// Herausbekommen der größe der Tabelle
 		int dimX = Integer.parseInt((con.sendCmd("length(names("
