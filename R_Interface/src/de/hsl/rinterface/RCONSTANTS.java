@@ -6,6 +6,11 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * Sammlung von Konstanten, die vom Interface benötigt werden.
+ * Wird beim Klassenladen aus der rinterface.properties generiert.
+ * @author pgruhn
+ */
 public abstract class RCONSTANTS {
 	/** Pfad zur R-Binary **/
 	static public final String 	PATH;
@@ -43,7 +48,7 @@ public abstract class RCONSTANTS {
 					.getProperty("tryidletime", "50"));
 			TRIES_TILL_FAIL = Integer.parseInt(prop.getProperty(
 					"triestillfail", "2000")); 
-			// TODO dokumentieren, vars und tries-änderung
+			
 			NAME_TMP_VAR = prop.getProperty("nametempvar", "RInterfaceTempVar");
 			NAME_TMP_REF = prop.getProperty("nametempref", "RInterfaceTempRef");
 		}
