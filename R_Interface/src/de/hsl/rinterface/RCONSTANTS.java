@@ -34,16 +34,19 @@ public abstract class RCONSTANTS {
 	
 	static {
 		Properties prop = new Properties();
-		try(InputStream is = new FileInputStream("rinterface.properties")) {
-	      prop.load(is);
-	      PATH = prop.getProperty("path");
-	      CLOSE_TIMEOUT = Long.parseLong(prop.getProperty("closetimeout", "200"));
-	      TRY_IDLE_TIME = Long.parseLong(prop.getProperty("tryidletime", "50"));
-	      TRIES_TILL_FAIL = Integer.parseInt(prop.getProperty("triestillfail", "200")); //TODO hochsetzen, aus sicherheitsgründen
-	      //TODO dokumentieren
-	      NAME_TMP_VAR = prop.getProperty("nametempvar", "RInterfaceTempVar");
-	      NAME_TMP_REF = prop.getProperty("nametempref",  "RInterfaceTempRef");
-	  }
+		try (InputStream is = new FileInputStream("rinterface.properties")) {
+			prop.load(is);
+			PATH = prop.getProperty("path");
+			CLOSE_TIMEOUT = Long.parseLong(prop.getProperty("closetimeout",
+					"200"));
+			TRY_IDLE_TIME = Long.parseLong(prop
+					.getProperty("tryidletime", "50"));
+			TRIES_TILL_FAIL = Integer.parseInt(prop.getProperty(
+					"triestillfail", "2000")); 
+			// TODO dokumentieren, vars und tries-änderung
+			NAME_TMP_VAR = prop.getProperty("nametempvar", "RInterfaceTempVar");
+			NAME_TMP_REF = prop.getProperty("nametempref", "RInterfaceTempRef");
+		}
 	  catch (IOException ex) {
 		Logger.getLogger("de.hsl.rinterface").throwing("RCONSTANTS", "init", ex);
 	    throw new RuntimeException("Fehler beim Laden der Properties: " + ex.getMessage(), ex);

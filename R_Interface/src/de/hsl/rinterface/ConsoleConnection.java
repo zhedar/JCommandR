@@ -158,7 +158,6 @@ public class ConsoleConnection implements Connection
 		return sendCmdRaw(cmd.prepareForSending());
 	}
 
-	//TODO wie fehler, die hier entstehen, auffangen?
 	@Override
 	public void sendCmdVoid(String cmd) throws RException {
 		log.info("Sende Kommando ohne Rückgabe(void): " + cmd);
@@ -217,7 +216,7 @@ public class ConsoleConnection implements Connection
 		 */
 	@Override
 	public void close() {
-		// Gebe Befehl zum Schlie�en der Anwendung
+		// Gebe Befehl zum Schließen der Anwendung
 		try
 		{	//mögliche Fehler auslesen und loggen
 			processErrors();
@@ -362,13 +361,6 @@ public class ConsoleConnection implements Connection
 		sendCmdVoid("rm(list=ls())");
 		if(new File(workspace.getAbsolutePath() + File.separator + ".RData").exists())
 			sendCmdVoid("load(\".RData\")");
-	}
-	
-	//TODO test und evtl. abändern
-	@Override
-	public void saveWorkspace(File workspace) throws RException
-	{
-		sendCmdVoid("save.image(file=\"" + RUtils.getRPath(workspace.getAbsolutePath()) + "/.Rdata" + "\")");
 	}
 	
 	@Override

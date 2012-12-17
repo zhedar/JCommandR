@@ -46,16 +46,16 @@ public class RParser {
 				switch (lineCounter) {
 				case 0:
 					// System.out.println("vec");
-					return parsVector(rawData,con);
+					return parseVector(rawData,con);
 				case 1:
 					// System.out.println("mat");
-					return parsMatrix(rawData,con);
+					return parseMatrix(rawData,con);
 				case 2:
 					// System.out.println("tab");
-					return parsTable(rawData,con);
+					return parseTable(rawData,con);
 				case 3:
 					// System.out.println("data.frame");
-					return parsDataFrame(rawData,con);					
+					return parseDataFrame(rawData,con);					
 				}
 			}
 			lineCounter++;
@@ -71,7 +71,7 @@ public class RParser {
 	 * @return gibt ein RTable_Objekt zurück
 	 * @throws RException diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
 	 */
-	private static RObject parsDataFrame(String rawData, Connection con) throws RException {
+	private static RObject parseDataFrame(String rawData, Connection con) throws RException {
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentitel
@@ -89,12 +89,12 @@ public class RParser {
 			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
 					+ ")");
 			i = 0;
-			for (String string : (RVector<String>) parsVector(rowTitleRaw, con)) {
+			for (String string : (RVector<String>) parseVector(rowTitleRaw, con)) {
 				rowTitle[i++] = string;
 			}
 
 		} catch (Exception e) {
-
+			//FIXME kann das echt so durchgehn?
 		}
 		// Herausbekommen der größe der Tabelle
 		int colLength = Integer.parseInt((con.sendCmd("length(names("
@@ -132,7 +132,7 @@ public class RParser {
 	 * @return liefert ein RTable-Objekt 
 	 * @throws RException diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
 	 */
-	private static RObject parsTable(String rawData, Connection con) throws RException {
+	private static RObject parseTable(String rawData, Connection con) throws RException {
 		RReference tmpRef = con.sendCmd(RCONSTANTS.NAME_TMP_VAR,
 				RCONSTANTS.NAME_TMP_REF);
 		// Herausbekommen der Spaltentiteloptions
@@ -150,7 +150,7 @@ public class RParser {
 			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
 					+ ")");
 			i = 0;
-			for (String string : (RVector<String>) parsVector(rowTitleRaw, con)) {
+			for (String string : (RVector<String>) parseVector(rowTitleRaw, con)) {
 				rowTitle[i++] = string;
 			}
 
@@ -188,13 +188,13 @@ public class RParser {
 	 * @return gibt eine 2x2 Matrix zurück
 	 * @throws diese Exception tritt auf, wenn verschiedene Abfragen an R fehlschlagen
 	 */
-	private static RObject parsMatrix(String rawData, Connection con) throws RException {
+	private static RObject parseMatrix(String rawData, Connection con) throws RException {
 		RObject dim = con.sendCmd("dim(" + RCONSTANTS.NAME_TMP_VAR + ")");
 		int dimX = 0, dimY = 0;
 		// System.out.println(dim.toString());
 		if (dim instanceof RVector) {
-			dimX = Integer.parseInt(((RVector) dim).get(0).toString());
-			dimY = Integer.parseInt(((RVector) dim).get(1).toString());
+			dimX = Integer.parseInt(((RVector<?>) dim).get(0).toString());
+			dimY = Integer.parseInt(((RVector<?>) dim).get(1).toString());
 		}
 		RMatrix result = new RMatrix(dimX, dimY);
 		Scanner scanner = new Scanner(rawData);
@@ -225,7 +225,7 @@ public class RParser {
 	 * @param con ist ein Verbindungsobjekt der derzeitigen Connection
 	 * @return gibt einen RVector oder RValue zur&uuml;ck
 	 */
-	private static RObject parsVector(String rawData, Connection con){
+	private static RObject parseVector(String rawData, Connection con){
 		RVector<String> result = new RVector<>();
 		Scanner scanner = new Scanner(rawData);
 		String line = "";
@@ -248,11 +248,9 @@ public class RParser {
 			}
 		}
 		scanner.close();
-		if (result.size() == 1) {
-			RValue<String> rv = new RValue<>();
-			rv.setValue(result.get(0));
-			return rv;
-		}
+		if (result.size() == 1)
+			return new RValue<>(result.get(0));
+		
 		return result;
 	}
 
