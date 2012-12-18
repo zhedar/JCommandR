@@ -31,13 +31,13 @@ import de.hsl.rinterface.objects.RObject;
 public class RFilter implements RCommand{
 
 	private RObject x;
-	private RObject filter;
+	private String filter;
 	private String method;
 	private int sides;
 	private String circular;
-	private String init = "init";
+	private String init;
 	
-	public RFilter(RObject x, RObject filter) {
+	public RFilter(RObject x, String filter) {
 		this.x = x;
 		this.filter = filter;
 	}
@@ -50,11 +50,11 @@ public class RFilter implements RCommand{
 		this.x = x;
 	}
 
-	public RObject getFilter() {
+	public String getFilter() {
 		return filter;
 	}
 
-	public void setFilter(RObject filter) {
+	public void setFilter(String filter) {
 		this.filter = filter;
 	}
 
@@ -92,7 +92,7 @@ public class RFilter implements RCommand{
 
 	@Override
 	public String prepareForSending() {
-		return "filter(" + x.toRString() + " , " + filter.toRString()+
+		return "filter(" + x.toRString() + " , " + filter+
 				(method!=null ? ", method = \"" + method+ "\"" : "")+
 				(sides != 0 ? ", sides = " + sides : "")+
 				(circular!=null ? ", circular = " + circular : "")+
