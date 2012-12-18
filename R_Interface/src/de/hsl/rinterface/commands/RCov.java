@@ -4,7 +4,7 @@ import de.hsl.rinterface.objects.RObject;
 
 /***********************************************************************
  * Module:  RCov.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RCov
  ***********************************************************************/
 /** Covarianz: cov(x, y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))

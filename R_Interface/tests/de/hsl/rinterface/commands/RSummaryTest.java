@@ -13,16 +13,13 @@ import org.junit.Test;
 import de.hsl.rinterface.Connection;
 import de.hsl.rinterface.ConsoleConnection;
 import de.hsl.rinterface.exception.RException;
-import de.hsl.rinterface.objects.RMatrix;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
 import de.hsl.rinterface.objects.RTable;
-import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
 
 public class RSummaryTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -35,8 +32,7 @@ public class RSummaryTest {
 			werte.add((double) i);
 		}
 	}
-	
-	//Dies ist ein Beispiel
+
 		@Test
 		public void rsummarytest() throws RException
 		{
@@ -59,7 +55,7 @@ public class RSummaryTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schließen, wenn nicht bereits geschehen
+	{
 		if (con != null && con.isAlive())
 		{
 			con.close();

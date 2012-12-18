@@ -21,7 +21,6 @@ import de.hsl.rinterface.objects.RVector;
 
 public class RVarTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -35,7 +34,6 @@ public class RVarTest {
 		}
 	}
 	
-	//Dies ist ein Beispiel
 		@Test
 		public void rvartest() throws RException
 		{
@@ -50,7 +48,7 @@ public class RVarTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schließen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

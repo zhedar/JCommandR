@@ -1,7 +1,7 @@
 package de.hsl.rinterface.commands;
 
 /**
- * @author Peggy K�be
+ * @author Peggy Kübe
  */
 import java.io.IOException;
 
@@ -21,7 +21,6 @@ import de.hsl.rinterface.objects.RVector;
 
 public class RMeanTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -37,7 +36,6 @@ public class RMeanTest {
 
 	}
 	
-	//Dies ist ein Beispiel
 	@Test
 	public void rmeantest() throws RException
 	{
@@ -52,7 +50,7 @@ public class RMeanTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schliessen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

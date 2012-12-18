@@ -5,7 +5,7 @@ import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.utils.RUtils;
 /***********************************************************************
  * Module: RPlot.java
- * Author: Peggy K�be
+ * Author: Peggy Kübe
  * Purpose: Defines the Class RPlot
  ***********************************************************************/
 /**

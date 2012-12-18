@@ -5,7 +5,7 @@ import de.hsl.rinterface.objects.RVector;
 
 /***********************************************************************
  * Module:  RDensity.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RDensity
  ***********************************************************************/
 /**
@@ -24,17 +24,17 @@ import de.hsl.rinterface.objects.RVector;
  * rather than as a general recommendation, where e.g., "SJ" would rather fit, see also V&R (2002). 
  * The specified (or computed) value of bw is multiplied by adjust. 
  * adjust - the bandwidth used is actually adjust*bw.
- * This makes it easy to specify values like ‘half the default’ bandwidth.
+ * This makes it easy to specify values like ï¿½half the defaultï¿½ bandwidth.
  * kernel, window - a character string giving the smoothing kernel to be used.
  * This must be one of "gaussian", "rectangular", "triangular", "epanechnikov", "biweight", "cosine"
  * or "optcosine", with default "gaussian", and may be abbreviated to a unique prefix (single letter). 
- * "cosine" is smoother than "optcosine", which is the usual ‘cosine’ kernel in the literature and almost MSE-efficient.
+ * "cosine" is smoother than "optcosine", which is the usual ï¿½cosineï¿½ kernel in the literature and almost MSE-efficient.
  * However, "cosine" is the version used by S. 
  * weights - numeric vector of non-negative observation weights, hence of same length as x.
  * The default NULL is equivalent to weights = rep(1/nx, nx) where nx is the length of (the finite entries of) x[].
  * width - this exists for compatibility with S; if given, and bw is not, will set bw to width if this is a character string,
  * or to a kernel-dependent multiple of width if this is numeric.
- * give.Rkern - logical; if true, no density is estimated, and the ‘canonical bandwidth’ of the chosen kernel is returned instead.
+ * give.Rkern - logical; if true, no density is estimated, and the ï¿½canonical bandwidthï¿½ of the chosen kernel is returned instead.
  * n - the number of equally spaced points at which the density is to be estimated.
  * When n > 512, it is rounded up to a power of 2 during the calculations (as fft is used) and the final result is interpolated by approx.
  * So it almost always makes sense to specify n as a power of two. 

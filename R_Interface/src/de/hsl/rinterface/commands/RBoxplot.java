@@ -8,7 +8,7 @@ import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RBoxplot.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RBoxplot
  ***********************************************************************/
 /**
@@ -26,7 +26,7 @@ import de.hsl.rinterface.utils.RUtils;
  * width - a vector giving the relative widths of the boxes making up the plot.
  * varwidth - if varwidth is TRUE, the boxes are drawn with widths proportional to the square-roots of the number of observations in the groups.
  * notch - if notch is TRUE, a notch is drawn in each side of the boxes.
- * If the notches of two plots do not overlap this is ‘strong evidence’ that the two medians differ (Chambers et al., 1983, p. 62).
+ * If the notches of two plots do not overlap this is ï¿½strong evidenceï¿½ that the two medians differ (Chambers et al., 1983, p. 62).
  * See boxplot.stats for the calculations used.
  * outline - if outline is not true, the outliers are not drawn (as points whereas S+ uses lines).
  * names - group labels which will be printed under each boxplot. Can be a character vector or an expression (see plotmath).

@@ -4,14 +4,14 @@ import de.hsl.rinterface.objects.RObject;
 
 /***********************************************************************
  * Module:  RQuantile.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RQuantile
  ***********************************************************************/
 /**
  * Quantile: quantile(x, probs = seq(0, 1, 0.25),
  					na.rm = FALSE, names = TRUE, type = 7, ...)
  * x - numeric vector whose sample quantiles are wanted, or
- * an object of a class for which a method has been defined (see also ‘details’).
+ * an object of a class for which a method has been defined (see also ï¿½detailsï¿½).
  * NA and NaN values are not allowed in numeric vectors unless na.rm is TRUE.
  * probs - numeric vector of probabilities with values in [0,1].
  * (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)

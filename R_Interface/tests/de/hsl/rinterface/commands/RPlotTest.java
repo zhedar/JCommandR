@@ -1,10 +1,9 @@
 package de.hsl.rinterface.commands;
 
 /**
- * @author Peggy K�be
+ * @author Peggy Kübe
  */
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import junit.framework.Assert;
@@ -17,14 +16,10 @@ import de.hsl.rinterface.Connection;
 import de.hsl.rinterface.ConsoleConnection;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
-import de.hsl.rinterface.objects.RObjectTypes;
-import de.hsl.rinterface.objects.RTable;
-import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
 
 public class RPlotTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -41,7 +36,6 @@ public class RPlotTest {
 
 	}
 	
-	//Dies ist ein Beispiel	
 	@Test
 	public void rplottest() throws RException
 	{
@@ -57,7 +51,7 @@ public class RPlotTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schliessen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

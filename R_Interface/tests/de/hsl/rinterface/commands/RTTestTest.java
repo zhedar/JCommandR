@@ -17,12 +17,10 @@ import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
 import de.hsl.rinterface.objects.RString;
-import de.hsl.rinterface.objects.RTable;
 import de.hsl.rinterface.objects.RVector;
 
 public class RTTestTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -36,7 +34,6 @@ public class RTTestTest {
 		}
 	}
 	
-	//Dies ist ein Beispiel
 		@Test
 		public void rttesttest() throws RException
 		{
@@ -51,7 +48,7 @@ public class RTTestTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schließen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

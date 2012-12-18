@@ -4,7 +4,7 @@ import de.hsl.rinterface.objects.RObject;
 
 /***********************************************************************
  * Module:  RVar.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RVar
  ***********************************************************************/
 /** Varianz: var(x, y = NULL, na.rm = FALSE, use)

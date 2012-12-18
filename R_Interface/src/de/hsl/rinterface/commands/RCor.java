@@ -4,7 +4,7 @@ import de.hsl.rinterface.objects.RObject;
 
 /***********************************************************************
  * Module:  RCor.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RCor
  ***********************************************************************/
 /** Correlation: cor(x, y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))

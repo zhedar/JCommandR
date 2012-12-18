@@ -8,7 +8,7 @@ import de.hsl.rinterface.objects.RVector;
 
 /***********************************************************************
  * Module:  RBinomTest.java
- * Author:  Peggy K&uuml;be, Tobias Steinmetzer
+ * Author:  Peggy Kübe, Tobias Steinmetzer
  * Purpose: Defines the Class RBinomTest
  ***********************************************************************/
 /**

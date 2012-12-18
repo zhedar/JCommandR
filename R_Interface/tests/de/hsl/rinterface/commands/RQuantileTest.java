@@ -1,7 +1,7 @@
 package de.hsl.rinterface.commands;
 
 /**
- * @author Peggy Kübe
+ * @author Peggy KÃ¼be
  */
 import java.io.IOException;
 
@@ -16,13 +16,11 @@ import de.hsl.rinterface.ConsoleConnection;
 import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
-import de.hsl.rinterface.objects.RTable;
 import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
 
 public class RQuantileTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -39,7 +37,6 @@ public class RQuantileTest {
 
 	}
 	
-	//Dies ist ein Beispiel	
 	@Test
 	public void rquantiltest() throws RException
 	{
@@ -55,8 +52,11 @@ public class RQuantileTest {
 		Assert.assertEquals("100%", rv.get(4));
 		Assert.assertEquals("75%", rv.get(3));
 		Assert.assertEquals("500", rv.get(9));
-		
-		
+	}
+	
+	@Test
+	public void rquantiltest2() throws RException
+	{	
 		RQuantile quantile2 = new RQuantile(werte);
 		Assert.assertNotNull(quantile2);
 		quantile2.setProbs("0.5");
@@ -73,7 +73,7 @@ public class RQuantileTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schliessen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

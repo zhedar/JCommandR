@@ -4,7 +4,7 @@ import de.hsl.rinterface.objects.RObject;
 
 /***********************************************************************
  * Module:  RSD.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RSD
  ***********************************************************************/
 /** Standardabweichung

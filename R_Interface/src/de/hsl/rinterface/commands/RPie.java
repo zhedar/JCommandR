@@ -8,7 +8,7 @@ import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RPie.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RPie
  ***********************************************************************/
 /**
@@ -26,7 +26,7 @@ import de.hsl.rinterface.utils.RUtils;
  * clockwise - logical indicating if slices are drawn clockwise or counter clockwise
  * (i.e., mathematically positive direction), the latter is default.
  * init.angle - number specifying the starting angle (in degrees) for the slices.
- * Defaults to 0 (i.e., ‘3 o'clock’) unless clockwise is true where init.angle defaults to 90 (degrees), (i.e., ‘12 o'clock’).
+ * Defaults to 0 (i.e., ï¿½3 o'clockï¿½) unless clockwise is true where init.angle defaults to 90 (degrees), (i.e., ï¿½12 o'clockï¿½).
  * density - the density of shading lines, in lines per inch. The default value of NULL means that no shading lines are drawn.
  * Non-positive values of density also inhibit the drawing of shading lines.
  * angle - the slope of shading lines, given as an angle in degrees (counter-clockwise).

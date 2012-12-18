@@ -9,11 +9,11 @@ import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RHist.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RHist
  ***********************************************************************/
 /**
- * Histogramm (Häufigkeitsverteilung): hist(x, breaks = "Sturges",
+ * Histogramm (Hï¿½ufigkeitsverteilung): hist(x, breaks = "Sturges",
 								     freq = NULL, probability = !freq,
 								     include.lowest = TRUE, right = TRUE,
 								     density = NULL, angle = 45, col = NULL, border = NULL,
@@ -26,7 +26,7 @@ import de.hsl.rinterface.utils.RUtils;
  * breaks - one of: 
  * 		a vector giving the breakpoints between histogram cells, 
  * 		a single number giving the number of cells for the histogram, 
- * 		a character string naming an algorithm to compute the number of cells (see ‘Details’), 
+ * 		a character string naming an algorithm to compute the number of cells (see ï¿½Detailsï¿½), 
  * 		a function to compute the number of cells. 
  * In the last three cases the number is a suggestion only. 
  * freq - logical; if TRUE, the histogram graphic is a representation of frequencies, the counts component of the result;

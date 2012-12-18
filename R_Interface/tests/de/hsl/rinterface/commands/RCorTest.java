@@ -1,7 +1,7 @@
 package de.hsl.rinterface.commands;
 
 /**
- * @author Peggy K�be
+ * @author Peggy Kübe
  */
 import java.io.IOException;
 
@@ -21,7 +21,6 @@ import de.hsl.rinterface.objects.RVector;
 
 public class RCorTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> x;
 	private RVector<Double> y;
@@ -46,7 +45,6 @@ public class RCorTest {
 		
 	}
 	
-	//Dies ist ein Beispiel
 		@Test
 		public void rcortest() throws RException
 		{
@@ -57,6 +55,11 @@ public class RCorTest {
 			RValue<String> rv = (RValue<String>) ro;
 			Assert.assertEquals("0.7971807", rv.getValue());
 			
+		}
+		@Test
+		public void rcortest2() throws RException
+		{
+			
 			RCor cor2 = new RCor(x,y);
 			cor2.setUse("everything");
 			cor2.setMethod("kendall");
@@ -66,11 +69,10 @@ public class RCorTest {
 			RValue<String> rv2 = (RValue<String>) ro2;
 			Assert.assertEquals("0.8", rv2.getValue());
 		}
-	
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schließen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

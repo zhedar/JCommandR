@@ -18,12 +18,10 @@ import de.hsl.rinterface.exception.RException;
 import de.hsl.rinterface.objects.RObject;
 import de.hsl.rinterface.objects.RObjectTypes;
 import de.hsl.rinterface.objects.RString;
-import de.hsl.rinterface.objects.RValue;
 import de.hsl.rinterface.objects.RVector;
 
 public class RBinomTestTest {
 
-	//Testverbindung
 	private Connection con;
 	private RVector<Double> werte;
 
@@ -37,7 +35,6 @@ public class RBinomTestTest {
 		}
 	}
 	
-	//Dies ist ein Beispiel
 		@Test
 		public void rbinomtest() throws RException
 		{
@@ -55,7 +52,7 @@ public class RBinomTestTest {
 		
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException
-	{	//Connection schließen, wenn nicht bereits geschehen
+	{	
 		if (con != null && con.isAlive())
 		{
 			con.close();

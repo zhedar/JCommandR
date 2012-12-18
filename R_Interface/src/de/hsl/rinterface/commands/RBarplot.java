@@ -8,7 +8,7 @@ import de.hsl.rinterface.utils.RUtils;
 
 /***********************************************************************
  * Module:  RBarplot.java
- * Author:  Peggy Kübe
+ * Author:  Peggy KÃ¼be
  * Purpose: Defines the Class RBarplot
  ***********************************************************************/
 /**

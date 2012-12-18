@@ -1,11 +1,11 @@
 /***********************************************************************
- * Module:  RReadTypes.java
- * Author:  Tobias Steinmetzer
- * Purpose: Defines the Class RReadTypes
+ * Module:  RPlotTypes.java
+ * Author:  Peggy Kübe
+ * Purpose: Defines the Class RPlotTypes
  ***********************************************************************/
 
 /**
- * Eine Enumeration f�r verschiedene Modi zum auslesen von Daten aus Dateien.
+ * Eine Enumeration für verschiedene Modi zum auslesen von Daten aus Dateien.
  */
 
 package de.hsl.rinterface.commands;

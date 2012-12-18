@@ -5,7 +5,7 @@
  ***********************************************************************/
 
 /**
- * Eine Enumeration für verschiedene Modi zum auslesen von Daten aus Dateien.
+ * Eine Enumeration fÃ¼r verschiedene Modi zum auslesen von Daten aus Dateien.
  */
 
 package de.hsl.rinterface.commands;
