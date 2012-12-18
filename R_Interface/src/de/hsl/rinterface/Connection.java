@@ -1,11 +1,5 @@
 package de.hsl.rinterface;
 
-/***********************************************************************
- * Module:  Connection.java
- * Author:  tobo1987
- * Purpose: Defines the Interface Connection
- ***********************************************************************/
-
 import java.io.Closeable;
 import java.io.File;
 import java.util.List;
@@ -130,7 +124,6 @@ public interface Connection extends Closeable, AutoCloseable
 	 * Testet, ob der R-Prozess hinter dieser Verbindung noch läuft.
 	 * @return true, wenn er noch nicht beendet wurde*/
 	boolean isAlive();
-//	void rebuildConnection() throws IOException, RException;
 
 //	/**
 //	 * Schließt die Verbindung zum R-Prozess und aller Streams zu ihm. Versucht
@@ -188,12 +181,12 @@ public interface Connection extends Closeable, AutoCloseable
 	 * @throws RException
 	 */
 	public void changeWorkspace(File workspace) throws RException;
-	/**
-	 * Speichert den aktiven Workspace an einer bestimmten Stelle.
-	 * @throws RException
-	 * @see changeWorkspace(File)
-	 */
-	public void saveWorkspace(File workspace) throws RException;
+//	/**
+//	 * Speichert den aktiven Workspace an einer bestimmten Stelle.
+//	 * @throws RException
+//	 * @see changeWorkspace(File)
+//	 */
+//	public void saveWorkspace(File workspace) throws RException;
 	
 	/**
 	 * Speichert den aktiven Workspace im angegebenen Order in einer ".RData"-Datei.
