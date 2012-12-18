@@ -56,8 +56,7 @@ import de.hsl.rinterface.utils.RUtils;
 public class RHist implements RCommand {
 
 	private File file;
-	private String savePath;
-	private RPlotSaveTypes type; 
+	private RPlotSaveTypes type;
 	
 	private RObject x;
 	private String breaks;
@@ -82,9 +81,8 @@ public class RHist implements RCommand {
 	
 	@Override
 	public String prepareForSending() {
-		String path = RUtils.getRPath(file.getAbsolutePath());
 		
-		return  type + "(\"" + path + "\"); hist(" + x.toRString() + 
+		return  type + "(filename=\"" + RUtils.getRPath(file.getAbsolutePath()) + "\"); hist(" + x.toRString() + 
 				(breaks != null ? ", breaks = " + breaks  : "") + 
 				(freq != null ? ", freq = " + freq : "")+
 				(probability != null ? ", probability = " + probability : "")+
@@ -107,9 +105,9 @@ public class RHist implements RCommand {
 				+")";
 	}
 
-	public RHist(RObject x, String savePath, RPlotSaveTypes type) {
+	public RHist(RObject x, File file, RPlotSaveTypes type) {
 		this.x = x;
-		this.savePath = savePath;
+		this.file = file;
 		this.type = type;
 	}
 
@@ -127,14 +125,6 @@ public class RHist implements RCommand {
 
 	public void setFile(File file) {
 		this.file = file;
-	}
-
-	public String getSavePath() {
-		return savePath;
-	}
-
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
 	}
 
 	public RPlotSaveTypes getType() {

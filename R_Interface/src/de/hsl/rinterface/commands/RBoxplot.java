@@ -45,7 +45,6 @@ import de.hsl.rinterface.utils.RUtils;
 public class RBoxplot implements RCommand {
 
 	private File file;
-	private String savePath;
 	private RPlotSaveTypes type;
 	
 	private RObject x;
@@ -69,9 +68,8 @@ public class RBoxplot implements RCommand {
 	
 	@Override
 	public String prepareForSending() {
-		String path = RUtils.getRPath(file.getAbsolutePath());
 		
-		return type + "(\"" + path + "\"); boxplot(" + x.toRString() + 
+		return type + "(filename=\"" + RUtils.getRPath(file.getAbsolutePath()) + "\"); boxplot(" + x.toRString() + 
 				(range != 0.0d ? ", range = " + range  : "") + 
 				(width != null ? ", width = " + width : "")+
 				(varwidth != null ? ", varwidth = " + varwidth : "")+
@@ -92,9 +90,9 @@ public class RBoxplot implements RCommand {
 				+")";
 	}
 
-	public RBoxplot(RObject x, String savePath, RPlotSaveTypes type) {
+	public RBoxplot(RObject x, File file, RPlotSaveTypes type) {
 		this.x = x;
-		this.savePath = savePath;
+		this.file = file;
 		this.type = type;
 	}
 
@@ -114,13 +112,6 @@ public class RBoxplot implements RCommand {
 		this.file = file;
 	}
 
-	public String getSavePath() {
-		return savePath;
-	}
-
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
-	}
 
 	public RPlotSaveTypes getType() {
 		return type;

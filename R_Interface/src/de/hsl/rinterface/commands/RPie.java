@@ -45,8 +45,7 @@ import de.hsl.rinterface.utils.RUtils;
 public class RPie implements RCommand {
 
 	private File file;
-	private String savePath;
-	private RPlotSaveTypes type; 
+	private RPlotSaveTypes type;
 	
 	private RObject x;
 	private String labels;
@@ -63,9 +62,8 @@ public class RPie implements RCommand {
 	
 	@Override
 	public String prepareForSending() {
-		String path = RUtils.getRPath(file.getAbsolutePath());
 		
-		return  type + "(\"" + path + "\"); pie(" + x.toRString() + 
+		return  type + "(filename=\"" + RUtils.getRPath(file.getAbsolutePath()) + "\"); pie(" + x.toRString() + 
 				(labels != null ? ", labels = \"" + labels + "\"" : "") + 
 				(edges != 0 ? ", edges = " + edges : "")+
 				(radius != 0.0d ? ", radius = " + labels : "")+
@@ -80,9 +78,9 @@ public class RPie implements RCommand {
 				+")";
 	}
 	
-	public RPie(RObject x, String savePath, RPlotSaveTypes type) {
+	public RPie(RObject x, File file, RPlotSaveTypes type) {
 		this.x = x;
-		this.savePath = savePath;
+		this.file = file;
 		this.type = type;
 	}
 
@@ -102,13 +100,6 @@ public class RPie implements RCommand {
 		this.file = file;
 	}
 
-	public String getSavePath() {
-		return savePath;
-	}
-
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
-	}
 
 	public RPlotSaveTypes getType() {
 		return type;

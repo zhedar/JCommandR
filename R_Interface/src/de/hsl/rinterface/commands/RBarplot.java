@@ -79,8 +79,7 @@ public class RBarplot implements RCommand {
 
 	
 	private File file;
-	private String savePath;
-	private RPlotSaveTypes type; 
+	private RPlotSaveTypes type;
 	
 	private RObject height;
 	private String width;
@@ -114,9 +113,8 @@ public class RBarplot implements RCommand {
 	
 	@Override
 	public String prepareForSending() {
-		String path = RUtils.getRPath(file.getAbsolutePath());
 		
-		return  type + "(\"" + path + "\"); barplot(" + height.toRString() + 
+		return  type + "(filename=\"" + RUtils.getRPath(file.getAbsolutePath()) + "\"); barplot(" + height.toRString() + 
 				(width != null ? ", width = " + width  : "") + 
 				(space != null ? ", space = " + space : "")+
 				(names_arg != null ? ", names.arg = " + names_arg : "")+
@@ -148,9 +146,9 @@ public class RBarplot implements RCommand {
 				+")";
 	}
 
-	public RBarplot(RObject height, String savePath, RPlotSaveTypes type) {
+	public RBarplot(RObject height, File file, RPlotSaveTypes type) {
 		this.height = height;
-		this.savePath = savePath;
+		this.file = file;
 		this.type = type;
 	}
 
@@ -170,13 +168,6 @@ public class RBarplot implements RCommand {
 		this.type = type;
 	}
 
-	public String getSavePath() {
-		return savePath;
-	}
-
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
-	}
 
 	public RObject getHeight() {
 		return height;
