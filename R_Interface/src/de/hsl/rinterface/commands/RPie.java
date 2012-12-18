@@ -64,7 +64,7 @@ public class RPie implements RCommand {
 	public String prepareForSending() {
 		
 		return  type + "(filename=\"" + RUtils.getRPath(file.getAbsolutePath()) + "\"); pie(" + x.toRString() + 
-				(labels != null ? ", labels = \"" + labels + "\"" : "") + 
+				(labels != null ? ", labels = " + labels : "") + 
 				(edges != 0 ? ", edges = " + edges : "")+
 				(radius != 0.0d ? ", radius = " + labels : "")+
 				(clockwise != null ? ", clockwise = " + clockwise : "") +
