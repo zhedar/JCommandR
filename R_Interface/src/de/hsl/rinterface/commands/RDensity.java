@@ -42,6 +42,9 @@ import de.hsl.rinterface.objects.RVector;
  * cut - by default, the values of from and to are cut bandwidths beyond the extremes of the data.
  * This allows the estimated density to drop to approximately zero at the extremes.
  * na.rm - logical; if TRUE, missing values are removed from x. If FALSE any missing values cause an error.
+ * 
+ * typeof(density)
+	[1] "closure"
  */
 
 public class RDensity implements RCommand {
