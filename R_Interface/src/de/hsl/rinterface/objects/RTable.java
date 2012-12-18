@@ -169,8 +169,8 @@ public class RTable extends RMatrix implements RObject {
 		}
 		result += "\n";
 		for (int i = 0; i < getRowLength(); i++) {
-			if (rowTitle != null)
-				result += rowTitle[i] + "\t";
+			if (rowTitle != null || rowTitle.length != 0)
+				result += rowTitle[i] + "\t"; //FIXME indexoutofbounds  
 			
 			for (int j = 0; j < getColLength(); j++) {
 				result += matrix[i][j] + "\t";

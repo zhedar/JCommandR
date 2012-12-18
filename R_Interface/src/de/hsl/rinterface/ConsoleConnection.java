@@ -395,7 +395,7 @@ public class ConsoleConnection implements Connection
 					proc.getInputStream()));
 			BufferedWriter inWr = new BufferedWriter(new OutputStreamWriter(
 						proc.getOutputStream()));
-			pWr = new PrintWriter(inWr);
+			pWr = new PrintWriter(inWr); 
 		}
 			
 		@Override
