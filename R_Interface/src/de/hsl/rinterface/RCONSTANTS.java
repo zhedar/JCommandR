@@ -47,7 +47,7 @@ public abstract class RCONSTANTS {
 			TRY_IDLE_TIME = Long.parseLong(prop
 					.getProperty("tryidletime", "50"));
 			TRIES_TILL_FAIL = Integer.parseInt(prop.getProperty(
-					"triestillfail", "2000")); 
+					"triestillfail", "200")); 
 			
 			NAME_TMP_VAR = prop.getProperty("nametempvar", "RInterfaceTempVar");
 			NAME_TMP_REF = prop.getProperty("nametempref", "RInterfaceTempRef");

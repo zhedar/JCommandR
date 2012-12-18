@@ -47,8 +47,8 @@ public class RSummaryTest {
 			Assert.assertNotNull(ro);
 			Assert.assertEquals( RObjectTypes.TABLE, ro.getType());
 			RTable rt = (RTable)ro;
-			Assert.assertEquals(1, rt.getColLength());
-			Assert.assertEquals(6, rt.getRowLength());
+			Assert.assertEquals(6, rt.getColLength());
+			Assert.assertEquals(1, rt.getRowLength());
 			Assert.assertEquals("Median", rt.getColTitleAt(2));
 			Assert.assertEquals("3", rt.getMatrixAt(0, 2));
 			Assert.assertEquals("1", rt.getMatrixAt(0, 0));

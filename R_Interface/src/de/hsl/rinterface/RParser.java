@@ -148,8 +148,9 @@ public class RParser {
 		}
 		// Herausbekommen, ob Zeilentitel vorhanden sind
 		try {
-			String rowTitleRaw = con.sendCmdRaw("row.names(" + tmpRef.getRef()
-					+ ")");
+			String rowTitleRaw = con.sendCmdRaw("if(length(rownames(" + tmpRef.getRef()
+					+ ">0))){row.names(" + tmpRef.getRef()
+					+ ")}else{NULL}");
 			i = 0;
 			rowTitleVec = (RVector<String>) parseVector(rowTitleRaw, con);
 			rowTitle = new String[rowTitleVec.size()];
@@ -161,13 +162,12 @@ public class RParser {
 			rowTitle = new String[0];
 		}
 		// Herausbekommen der größe der Tabelle
-		int dimX = Integer.parseInt((con.sendCmd("length(names("
+		int colLength = Integer.parseInt((con.sendCmd("length(names("
 				+ tmpRef.getRef() + "))")).toRString());
-		int dimY = Integer.parseInt((con.sendCmd("length(" + tmpRef.getRef()
+		int rowLength = Integer.parseInt((con.sendCmd("length(" + tmpRef.getRef()
 				+ "[\"" + colTitle[0] + "\"]" + ")")).toRString());
-		System.out.println("Fff" + dimX + "d" + dimY);
 		// Anlegen eines RTable Objektes und füllen der Attribute
-		RTable table = new RTable(dimX, dimY);
+		RTable table = new RTable(rowLength, colLength);
 		table.setColTitle(colTitle);
 		table.setRowTitle(rowTitle);
 		String line;

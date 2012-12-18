@@ -20,8 +20,8 @@ public class RTable extends RMatrix implements RObject {
 
 	public RTable(int rowLength, int colLength) {
 		super(rowLength, colLength);
-		colTitle = new String[rowLength];
-		rowTitle = new String[colLength];
+		colTitle = new String[colLength];
+		rowTitle = new String[rowLength];
 	}
 
 	public RTable(RTable rTable) {
@@ -169,11 +169,11 @@ public class RTable extends RMatrix implements RObject {
 		}
 		result += "\n";
 		for (int i = 0; i < getRowLength(); i++) {
-			if (rowTitle != null || rowTitle.length != 0)
-				result += rowTitle[i] + "\t"; //FIXME indexoutofbounds  
+			if (rowTitle != null && rowTitle.length != 0)
+				result += rowTitle[i] + "\t";
 			
 			for (int j = 0; j < getColLength(); j++) {
-				result += matrix[i][j] + "\t";
+				result += getMatrixAt(i, j) + "\t";
 			}
 			result += "\n";
 		}
