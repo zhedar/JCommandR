@@ -39,14 +39,12 @@ public class RPieTest {
 	@Test
 	public void rpietest() throws RException
 	{
-		//File file = new File("C:\\Users\\tobo1987\\Documents\\Uni\\pie.jpg");
-		File file = new File("D:\\Desktop\\test.jpg");
+		File file = new File("C:\\Users\\tobo1987\\Documents\\Uni\\pie.jpg");
 		RPie pie = new RPie(werte,file,RPlotSaveTypes.JPEG);
 		Assert.assertNotNull(pie);
 		pie.setMain("Kreisdiagramm");
 		pie.setLabels("c(\"Wert 10\", \"Wert 50\",\"Wert 90\", \"Wert 80\", \"Wert 100\")");
-		//Assert.assertEquals("jpeg(filename=\"C:/Users/tobo1987/Documents/Uni/pie.jpg\"); plot(c(10.0, 50.0, 90.0, 80.0, 500.0), main = \"Ueberschrift\", type = \"l\")", pie.prepareForSending().trim());
-		Assert.assertEquals("jpeg(filename=\"D:/Desktop/test.jpg\"); pie(c(10.0, 50.0, 90.0, 80.0, 500.0), labels = c(\"Wert 10\", \"Wert 50\",\"Wert 90\", \"Wert 80\", \"Wert 100\"), main = \"Kreisdiagramm\")", pie.prepareForSending().trim());
+		Assert.assertEquals("jpeg(filename=\"C:/Users/tobo1987/Documents/Uni/pie.jpg\"); pie(c(10.0, 50.0, 90.0, 80.0, 500.0), labels = c(\"Wert 10\", \"Wert 50\",\"Wert 90\", \"Wert 80\", \"Wert 100\"), main = \"Kreisdiagramm\")", pie.prepareForSending().trim());
 		RObject ro =con.sendCmd(pie.prepareForSending());
 		Assert.assertNotNull(ro);
 	}
