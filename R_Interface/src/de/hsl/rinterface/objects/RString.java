@@ -1,5 +1,14 @@
+/***********************************************************************
+ * Module:  RString.java
+ * Author:  Tobias Steinmetzer
+ * Purpose: Defines the Class RString
+ ***********************************************************************/
+
 package de.hsl.rinterface.objects;
 
+/**
+ * Diese Klasse dient zur Darstellung, falls der RParser keinen geeigneten Datentyp findet.
+ */
 public class RString implements RObject {
 	
 	private String result;

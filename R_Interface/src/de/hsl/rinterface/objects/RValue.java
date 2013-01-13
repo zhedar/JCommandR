@@ -1,6 +1,15 @@
+/***********************************************************************
+ * Module:  RValue.java
+ * Author:  Tobias Steinmetzer
+ * Purpose: Defines the Class RValue
+ ***********************************************************************/
+
 package de.hsl.rinterface.objects;
 
-/** @pdOid 00a6c982-6c07-4b58-8392-21cf5ea4998b */
+/**
+ * RValue dient zur Abbildung von Einzelwerten. 
+ */
+
 public class RValue<T> implements RObject {
 	/** @pdOid 003a2e7e-3469-4f32-9301-05b8c3faa09d */
 	private T value;

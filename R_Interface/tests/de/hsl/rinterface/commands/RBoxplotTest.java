@@ -44,7 +44,7 @@ public class RBoxplotTest {
 		Assert.assertNotNull(boxplot);
 		boxplot.setRange(3.5);
 		boxplot.setOutline("TRUE");
-		Assert.assertEquals("jpeg(filename=\"C:/Users/tobo1987/Documents/Uni/plot.jpg\");boxplot(c(10.0, 50.0, 90.0, 80.0, 500.0), range = 3.5, outline = TRUE)", boxplot.prepareForSending().trim());
+		Assert.assertEquals("jpeg(filename=\"C:/Users/tobo1987/Documents/Uni/boxplot.jpg\"); boxplot(c(10.0, 50.0, 90.0, 80.0, 500.0), range = 3.5, outline = TRUE)", boxplot.prepareForSending().trim());
 		System.out.println(boxplot.prepareForSending());
 		RObject ro =con.sendCmd(boxplot.prepareForSending());
 		Assert.assertNotNull(ro);
