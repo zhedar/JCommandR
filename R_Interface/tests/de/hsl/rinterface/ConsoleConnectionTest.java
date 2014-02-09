@@ -81,6 +81,7 @@ public class ConsoleConnectionTest
 		else
 			Assert.fail("Ergebnis ist kein Einzelwert.");
 		con.close();
+<<<<<<< HEAD
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -99,7 +100,27 @@ public class ConsoleConnectionTest
 		double loadedVal = Double.parseDouble(loadedName.getValue());
 		Assert.assertTrue(3.00d == loadedVal);
 		con.close();
+=======
+>>>>>>> 5b3464909b4a0e4b43c47f961854e4e117482d01
 	}
+//	
+//	@SuppressWarnings("unchecked")
+//	@Test
+//	public void showAllVars() throws IOException, RException
+//	{
+//		String name = "testvar3d";
+//		Connection con = new ConsoleConnection(argSave);
+//		//vorhandene Variablen rausräumen
+//		con.sendCmdVoid("rm(list<-ls(all=TRUE))");
+//		//neue Variable hinzufügen
+//		con.saveObject(new RValue<Double>(3.00d), name);
+//		List<String> vars = con.getAllVars();
+//		Assert.assertNotNull(vars);
+//		RValue<String> loadedName = (RValue<String>) con.loadSavedObject(name);
+//		double loadedVal = Double.parseDouble(loadedName.getValue());
+////		Assert.assertTrue(3.00d == loadedVal);
+//		con.close();
+//	}
 
 	@After
 	public void cleanUp() throws IOException, InterruptedException, RException

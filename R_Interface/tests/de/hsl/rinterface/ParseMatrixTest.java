@@ -24,7 +24,7 @@ public class ParseMatrixTest
 	public void init() throws IOException, RException
 	{
 		if (argSave.isEmpty())
-			argSave.add("-save");
+			argSave.add("--save");
 		con = new ConsoleConnection(argSave);
 	}
 	

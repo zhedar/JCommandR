@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623138</millis>
+  <sequence>0</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>WARNING</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>initCon</method>
+  <thread>1</thread>
+  <message>[Vorher gesicherter Workspace wiederhergestellt]
+
+</message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623148</millis>
+  <sequence>1</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>initCon</method>
+  <thread>1</thread>
+  <message>Connection aufgebaut.</message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623149</millis>
+  <sequence>2</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(options(echo=FALSE, width=10000)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623206</millis>
+  <sequence>3</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(RInterfaceTempVar &lt;- quantile(c(10.0, 50.0, 90.0, 80.0, 500.0))); try(RInterfaceTempVar); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623260</millis>
+  <sequence>4</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(is.vector(RInterfaceTempVar)); try( is.matrix(RInterfaceTempVar)); try(is.table(RInterfaceTempVar)); try(is.data.frame(RInterfaceTempVar)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623322</millis>
+  <sequence>5</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(RInterfaceTempVar &lt;- quantile(c(10.0, 50.0, 90.0, 80.0, 500.0), probs = 0.5, na.rm = TRUE, names = FALSE, type = 2)); try(RInterfaceTempVar); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623374</millis>
+  <sequence>6</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(is.vector(RInterfaceTempVar)); try( is.matrix(RInterfaceTempVar)); try(is.table(RInterfaceTempVar)); try(is.data.frame(RInterfaceTempVar)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:03</date>
+  <millis>1355824623430</millis>
+  <sequence>7</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdVoid</method>
+  <thread>1</thread>
+  <message>Sende Kommando ohne Rückgabe(void): q()</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637366</millis>
+  <sequence>0</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>WARNING</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>initCon</method>
+  <thread>1</thread>
+  <message>[Vorher gesicherter Workspace wiederhergestellt]
+
+</message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637378</millis>
+  <sequence>1</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>initCon</method>
+  <thread>1</thread>
+  <message>Connection aufgebaut.</message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637379</millis>
+  <sequence>2</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(options(echo=FALSE, width=10000)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637434</millis>
+  <sequence>3</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(RInterfaceTempVar &lt;- summary(c(1.0, 2.0, 3.0, 4.0, 5.0))); try(RInterfaceTempVar); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637489</millis>
+  <sequence>4</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(is.vector(RInterfaceTempVar)); try( is.matrix(RInterfaceTempVar)); try(is.table(RInterfaceTempVar)); try(is.data.frame(RInterfaceTempVar)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637545</millis>
+  <sequence>5</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdVoid</method>
+  <thread>1</thread>
+  <message>Sende Kommando ohne Rückgabe(void): RInterfaceTempRef &lt;- RInterfaceTempVar</message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637546</millis>
+  <sequence>6</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(RInterfaceTempVar &lt;- names(RInterfaceTempRef)); try(RInterfaceTempVar); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637599</millis>
+  <sequence>7</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(is.vector(RInterfaceTempVar)); try( is.matrix(RInterfaceTempVar)); try(is.table(RInterfaceTempVar)); try(is.data.frame(RInterfaceTempVar)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:57:17</date>
+  <millis>1355824637652</millis>
+  <sequence>8</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(row.names(RInterfaceTempRef)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:58:59</date>
+  <millis>1355824739584</millis>
+  <sequence>9</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(RInterfaceTempVar &lt;- length(names(RInterfaceTempRef))); try(RInterfaceTempVar); </message>
+</record>
+<record>
+  <date>2012-12-18T10:58:59</date>
+  <millis>1355824739637</millis>
+  <sequence>10</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(is.vector(RInterfaceTempVar)); try( is.matrix(RInterfaceTempVar)); try(is.table(RInterfaceTempVar)); try(is.data.frame(RInterfaceTempVar)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:58:59</date>
+  <millis>1355824739692</millis>
+  <sequence>11</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(RInterfaceTempVar &lt;- length(RInterfaceTempRef["Min."])); try(RInterfaceTempVar); </message>
+</record>
+<record>
+  <date>2012-12-18T10:58:59</date>
+  <millis>1355824739745</millis>
+  <sequence>12</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdRaw</method>
+  <thread>1</thread>
+  <message>Sende Kommando: try(is.vector(RInterfaceTempVar)); try( is.matrix(RInterfaceTempVar)); try(is.table(RInterfaceTempVar)); try(is.data.frame(RInterfaceTempVar)); </message>
+</record>
+<record>
+  <date>2012-12-18T10:58:59</date>
+  <millis>1355824739800</millis>
+  <sequence>13</sequence>
+  <logger>de.hsl.rinterface</logger>
+  <level>INFO</level>
+  <class>de.hsl.rinterface.ConsoleConnection</class>
+  <method>sendCmdVoid</method>
+  <thread>1</thread>
+  <message>Sende Kommando ohne Rückgabe(void): q()</message>
+</record>
+</log>
