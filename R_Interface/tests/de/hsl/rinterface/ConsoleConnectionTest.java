@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.hsl.rinterface.exception.RException;
@@ -18,12 +19,12 @@ public class ConsoleConnectionTest
 //	private Connection con;
 	private List<String> argSave = new ArrayList<>();
 
-//	@Before
-//	public void init()
-//	{
-//		if (argSave.isEmpty())
-//			argSave.add("--save");
-//	}
+	@Before
+	public void init()
+	{
+		if (argSave.isEmpty())
+			argSave.add("--save");
+	}
 
 	@Test
 	public void nonParamConstructor() throws IOException, RException
@@ -89,7 +90,7 @@ public class ConsoleConnectionTest
 		String name = "testvar3d";
 		Connection con = new ConsoleConnection(argSave);
 		//vorhandene Variablen rausräumen
-		con.sendCmdVoid("rm(list<-ls())");
+		con.sendCmdVoid("rm(list=ls(all=TRUE))");
 		//neue Variable hinzufügen
 		con.saveObject(new RValue<Double>(3.00d), name);
 		List<String> vars = con.getAllVars();

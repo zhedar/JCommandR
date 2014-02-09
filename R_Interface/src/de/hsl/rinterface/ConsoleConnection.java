@@ -347,7 +347,7 @@ public class ConsoleConnection implements Connection
 		log.info("Connection aufgebaut.");
 		
 		sendCmdRaw("options(echo=FALSE, width=10000)");
-		workspace = new File( ((RValue<String>) sendCmd("getwd()")).getValue());
+		workspace = new File(((RValue<String>) sendCmd("getwd()")).getValue());
 	}
 
 	@Override

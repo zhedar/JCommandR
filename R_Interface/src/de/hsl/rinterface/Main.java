@@ -5,34 +5,13 @@ import java.io.IOException;
 import de.hsl.rinterface.commands.RRead;
 import de.hsl.rinterface.commands.RReadTypes;
 import de.hsl.rinterface.exception.RException;
-import de.hsl.rinterface.objects.RMatrix;
-import de.hsl.rinterface.objects.RObjectTypes;
 
 
 public class Main 
 {
 	public static <T> void main(String[] args) throws IOException, 
 			RException, InterruptedException
-	{
-//		int count = 0;
-//		List<Integer> list = new ArrayList<>();
-//			list.add(2);
-//			list.add(354);
-//			list.add(1);
-//			list.add(5);
-//			list.add(-5);
-//		String listCmd = "c(";
-//		
-//		for(Number n : list)
-//		{
-//			if(++count != list.size())
-//				listCmd += n.toString() + ", ";
-//			else
-//				listCmd += n.toString() + ")";
-//		}
-//	
-//		System.out.println(listCmd);
-		
+	{	
 		//"c:\\r\\R-2.15.0\\bin\\x64\\r.exe"
 
 		//anfänglicher Sleep nicht mehr benötigt, da der Konstruktoraufruf blockt, bis alles initialisiert ist
